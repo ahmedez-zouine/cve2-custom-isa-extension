@@ -342,6 +342,17 @@ module cve2_decoder #(
       // ALU //
       /////////
 
+      OPCODE_CUSTOM_0: begin // Unsigned integer square root
+        if (instr[31:25] == 7'b000_0000 &&
+            instr[24:20] == 5'b0_0000 &&
+            instr[14:12] == 3'b000) begin
+          rf_ren_a_o = 1'b1;
+          rf_we      = 1'b1;
+        end else begin
+          illegal_insn = 1'b1;
+        end
+      end
+
       OPCODE_LUI: begin  // Load Upper Immediate
         rf_we            = 1'b1;
       end
@@ -787,6 +798,12 @@ module cve2_decoder #(
       /////////
       // ALU //
       /////////
+
+      OPCODE_CUSTOM_0: begin // Operand B is unused; rs2 must encode x0.
+        alu_op_a_mux_sel_o = OP_A_REG_A;
+        alu_op_b_mux_sel_o = OP_B_REG_B;
+        alu_operator_o     = ALU_ISQRT;
+      end
 
       OPCODE_LUI: begin  // Load Upper Immediate
         alu_op_a_mux_sel_o  = OP_A_IMM;
