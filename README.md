@@ -86,7 +86,7 @@ The register corner cases follow normal RISC-V behavior:
 
 ## 3. Square-root algorithm
 
-The intended implementation uses the binary digit-by-digit, or restoring,
+The implementation uses the binary digit-by-digit, or restoring,
 algorithm. It reads two input bits at a time because each root bit corresponds
 to one pair of input bits. Thus a 32-bit input needs 16 iterations.
 
@@ -146,7 +146,7 @@ where (P) is the input prefix processed so far. The next prefix is (4P+b).
 Testing (D=4Q+1) is exactly the test for whether the next root bit can be one.
 
 In a sequential circuit, one iteration per clock would take 16 clocks. The
-planned CVE2 ALU implementation expands all 16 iterations into combinational
+current CVE2 ALU implementation expands all 16 iterations into combinational
 logic to aim for one-cycle execution. This may create a long critical path;
 actual FPGA timing must be measured before making a frequency claim.
 
@@ -160,7 +160,7 @@ Stage 1: IF                    Stage 2: ID / EX
 Fetch and buffer instruction -> Decode -> Read rs1 -> ALU -> Write rd
 ```
 
-The intended signal path is:
+The signal path is:
 
 1. The IF stage fetches the instruction and places it in the IF/ID registers.
 2. The decoder checks the opcode and reserved fields, then selects register `rs1`
@@ -179,16 +179,19 @@ stage. The instruction should not need a new stall or coprocessor interface.
 
 ## 5. Current implementation status
 
-The project is being completed in small steps. The custom opcode and ALU
-operation names are in the package, and the decoder has strict custom-0 legality
-checks and ALU control selection. **The ALU square-root calculation has not yet
-been added, so hardware `isqrt` is not complete.** Tests have not been rerun
-since the package and decoder edits.
+The custom opcode and ALU operation are defined in the package. The decoder
+checks all reserved fields, and the ALU now computes the root with 16 unrolled
+restoring steps. It returns the result through the existing writeback path.
 
-The original baseline was checked before those edits: the software square-root
-test passed, and the original unsupported hardware instruction raised
-`mcause=2` (illegal instruction). Once the ALU is implemented, the hardware test
-should pass instead.
+The supplied tests pass after integration: 5 software checks and 2,007 hardware
+checks. These cover known inputs, 2,000 random reference comparisons, an in-place
+destination, and a dependent root chain. Standalone ALU lint also passes.
+The benchmark prints 247 software cycles and 23 hardware cycles per root, with
+the same checksum of 10,996,072. These are integer-rounded averages that include
+loop and random-number-generation overhead, not individual instruction latency.
+
+Additional tests for illegal encodings and x0 behavior are still planned.
+These results do not establish full ISA regression coverage or FPGA timing.
 
 ## 6. Repository map
 
@@ -245,15 +248,16 @@ From the project root, run the software reference:
 make run TEST=sw_isqrt RISCV=riscv64-elf-
 ```
 
-The original baseline printed `sw_isqrt: PASS`. The hardware test is useful
-after the ALU implementation is finished:
+The software test should print `sw_isqrt: PASS`. Run the hardware test with:
 
 ```sh
 make run TEST=hw_isqrt RISCV=riscv64-elf-
 ```
 
-At the current implementation stage, that hardware result is not yet expected
-to pass. The Makefile uses the prefix `riscv64-unknown-elf-` by default; the
+The hardware test should now print `hw_isqrt: PASS (2007 checks)`. Run both
+supplied tests with `make test RISCV=riscv64-elf-`.
+
+The Makefile uses the prefix `riscv64-unknown-elf-` by default; the
 explicit `RISCV=riscv64-elf-` selects Homebrew's compiler on this Mac. Build
 outputs, disassemblies, instruction traces, and waveforms are written under
 `build/`. Use `make clean` if you need to rebuild from scratch.
