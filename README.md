@@ -41,13 +41,13 @@ $$
 The result therefore needs 16 significant bits and is zero-extended into the
 32-bit destination register.
 
-| Input (x) | Result (r) | Check |
+| Input | Result | Check |
 |---:|---:|---|
-| 0 | 0 | (0^2 \leq 0 < 1^2) |
-| 15 | 3 | (3^2=9 \leq 15 < 16=4^2) |
-| 16 | 4 | (4^2=16 \leq 16 < 25=5^2) |
-| 20 | 4 | (4^2=16 \leq 20 < 25=5^2) |
-| 25 | 5 | (5^2=25 \leq 25 < 36=6^2) |
+| 0 | 0 | 0 squared is 0; 1 squared is greater than 0. |
+| 15 | 3 | 3 squared is 9; 4 squared is greater than 15. |
+| 16 | 4 | 4 squared is 16; 5 squared is greater than 16. |
+| 20 | 4 | 4 squared is 16; 5 squared is greater than 20. |
+| 25 | 5 | 5 squared is 25; 6 squared is greater than 25. |
 
 ## 2. Instruction format and rules
 
