@@ -106,7 +106,7 @@ keep the candidate remainder and set the new root bit to zero:
 $$
 (Q',R') =
 \begin{cases}
-(2Q+1,\ T-D), & T\geq D,\\
+(2Q+1,\ T-D), & T\geq D,\
 (2Q,\ T), & T<D.
 \end{cases}
 $$
