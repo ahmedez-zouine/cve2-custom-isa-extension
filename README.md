@@ -104,12 +104,22 @@ $$
 If the trial value fits, subtract it and set the new root bit to one. Otherwise,
 keep the candidate remainder and set the new root bit to zero:
 
+If the trial value fits, use:
+
 $$
-(Q',R') =
-\begin{cases}
-(2Q+1,\ T-D), & T\geq D,\\
-(2Q,\ T), & T<D
-\end{cases}
+Q' = 2Q+1,
+\qquad
+R' = T-D
+\quad\text{when } T\geq D.
+$$
+
+Otherwise, use:
+
+$$
+Q' = 2Q,
+\qquad
+R' = T
+\quad\text{when } T<D.
 $$
 
 For input 15, the final three pairs are `00, 11, 11` (earlier pairs are zero).
