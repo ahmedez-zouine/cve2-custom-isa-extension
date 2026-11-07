@@ -1313,6 +1313,39 @@ module cve2_alu #(
     assign imd_val_we_o        = '{default: '0};
   end
 
+  /////////////////////////
+  // Integer square root //
+  /////////////////////////
+
+  // Unsigned restoring digit recurrence: each step consumes two input bits
+  // and appends one root bit. The fixed loop unrolls into combinational logic.
+  // After each step: consumed_prefix = root**2 + remainder,
+  // with 0 <= remainder < 2*root + 1. The final root fits in 16 bits;
+  // the candidate remainder needs at most 18 bits, so 32 bits are sufficient.
+  logic [31:0] isqrt_result;
+  always_comb begin : isqrt_comb
+    logic [31:0] sq_x;
+    logic [31:0] sq_root;
+    logic [31:0] sq_rem;
+    logic [31:0] sq_trial;
+
+    sq_x     = operand_a_i;
+    sq_root  = '0;
+    sq_rem   = '0;
+    sq_trial = '0;
+    for (int i = 0; i < 16; i++) begin
+      sq_rem   = (sq_rem << 2) | (sq_x >> 30);
+      sq_x     = sq_x << 2;
+      sq_trial = (sq_root << 2) | 32'h1;
+      sq_root  = sq_root << 1;
+      if (sq_rem >= sq_trial) begin
+        sq_rem  = sq_rem - sq_trial;
+        sq_root = sq_root | 32'h1;
+      end
+    end
+    isqrt_result = sq_root;
+  end
+
   ////////////////
   // Result mux //
   ////////////////
@@ -1321,6 +1354,9 @@ module cve2_alu #(
     result_o   = '0;
 
     unique case (operator_i)
+      // Unsigned integer square root
+      ALU_ISQRT: result_o = isqrt_result;
+
       // Bitwise Logic Operations (negate: RV32B)
       ALU_XOR,  ALU_XNOR,
       ALU_OR,   ALU_ORN,
