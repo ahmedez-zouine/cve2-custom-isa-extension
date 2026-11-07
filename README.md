@@ -190,7 +190,8 @@ The benchmark prints 247 software cycles and 23 hardware cycles per root, with
 the same checksum of 10,996,072. These are integer-rounded averages that include
 loop and random-number-generation overhead, not individual instruction latency.
 
-Additional tests for illegal encodings and x0 behavior are still planned.
+A separate corner-case test passes 43 checks for boundaries, x0 behavior,
+four invalid encodings, selected register preservation and recovery after traps.
 These results do not establish full ISA regression coverage or FPGA timing.
 
 ## 6. Repository map
@@ -256,6 +257,16 @@ make run TEST=hw_isqrt RISCV=riscv64-elf-
 
 The hardware test should now print `hw_isqrt: PASS (2007 checks)`. Run both
 supplied tests with `make test RISCV=riscv64-elf-`.
+
+Run the additional boundary, zero-register and illegal-encoding checks with:
+
+```sh
+make run TEST=isqrt_corners RISCV=riscv64-elf-
+```
+
+This test deliberately triggers four illegal-instruction exceptions. The
+controller messages are expected; the final summary must be
+`isqrt_corners: PASS (43 checks)` and `[tb] PASS (exit code 0)`.
 
 The Makefile uses the prefix `riscv64-unknown-elf-` by default; the
 explicit `RISCV=riscv64-elf-` selects Homebrew's compiler on this Mac. Build
