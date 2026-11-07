@@ -1317,11 +1317,7 @@ module cve2_alu #(
   // Integer square root //
   /////////////////////////
 
-  // Unsigned restoring digit recurrence: each step consumes two input bits
-  // and appends one root bit. The fixed loop unrolls into combinational logic.
-  // After each step: consumed_prefix = root**2 + remainder,
-  // with 0 <= remainder < 2*root + 1. The final root fits in 16 bits;
-  // the candidate remainder needs at most 18 bits, so 32 bits are sufficient.
+  // Process two input bits per stage, starting with the most significant pair.
   logic [31:0] isqrt_result;
   always_comb begin : isqrt_comb
     logic [31:0] sq_x;
@@ -1354,7 +1350,6 @@ module cve2_alu #(
     result_o   = '0;
 
     unique case (operator_i)
-      // Unsigned integer square root
       ALU_ISQRT: result_o = isqrt_result;
 
       // Bitwise Logic Operations (negate: RV32B)
