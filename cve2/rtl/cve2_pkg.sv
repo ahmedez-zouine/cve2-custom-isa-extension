@@ -52,6 +52,8 @@ package cve2_pkg;
 
   typedef enum logic [6:0] {
     OPCODE_LOAD     = 7'h03,
+    // Custom instruction: unsigned integer square root.
+    OPCODE_CUSTOM_0 = 7'h0b,
     OPCODE_MISC_MEM = 7'h0f,
     OPCODE_OP_IMM   = 7'h13,
     OPCODE_AUIPC    = 7'h17,
@@ -175,7 +177,10 @@ package cve2_pkg;
     ALU_CRC32_H,
     ALU_CRC32C_H,
     ALU_CRC32_W,
-    ALU_CRC32C_W
+    ALU_CRC32C_W,
+
+    // Unsigned integer square root (custom-0).
+    ALU_ISQRT
   } alu_op_e;
 
   typedef enum logic [1:0] {
