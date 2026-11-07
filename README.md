@@ -95,9 +95,10 @@ the next two-bit input pair. Form the candidate remainder (T) and trial value
 (D):
 
 $$
-T = 4R+b,
-\qquad
-D = 4Q+1.
+\begin{aligned}
+T &= 4R+b,\\
+D &= 4Q+1.
+\end{aligned}
 $$
 
 If the trial value fits, subtract it and set the new root bit to one. Otherwise,
@@ -106,8 +107,8 @@ keep the candidate remainder and set the new root bit to zero:
 $$
 (Q',R') =
 \begin{cases}
-(2Q+1,\ T-D), & T\geq D,\
-(2Q,\ T), & T<D.
+(2Q+1,\ T-D), & T\geq D,\\
+(2Q,\ T), & T<D
 \end{cases}
 $$
 
