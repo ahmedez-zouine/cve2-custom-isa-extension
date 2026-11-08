@@ -150,22 +150,34 @@ current CVE2 ALU implementation expands all 16 iterations into combinational
 logic to aim for one-cycle execution. This may create a long critical path;
 actual FPGA timing must be measured before making a frequency claim.
 
-![Sixteen combinational square-root stages, the recurrence equations, and a worked example for input 20](output/pdf/fig02_recurrence.svg)
+<p align="center">
+  <img src="output/pdf/fig02_recurrence.svg" width="800" alt="Sixteen combinational square-root stages, the recurrence equations, and a worked example for input 20">
+</p>
+<p align="center">
+  <em>Square-root datapath and worked example.</em><br>
+  <a href="output/pdf/fig02_recurrence.pdf">Download vector PDF</a>
+</p>
 
 Each stage consumes two input bits and adds one root bit. The example shows
 the final three stages for input 20, returning 4. There are no registers
-between stages. [Download the vector PDF](output/pdf/fig02_recurrence.pdf).
+between stages.
 
 ## 4. How the instruction fits the processor
 
 CVE2 uses a two-stage pipeline: instruction fetch (IF), followed by combined
 decode and execute (ID/EX).
 
-![CVE2 pipeline showing instruction decoding, the square-root datapath, and register writeback](output/pdf/fig01_pipeline.svg)
+<p align="center">
+  <img src="output/pdf/fig01_pipeline.svg" width="800" alt="CVE2 pipeline showing instruction decoding, the square-root datapath, and register writeback">
+</p>
+<p align="center">
+  <em>Integration into the CVE2 pipeline.</em><br>
+  <a href="output/pdf/fig01_pipeline.pdf">Download vector PDF</a>
+</p>
 
 The shaded block shows the square-root path inside the existing ALU. Solid
 arrows carry data; dashed arrows carry control signals. Only the relevant
-paths are shown. [Download the vector PDF](output/pdf/fig01_pipeline.pdf).
+paths are shown.
 
 The signal path is:
 
@@ -201,12 +213,17 @@ A separate corner-case test passes 43 checks for boundaries, x0 behavior,
 four invalid encodings, selected register preservation and recovery after traps.
 These results do not establish full ISA regression coverage or FPGA timing.
 
-![Sampled RTL waveform showing isqrt a1, a1 reading 20 and writing 4 at the next rising clock edge](output/pdf/fig03_writeback.svg)
+<p align="center">
+  <img src="output/pdf/fig03_writeback.svg" width="800" alt="Sampled RTL waveform showing isqrt a1, a1 reading 20 and writing 4 at the next rising clock edge">
+</p>
+<p align="center">
+  <em>Verified writeback: input 20 becomes 4 at the next rising edge.</em><br>
+  <a href="output/pdf/fig03_writeback.pdf">Download vector PDF</a>
+</p>
 
 This plot comes from the captured RTL waveform. The selected instruction reads
 20 from `a1` and writes 4 at the next rising edge, with no execution stall.
 The horizontal axis counts clock periods, not physical propagation delay.
-[Download the vector PDF](output/pdf/fig03_writeback.pdf).
 
 ## 6. Repository map
 
