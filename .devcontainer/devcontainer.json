@@ -1,0 +1,5 @@
+{
+  "name": "CVE2 isqrt simulation",
+  "image": "mcr.microsoft.com/devcontainers/universal:2-linux",
+  "postCreateCommand": "bash .devcontainer/setup.sh"
+}

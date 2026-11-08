@@ -365,3 +365,25 @@ Every collection uses a new run directory. Keep it with its results JSON to
 preserve the evidence behind a figure. The exported
 [`figure_manifest.json`](output/pdf/figure_manifest.json) records which run and
 file hashes produced the figures. No bundled example CSV is used as a fallback.
+
+## 10. Use GitHub Codespaces
+
+This repository includes a dev container setup for simulation and figure
+generation. Create or rebuild the Codespace after committing the configuration.
+Its setup script installs Verilator, the RISC-V toolchain, and figure
+dependencies. It does not install Vivado or produce FPGA synthesis results.
+
+In the Codespace terminal, run:
+
+```sh
+make test RISCV=riscv64-unknown-elf-
+make run TEST=isqrt_corners RISCV=riscv64-unknown-elf-
+python3 scripts/collect_simulation_results.py --riscv riscv64-unknown-elf-
+tmp/figures_venv/bin/python scripts/generate_paper_figures.py --render-pdfs
+```
+
+The repository settings may say “There are no prebuilds configured.” That is
+fine: this dev container runs setup when a Codespace is created, so a prebuild
+is optional. Prebuilds can speed up creation later, but add configuration and
+use Codespaces storage. Keep build outputs uncommitted; `build/` and `tmp/` are
+already ignored by Git.
