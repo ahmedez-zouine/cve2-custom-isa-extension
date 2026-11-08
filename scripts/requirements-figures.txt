@@ -1,0 +1,2 @@
+matplotlib==3.11.2
+pymupdf==2.1

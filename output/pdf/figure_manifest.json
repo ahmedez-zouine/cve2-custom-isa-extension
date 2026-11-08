@@ -1,0 +1,13 @@
+{
+  "matplotlib": "3.11.2",
+  "width_inches": 7.16,
+  "timing_csv": "/Users/mac/Documents/euro/cve2-main/scripts/figure_data/step_10_waveform.csv",
+  "timing_sha256": "241182f04b63211c89d58580b0300d7bc640b1dd213e11339f8f6eab9201d562",
+  "entry_ps": 20565,
+  "writeback_ps": 20575,
+  "captions": {
+    "fig01_pipeline": "Integration of the unsigned integer square-root instruction in the two-stage CVE2 pipeline. The shaded block denotes the added datapath within the existing ALU. The existing register-file write port captures the selected result at the closing clock edge. Dashed arrows denote control; solid arrows denote data. Only the relevant instruction and data paths are shown.",
+    "fig02_recurrence": "Unrolled restoring square-root recurrence. Each stage consumes two input bits and produces one root bit. All 16 stages are combinational; there are no registers between stages. The worked example shows the final three stages for an input of 20; the preceding stages process zero pairs. The 16-bit root is zero-extended onto the 32-bit ALU result bus.",
+    "fig03_writeback": "Sampled RTL waveform for isqrt a1, a1 with input 20. The register contains 20 during execution and updates to 4 at the next rising clock edge. The shaded interval has valid instruction and execution signals, no stall, and no illegal-instruction indication. Time is normalized to the observed clock period; the plot does not represent physical propagation delay. Operand, result and destination buses are shown only for the selected instruction."
+  }
+}
