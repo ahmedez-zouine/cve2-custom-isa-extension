@@ -17,10 +17,13 @@ MAKEFLAGS += --no-print-directory
 # into one program, build/sim/Vtb_top. Rebuilt when any RTL or testbench file changes.
 build/sim/Vtb_top: files.f cve2/rtl/*.sv tb/*
 	mkdir -p build/sim
-	verilator --cc --exe --build -j 0 --trace --top-module tb_top -Mdir build/sim \
+	# Verilator 5 supports --build; retain this command as a note for newer installs.
+	# verilator --cc --exe --build -j 0 --trace --top-module tb_top -Mdir build/sim
+	verilator --cc --exe --trace --top-module tb_top -Mdir build/sim \
 	  -Wno-fatal -Wno-lint -Wno-style +define+RVFI \
 	  -f files.f tb/tb.vlt tb/tb_mem.sv tb/tb_top.sv $(CURDIR)/tb/tb_main.cpp \
 	  > build/sim.log 2>&1 || (tail -30 build/sim.log; false)
+	$(MAKE) -C build/sim -f Vtb_top.mk >> build/sim.log 2>&1 || (tail -30 build/sim.log; false)
 
 
 # Step 2: build a program.
