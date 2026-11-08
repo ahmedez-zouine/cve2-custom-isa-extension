@@ -247,7 +247,11 @@ def main():
         raise
     finally:
         manifest["finished_utc"] = datetime.now(timezone.utc).isoformat()
-        write_json(run / "results.json", manifest)
+        archived = json.loads(json.dumps(manifest))
+        archived["run_directory"] = "."
+        for item in archived["artifacts"].values():
+            item["path"] = str(Path(item["path"]).relative_to(run.name))
+        write_json(run / "results.json", archived)
         write_json(result_path, manifest)
     print(f"PASS: measured results saved to {result_path}")
 
