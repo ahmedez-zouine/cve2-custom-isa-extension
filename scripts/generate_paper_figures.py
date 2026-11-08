@@ -14,10 +14,18 @@ os.environ.setdefault("XDG_CACHE_HOME", str(ROOT / "tmp/figure_cache"))
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from matplotlib.patches import Rectangle, FancyArrowPatch
+from matplotlib.patches import Rectangle, FancyArrowPatch, FancyBboxPatch
 
-INK = "#222222"
-GRAY = "#eeeeee"
+INK = "#17324D"
+MUTED = "#65788B"
+DATA = "#167D9A"
+DATA_LIGHT = "#E8F4F7"
+CUSTOM = "#E87932"
+CUSTOM_LIGHT = "#FFF1E6"
+SUCCESS = "#26856E"
+SUCCESS_LIGHT = "#E8F4EF"
+PANEL = "#F3F6F9"
+GRID = "#DCE5EC"
 WIDTH = 7.16
 CAPTIONS = {
     "fig01_pipeline": (
@@ -52,50 +60,74 @@ def canvas(height, ymax):
 
 
 def label(ax, x, y, text, **kwargs):
-    return ax.text(x, y, text, ha="center", va="center", color=INK, **kwargs)
+    kwargs.setdefault("color", INK)
+    return ax.text(x, y, text, ha="center", va="center", **kwargs)
 
 
-def box(ax, x, y, w, h, text, shaded=False):
-    ax.add_patch(Rectangle((x, y), w, h, facecolor=GRAY if shaded else "white",
-                           edgecolor=INK, linewidth=0.9))
-    label(ax, x + w / 2, y + h / 2, text, linespacing=1.4)
+def box(ax, x, y, w, h, text, shaded=False, facecolor=None, edgecolor=INK):
+    ax.add_patch(Rectangle((x, y), w, h, facecolor=facecolor or (PANEL if shaded else "white"),
+                           edgecolor=edgecolor, linewidth=1.05, zorder=2))
+    label(ax, x + w / 2, y + h / 2, text, linespacing=1.4, zorder=3)
 
 
-def arrow(ax, points, control=False):
+def arrow(ax, points, control=False, color=None):
     style = "--" if control else "-"
+    color = color or (CUSTOM if control else DATA)
     if len(points) > 2:
-        ax.plot(*zip(*points[:-1]), color=INK, lw=0.85, ls=style)
+        ax.plot(*zip(*points[:-1]), color=color, lw=1.25, ls=style, zorder=1)
     ax.add_patch(FancyArrowPatch(points[-2], points[-1], arrowstyle="-|>",
-                                mutation_scale=9, lw=0.85, color=INK,
-                                linestyle=style, shrinkA=0, shrinkB=0))
+                                mutation_scale=10, lw=1.25, color=color,
+                                linestyle=style, shrinkA=0, shrinkB=0, zorder=1))
 
 
 def pipeline():
-    fig, ax = canvas(3.7, 5)
-    label(ax, 1.35, 4.75, "Stage 1: IF", fontweight="bold")
-    label(ax, 6.5, 4.75, "Stage 2: ID / EX", fontweight="bold")
-    ax.plot([2.8, 2.8], [0.8, 4.5], color="#777777", lw=0.7, ls=":")
-    box(ax, 0.1, 2.05, 1.2, 1.25, "PC / fetch\nbuffer")
-    box(ax, 1.7, 2.05, 1.0, 1.25, "IF/ID\nregisters")
-    arrow(ax, [(1.3, 2.675), (1.7, 2.675)])
-    box(ax, 3.35, 3.3, 2.15, 0.95, "Decoder\nreserved-field checks")
-    box(ax, 7.7, 3.3, 2.15, 0.95, "Controller\nillegal-instruction trap")
-    arrow(ax, [(2.7, 2.675), (3.0, 2.675), (3.0, 3.775), (3.35, 3.775)])
-    label(ax, 2.95, 4.35, "instruction", fontsize=9)
-    arrow(ax, [(5.5, 3.775), (7.7, 3.775)], control=True)
-    label(ax, 6.6, 4.08, "illegal encoding", fontsize=9)
-    box(ax, 3.35, 1.15, 2.15, 1.15, "Register file\nread rs1; write rd")
-    box(ax, 6.0, 1.15, 1.65, 1.15, "ALU: isqrt path\n16 stages", shaded=True)
-    box(ax, 8.15, 1.15, 1.7, 1.15, "Result /\nwriteback muxes")
-    arrow(ax, [(4.1, 3.3), (4.1, 2.3)], control=True)
-    label(ax, 3.55, 2.8, "register\ncontrol", fontsize=9)
-    arrow(ax, [(5.1, 3.3), (5.1, 2.8), (6.825, 2.8), (6.825, 2.3)], control=True)
-    label(ax, 6.6, 3.08, "ALU_ISQRT", fontsize=9)
-    arrow(ax, [(5.5, 1.725), (6.0, 1.725)])
-    label(ax, 5.75, 2.0, "A", fontsize=9)
-    arrow(ax, [(7.65, 1.725), (8.15, 1.725)])
-    arrow(ax, [(9.0, 1.15), (9.0, 0.6), (4.425, 0.6), (4.425, 1.15)])
-    label(ax, 6.7, 0.25, "32-bit result; register update at the clock edge", fontsize=9)
+    fig, ax = canvas(3.8, 6.2)
+    label(ax, 5, 5.95, "ISQRT integration in the CVE2 pipeline",
+          fontsize=12, fontweight="bold")
+    label(ax, 5, 5.58, "Two-stage core  ·  instruction control and result data paths",
+          fontsize=8.5, color=MUTED)
+    label(ax, 1.65, 5.12, "01  FETCH", fontsize=8, color=DATA, fontweight="bold")
+    label(ax, 6.65, 5.12, "02  DECODE + EXECUTE", fontsize=8, color=INK,
+          fontweight="bold")
+    ax.plot([3.35, 3.35], [1.0, 4.9], color=GRID, lw=1.0, ls=(0, (2, 2)))
+
+    box(ax, 0.2, 3.75, 1.3, 0.85, "PC / fetch\nbuffer",
+        facecolor=DATA_LIGHT, edgecolor=DATA)
+    box(ax, 1.85, 3.75, 1.3, 0.85, "IF / ID\nregisters",
+        facecolor=DATA_LIGHT, edgecolor=DATA)
+    box(ax, 3.75, 3.75, 2.0, 0.85, "Instruction decoder\nreserved-field checks",
+        facecolor=PANEL)
+    box(ax, 7.45, 3.75, 2.3, 0.85, "Controller\nillegal-instruction trap",
+        facecolor=CUSTOM_LIGHT, edgecolor=CUSTOM)
+    arrow(ax, [(1.5, 4.175), (1.85, 4.175)])
+    arrow(ax, [(3.15, 4.175), (3.75, 4.175)])
+    arrow(ax, [(5.75, 4.175), (7.45, 4.175)], control=True)
+    label(ax, 6.6, 4.42, "illegal encoding", fontsize=7.5, color=CUSTOM)
+
+    box(ax, 3.75, 1.65, 2.0, 0.95, "Register file\nRead rs1  ·  write rd",
+        facecolor=PANEL)
+    box(ax, 6.35, 1.65, 1.45, 0.95, "ISQRT\n16 stages",
+        facecolor=CUSTOM_LIGHT, edgecolor=CUSTOM)
+    box(ax, 8.35, 1.65, 1.4, 0.95, "Result /\nwriteback mux",
+        facecolor=SUCCESS_LIGHT, edgecolor=SUCCESS)
+    arrow(ax, [(4.55, 3.75), (4.55, 2.6)], control=True)
+    label(ax, 3.98, 3.12, "register\ncontrol", fontsize=7, color=CUSTOM)
+    arrow(ax, [(5.15, 3.75), (5.15, 3.1), (7.05, 3.1), (7.05, 2.6)],
+          control=True)
+    label(ax, 6.15, 3.3, "ALU_ISQRT", fontsize=7, color=CUSTOM)
+    arrow(ax, [(5.75, 2.125), (6.35, 2.125)])
+    arrow(ax, [(7.8, 2.125), (8.35, 2.125)])
+    arrow(ax, [(9.05, 1.65), (9.05, 1.15), (4.75, 1.15), (4.75, 1.65)],
+          color=SUCCESS)
+    label(ax, 6.9, 0.83, "32-bit result  ·  destination register updates at the clock edge",
+          fontsize=7.5, color=SUCCESS)
+    ax.plot([0.3, 9.7], [0.48, 0.48], color=GRID, lw=0.8)
+    ax.plot([0.55, 0.95], [0.25, 0.25], color=DATA, lw=1.5)
+    label(ax, 1.48, 0.25, "Data", fontsize=7, color=MUTED)
+    ax.plot([3.0, 3.4], [0.25, 0.25], color=CUSTOM, lw=1.5, ls="--")
+    label(ax, 3.92, 0.25, "Control", fontsize=7, color=MUTED)
+    ax.plot([6.0, 6.4], [0.25, 0.25], color=SUCCESS, lw=1.5)
+    label(ax, 6.92, 0.25, "Writeback", fontsize=7, color=MUTED)
     return fig
 
 
@@ -109,39 +141,56 @@ def recurrence(measured):
         root, remainder = 2 * root + bit, candidate - trial if bit else candidate
         rounds.append([f"{pair:02b}", candidate, trial, root, remainder])
     require(root == measured["result"], "Recurrence example differs from the measured result")
-    fig, ax = canvas(3.9, 5.4)
-    label(ax, 5, 5.15, "32-bit radicand: 16 input pairs, processed most significant first",
-          fontweight="bold")
-    for x, title, pair in [(0.7, "Stage 0", "x[31:30]"),
-                           (3.1, "Stage 1", "x[29:28]"),
-                           (7.4, "Stage 15", "x[1:0]")]:
-        box(ax, x, 3.65, 1.8, 0.75, title, shaded=True)
-        label(ax, x + 0.9, 4.75, pair)
-        arrow(ax, [(x + 0.9, 4.55), (x + 0.9, 4.4)])
-    arrow(ax, [(0.1, 4.025), (0.7, 4.025)])
-    label(ax, 0.5, 3.35, r"$Q_0=R_0=0$", fontsize=9)
-    arrow(ax, [(2.5, 4.025), (3.1, 4.025)])
-    arrow(ax, [(4.9, 4.025), (5.5, 4.025)])
-    label(ax, 6.1, 4.025, r"$\cdots$", fontsize=16)
-    arrow(ax, [(6.7, 4.025), (7.4, 4.025)])
-    arrow(ax, [(9.2, 4.025), (9.8, 4.025)])
-    label(ax, 9.35, 3.35, r"$Q_{16}=\lfloor\sqrt{x}\rfloor$", fontsize=9)
-    ax.plot([0.2, 9.8], [3.0, 3.0], color="#888888", lw=0.7)
-    label(ax, 2.55, 2.72, "One combinational stage", fontweight="bold")
-    label(ax, 2.55, 2.22, r"$T=4R_k+b_k,\quad D=4Q_k+1$", fontsize=11)
-    label(ax, 2.55, 1.62, r"If $T\geq D$:  $(Q_{k+1},R_{k+1})=(2Q_k+1,T-D)$")
-    label(ax, 2.55, 1.06, r"If $T<D$:  $(Q_{k+1},R_{k+1})=(2Q_k,T)$")
-    label(ax, 2.55, 0.42, r"Invariant: prefix $=Q_k^2+R_k$", fontsize=10)
-    ax.plot([5.5, 5.5], [0.15, 2.8], color="#888888", lw=0.7)
-    label(ax, 7.75, 2.72, f"Example: x = {operand}", fontweight="bold")
-    columns = [6.05, 6.95, 7.85, 8.65, 9.45]
-    for x, text in zip(columns, ["Pair", "T", "D", "Q next", "R next"]):
-        label(ax, x, 2.2, text, fontsize=9)
-    ax.plot([5.75, 9.85], [1.98, 1.98], color=INK, lw=0.6)
-    for y, values in zip([1.72, 1.25, 0.78], rounds[-3:]):
+    fig, ax = canvas(4.0, 6.3)
+    label(ax, 5, 6.02, "Restoring square-root datapath",
+          fontsize=12, fontweight="bold")
+    label(ax, 5, 5.65, "16 combinational stages  ·  each consumes one 2-bit input pair",
+          fontsize=8.5, color=MUTED)
+    for x, title, pair in [(0.75, "STAGE 0", "x[31:30]"),
+                           (3.25, "STAGE 1", "x[29:28]"),
+                           (7.45, "STAGE 15", "x[1:0]")]:
+        is_last = title == "STAGE 15"
+        box(ax, x, 4.35, 1.8, 0.78, title, facecolor=CUSTOM_LIGHT if is_last else DATA_LIGHT,
+            edgecolor=CUSTOM if is_last else DATA)
+        label(ax, x + 0.9, 5.32, pair, color=CUSTOM if is_last else DATA, fontsize=8)
+    for y in [4.74]:
+        arrow(ax, [(0.2, y), (0.75, y)])
+        arrow(ax, [(2.55, y), (3.25, y)])
+        arrow(ax, [(5.05, y), (5.65, y)])
+        label(ax, 6.25, y, r"$\cdots$", fontsize=16, color=MUTED)
+        arrow(ax, [(6.85, y), (7.45, y)])
+        arrow(ax, [(9.25, y), (9.8, y)])
+    label(ax, 0.55, 4.08, r"$Q_0=R_0=0$", fontsize=8, color=MUTED)
+    label(ax, 9.45, 4.08, r"$Q_{16}=\lfloor\sqrt{x}\rfloor$", fontsize=8,
+          color=CUSTOM)
+    ax.plot([0.3, 9.7], [3.65, 3.65], color=GRID, lw=0.9)
+    ax.plot([5.25, 5.25], [0.32, 3.4], color=GRID, lw=0.9)
+
+    label(ax, 2.75, 3.32, "STAGE k  /  UPDATE RULE", fontsize=8,
+          color=DATA, fontweight="bold")
+    label(ax, 2.75, 2.72, r"$T=4R_k+b_k,\qquad D=4Q_k+1$", fontsize=10)
+    label(ax, 2.75, 2.12, r"$T\geq D:\quad Q_{k+1}=2Q_k+1,\quad R_{k+1}=T-D$",
+          fontsize=8)
+    label(ax, 2.75, 1.55, r"$T<D:\quad Q_{k+1}=2Q_k,\quad R_{k+1}=T$",
+          fontsize=8)
+    label(ax, 2.75, 0.85, r"Invariant: processed prefix $=Q_k^2+R_k$",
+          fontsize=8, color=MUTED)
+
+    label(ax, 7.55, 3.32, f"MEASURED INPUT  /  x = {operand}", fontsize=8,
+          color=CUSTOM, fontweight="bold")
+    columns = [5.75, 6.6, 7.42, 8.32, 9.25]
+    headers = ["Pair", "T", "D", "Q next", "R next"]
+    for x, text in zip(columns, headers):
+        label(ax, x, 2.77, text, fontsize=7.5, color=MUTED, fontweight="bold")
+    ax.plot([5.55, 9.65], [2.52, 2.52], color=GRID, lw=0.9)
+    for index, (y, values) in enumerate(zip([2.14, 1.68, 1.22], rounds[-3:])):
+        if index == 2:
+            ax.add_patch(Rectangle((5.55, y - 0.19), 4.1, 0.38, facecolor=CUSTOM_LIGHT,
+                                   edgecolor="none", zorder=0))
         for x, text in zip(columns, values):
-            label(ax, x, y, str(text))
-    label(ax, 7.75, 0.25, rf"${root}^2+{remainder}={operand}$")
+            label(ax, x, y, str(text), fontsize=7.5, color=CUSTOM if index == 2 else INK)
+    label(ax, 7.55, 0.56, rf"Final check: ${root}^2+{remainder}={operand}$",
+          color=CUSTOM, fontsize=8.5, fontweight="bold")
     return fig
 
 
@@ -186,56 +235,122 @@ def timing(data, measured):
     rows, start, end, t0, t1 = data
     period = t1 - t0
     times = [(r["time_ps"] - t0) / period for r in rows]
-    fig, ax = plt.subplots(figsize=(WIDTH, 3.7))
-    fig.subplots_adjust(left=0.23, right=0.97, top=0.84, bottom=0.17)
-    ax.set(xlim=(-0.5, 1.5), ylim=(-0.4, 6.9))
-    ax.axvspan(0, 1, color="#eeeeee", zorder=0)
+    fig = plt.figure(figsize=(WIDTH, 4.4))
+    fig.text(0.5, 0.965, "One-cycle ISQRT execution and writeback",
+             ha="center", va="top", fontsize=11, fontweight="bold")
+    fig.text(0.5, 0.916,
+             f"Measured RTL trace  ·  PC 0x{measured['pc']:08x}  ·  "
+             f"isqrt x{measured['rd']}, x{measured['rs1']}",
+             ha="center", va="top", fontsize=8.5, color=MUTED)
+
+    modules = fig.add_axes([0.04, 0.65, 0.92, 0.22])
+    modules.set(xlim=(0, 10), ylim=(0, 3))
+    modules.axis("off")
+    cards = [
+        (0.15, DATA, DATA_LIGHT, "01  EXECUTE",
+         f"isqrt x{measured['rd']}, x{measured['rs1']}",
+         f"Input  {measured['input']}   →   Result  {measured['result']}"),
+        (3.58, CUSTOM, CUSTOM_LIGHT, "02  CONTROL",
+         f"Destination  x{measured['rd']}",
+         "Write 1  ·  Stall 0  ·  Illegal 0"),
+        (7.01, SUCCESS, SUCCESS_LIGHT, "03  REGISTER FILE",
+         f"Stored register  x{measured['rd']}",
+         f"{rows[start]['destination_value']}   →   {rows[end]['destination_value']}  at edge"),
+    ]
+    for x, accent, fill, heading, detail, value in cards:
+        modules.add_patch(FancyBboxPatch(
+            (x, 0.15), 2.84, 2.68,
+            boxstyle="round,pad=0.04,rounding_size=0.12",
+            facecolor=fill, edgecolor=GRID, linewidth=0.9))
+        modules.add_patch(Rectangle((x, 0.15), 0.075, 2.68,
+                                    facecolor=accent, edgecolor="none"))
+        modules.text(x + 0.24, 2.42, heading, color=accent, fontsize=8,
+                     fontweight="bold", va="center")
+        modules.text(x + 0.24, 1.65, detail, color=INK, fontsize=8.5,
+                     fontweight="bold", va="center")
+        modules.text(x + 0.24, 0.82, value, color=INK,
+                     fontsize=7.2 if heading == "02  CONTROL" else 8,
+                     va="center")
+    for x in [3.28, 6.71]:
+        modules.add_patch(FancyArrowPatch(
+            (x, 1.5), (x + 0.22, 1.5), arrowstyle="-|>",
+            mutation_scale=10, linewidth=1.1, color=MUTED))
+
+    ax = fig.add_axes([0.22, 0.16, 0.74, 0.36])
+    ax.set(xlim=(-0.5, 1.5), ylim=(0.15, 5.55))
+    ax.axvspan(0, 1, color=CUSTOM_LIGHT, alpha=0.62, zorder=0)
+    for y in [3.9, 2.95, 2.0, 1.05]:
+        ax.axhline(y, color=GRID, lw=0.65, zorder=0)
     for x in [0, 1]:
-        ax.axvline(x, color=INK, lw=0.8, ls="--")
-    for name, y in [("clk", 6), ("write_enable", 3), ("stall", 1)]:
-        values = [y + (0.45 if r[name] else 0.05) for r in rows]
-        ax.step(times, values, where="post", color=INK, lw=1)
-        if name != "clk":
-            ax.text(0.5, y + 0.7, str(rows[start][name]), ha="center", va="center")
-    for name, y, active_only in [("operand_a", 5, True), ("result", 4, True),
-                                 ("write_register", 2, True), ("destination_value", 0, False)]:
-        ranges = [(0, 1, rows[start][name])]
-        if not active_only:
-            ranges.append((1, 1.5, rows[end][name]))
-        for left, right, value in ranges:
-            ax.add_patch(Rectangle((left, y - 0.05), right - left, 0.6,
-                                   facecolor="white", edgecolor=INK, lw=0.8))
-            ax.text((left + right) / 2, y + 0.25, str(value), ha="center", va="center")
-    ax.set_yticks([6.25, 5.25, 4.25, 3.25, 2.25, 1.25, 0.25],
-                 ["Clock", "Operand A", "ALU result", "Write enable", "Destination", "ID stall",
-                  f"Stored x{measured['rd']}"])
+        ax.axvline(x, color=CUSTOM, lw=1.0, ls=(0, (3, 2)), zorder=1)
+    for name, y, color in [("clk", 4.42, INK), ("write_enable", 1.57, SUCCESS)]:
+        signal = [y + (0.3 if r[name] else 0.05) for r in rows]
+        ax.step(times, signal, where="post", color=color, lw=1.35, zorder=3)
+    for name, y, color, fill, value in [
+        ("operand_a", 3.35, DATA, DATA_LIGHT, rows[start]["operand_a"]),
+        ("result", 2.4, CUSTOM, CUSTOM_LIGHT, rows[start]["result"]),
+    ]:
+        ax.add_patch(Rectangle((0, y), 1, 0.55, facecolor=fill,
+                               edgecolor=color, lw=0.95, zorder=2))
+        ax.text(0.5, y + 0.275, str(value), ha="center", va="center",
+                color=INK, fontweight="bold", fontsize=8.5, zorder=3)
+    ax.add_patch(Rectangle((-0.5, 0.45), 1.5, 0.55, facecolor=DATA_LIGHT,
+                           edgecolor=DATA, lw=0.95, zorder=2))
+    ax.add_patch(Rectangle((1, 0.45), 0.5, 0.55, facecolor=SUCCESS_LIGHT,
+                           edgecolor=SUCCESS, lw=0.95, zorder=2))
+    ax.text(0.25, 0.725, str(rows[start]["destination_value"]), ha="center",
+            va="center", color=INK, fontweight="bold", fontsize=8.5, zorder=3)
+    ax.text(1.25, 0.725, str(rows[end]["destination_value"]), ha="center",
+            va="center", color=INK, fontweight="bold", fontsize=8.5, zorder=3)
+    ax.set_yticks([4.47, 3.625, 2.675, 1.72, 0.725],
+                  ["Clock", "Operand A", "ALU result", "RegWrite", f"Stored x{measured['rd']}"])
     ax.set_xticks([-0.5, 0, 0.5, 1, 1.5])
-    ax.set_xlabel("Clock periods relative to entry into ID/EX")
-    ax.tick_params(axis="y", length=0, pad=9)
+    ax.set_xlabel("Clock cycles relative to ID/EX entry", labelpad=5)
+    ax.tick_params(axis="y", length=0, pad=8, colors=INK, labelsize=8)
+    ax.tick_params(axis="x", colors=MUTED, labelsize=8, pad=3)
+    ax.spines["bottom"].set_color(GRID)
+    ax.spines["bottom"].set_linewidth(1.0)
     for side in ["left", "top", "right"]:
         ax.spines[side].set_visible(False)
-    ax.text(0, 7.15, f"A: {t0} ps", ha="center", fontsize=9)
-    ax.text(1, 7.15, f"B: {t1} ps", ha="center", fontsize=9)
-    fig.text(0.5, 0.965, f"Measured RTL: isqrt x{measured['rd']}, x{measured['rs1']} "
-             f"({measured['input']} → {measured['result']})",
-             ha="center", va="top", fontsize=10, fontweight="bold")
+    ax.text(-0.03, 5.18, f"ENTRY  ·  {t0} ps", ha="right", va="center", fontsize=7.5,
+            color=CUSTOM, fontweight="bold")
+    ax.text(1.03, 5.18, f"WRITEBACK  ·  {t1} ps", ha="left", va="center", fontsize=7.5,
+            color=SUCCESS, fontweight="bold")
+    fig.text(0.96, 0.035, "Simulation trace; not physical FPGA timing",
+             ha="right", va="center", color=MUTED, fontsize=7)
     return fig
 
 
 def benchmark(evidence):
     results = evidence["tests"]
     values = [results[name]["average_cycles_per_root"] for name in ["sw_isqrt", "hw_isqrt"]]
-    fig, ax = plt.subplots(figsize=(WIDTH, 3.2))
-    fig.subplots_adjust(left=0.15, right=0.96, top=0.86, bottom=0.25)
-    bars = ax.bar([0, 1], values, width=0.5, color=["#dddddd", "#888888"], edgecolor=INK, linewidth=0.8)
-    ax.bar_label(bars, padding=5)
-    ax.set(xticks=[0, 1], xticklabels=["Software workload", "Hardware workload"],
-           ylabel="Reported cycles per root", ylim=(0, max(values) * 1.2))
-    for side in ["top", "right"]:
+    fig, ax = plt.subplots(figsize=(WIDTH, 3.5))
+    fig.subplots_adjust(left=0.31, right=0.96, top=0.66, bottom=0.27)
+    y = [1, 0]
+    bars = ax.barh(y, [values[0], values[1]], height=0.48,
+                   color=[DATA, CUSTOM], edgecolor="none", zorder=3)
+    ax.bar_label(bars, labels=[f"{value} cycles" for value in values], padding=7,
+                 color=INK, fontweight="bold", fontsize=9)
+    ratio = values[0] / values[1]
+    ax.set(yticks=y, yticklabels=["Software implementation", "Custom instruction"],
+           xlabel="Reported average cycles per root", xlim=(0, max(values) * 1.22), ylim=(-0.65, 1.65))
+    ax.xaxis.grid(True, color=GRID, linewidth=0.8, zorder=0)
+    ax.set_axisbelow(True)
+    ax.tick_params(axis="y", length=0, pad=10, colors=INK)
+    ax.tick_params(axis="x", colors=MUTED, labelsize=8)
+    for side in ["top", "right", "left"]:
         ax.spines[side].set_visible(False)
-    fig.text(0.5, 0.96, "Measured benchmark averages", ha="center", va="top", fontweight="bold", fontsize=10)
-    fig.text(0.5, 0.08, f"Matching checksum: {results['sw_isqrt']['checksum']}  |  "
-             "Includes loop and input-generation overhead", ha="center", fontsize=9)
+    ax.spines["bottom"].set_color(GRID)
+    fig.text(0.5, 0.96, "Benchmark workload comparison", ha="center", va="top",
+             color=INK, fontweight="bold", fontsize=11)
+    fig.text(0.5, 0.87, "Integer-rounded simulator average  ·  cycles per root",
+             ha="center", va="top", color=MUTED, fontsize=8)
+    fig.text(0.5, 0.77, f"{ratio:.1f}× fewer reported cycles per root",
+             ha="center", va="center", color=CUSTOM, fontsize=9, fontweight="bold")
+    fig.text(0.5, 0.075, f"Matching checksum: {results['sw_isqrt']['checksum']}",
+             ha="center", color=INK, fontsize=8, fontweight="bold")
+    fig.text(0.5, 0.035, "Averages include loop and input-generation overhead",
+             ha="center", color=MUTED, fontsize=7)
     return fig
 
 
@@ -251,7 +366,8 @@ def main():
         parser.error(f"Cannot generate measured figures: {error}. Run scripts/collect_simulation_results.py first.")
     args.out_dir.mkdir(parents=True, exist_ok=True)
     plt.rcParams.update({"font.family": "sans-serif", "font.sans-serif": ["Arial", "DejaVu Sans"],
-                         "font.size": 9, "mathtext.fontset": "dejavusans",
+                         "font.size": 8.5, "text.color": INK, "axes.labelcolor": INK,
+                         "axes.edgecolor": GRID, "mathtext.fontset": "dejavusans",
                          "pdf.fonttype": 42, "ps.fonttype": 42, "svg.fonttype": "path",
                          "axes.unicode_minus": False})
     measured = evidence["timing"]
@@ -262,13 +378,12 @@ def main():
         "The table shows the last three recurrence rounds, not measured internal stage delays. "
         "The 16-bit root is zero-extended onto the 32-bit result bus.")
     CAPTIONS["fig03_writeback"] = (
-        f"Sampled RTL waveform for isqrt x{measured['rd']}, x{measured['rs1']} at PC "
-        f"0x{measured['pc']:08x}, with input {measured['input']} and result {measured['result']}. "
-        f"ID/EX entry is at {measured['entry_ps']} ps; register writeback occurs at "
-        f"{measured['writeback_ps']} ps. The selected instruction has no execution stall "
-        "or illegal-instruction indication. The horizontal axis is normalized to the "
-        "observed simulation clock period; timestamps are not physical FPGA delays. "
-        "Operand, result and destination buses are shown only for the selected instruction.")
+        f"Modular summary of the measured RTL trace for isqrt x{measured['rd']}, "
+        f"x{measured['rs1']} at PC 0x{measured['pc']:08x}. The execution, control, and "
+        f"register-file panels show input {measured['input']}, result {measured['result']}, "
+        f"and the measured destination update. ID/EX entry is at {measured['entry_ps']} ps; "
+        f"writeback occurs at {measured['writeback_ps']} ps. The timeline is normalized "
+        "to the observed clock period; simulation timestamps are not physical FPGA delays.")
     figures = {"fig01_pipeline": pipeline(), "fig02_recurrence": recurrence(measured),
                "fig03_writeback": timing(data, measured), "fig04_benchmark": benchmark(evidence)}
     for name, fig in figures.items():
@@ -300,7 +415,8 @@ def main():
                 "simulation_evidence": evidence, "captions": CAPTIONS,
                 "figure_kinds": {"fig01_pipeline": "Reviewed structural schematic",
                                  "fig02_recurrence": "Reviewed recurrence; example computed from captured input",
-                                 "fig03_writeback": "Measured VCD signals", "fig04_benchmark": "Parsed simulator output"}}
+                                 "fig03_writeback": "Modular timing summary of measured VCD signals",
+                                 "fig04_benchmark": "Parsed simulator output"}}
     (args.out_dir / "figure_manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
 
 

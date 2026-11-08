@@ -7,6 +7,8 @@
 
 TEST  ?= hw_isqrt
 RISCV ?= riscv64-unknown-elf-
+RISCV_ARCH ?= rv32imc_zicsr
+RISCV_LDFLAGS ?= -Wl,--no-warn-rwx-segments
 # (on macOS with Homebrew: make ... RISCV=riscv64-elf-)
 
 MAKEFLAGS += --no-print-directory
@@ -31,8 +33,8 @@ build/sim/Vtb_top: files.f cve2/rtl/*.sv tb/*
 # image the testbench loads. ($* stands for NAME, $< for sw/NAME.c, $@ for the .hex)
 build/%.hex: sw/%.c sw/lib/*
 	mkdir -p build
-	$(RISCV)gcc -march=rv32imc_zicsr -mabi=ilp32 -O2 -ffreestanding -mno-relax -nostdlib \
-	  -T sw/lib/link.ld -Wl,--no-warn-rwx-segments -Isw/lib \
+	$(RISCV)gcc -march=$(RISCV_ARCH) -mabi=ilp32 -O2 -ffreestanding -mno-relax -nostdlib \
+	  -T sw/lib/link.ld $(RISCV_LDFLAGS) -Isw/lib \
 	  -o build/$*.elf sw/lib/crt0.S sw/lib/lib.c $<
 	$(RISCV)objdump -d build/$*.elf > build/$*.dis
 	$(RISCV)objcopy -O binary build/$*.elf build/$*.bin

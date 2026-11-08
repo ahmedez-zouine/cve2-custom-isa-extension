@@ -180,6 +180,8 @@ def write_json(path, value):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--riscv", default=os.environ.get("RISCV"))
+    parser.add_argument("--riscv-arch", choices=["rv32imc_zicsr", "rv32imc"],
+                        default="rv32imc_zicsr")
     parser.add_argument("--out-dir", type=Path, default=ROOT / "build/figure_data")
     parser.add_argument("--operand", type=int, default=20)
     args = parser.parse_args()
@@ -214,7 +216,8 @@ def main():
             "gcc": subprocess.check_output([prefix + "gcc", "--version"], text=True).splitlines()[0],
         }
         names = ["sw_isqrt", "hw_isqrt", "isqrt_corners"]
-        execute(["make", "-B", f"RISCV={prefix}", "build/sim/Vtb_top",
+        execute(["make", "-B", f"RISCV={prefix}", f"RISCV_ARCH={args.riscv_arch}",
+                 "build/sim/Vtb_top",
                  *[f"build/{name}.hex" for name in names]], run / "build.log")
         artifact("build_log", run / "build.log")
         for name in names:

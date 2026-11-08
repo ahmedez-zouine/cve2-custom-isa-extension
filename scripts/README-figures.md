@@ -6,12 +6,15 @@ from its checked outputs and the reviewed RTL structure:
 1. `fig01_pipeline`: instruction decoding, ALU integration and register writeback.
 2. `fig02_recurrence`: the 16 combinational stages and equations; its example is
    calculated from the input captured in the simulation.
-3. `fig03_writeback`: measured register values and clock timestamps from the VCD.
+3. `fig03_writeback`: modular execution, control and register-file view of measured
+   writeback values and clock timestamps from the VCD.
 4. `fig04_benchmark`: workload cycle averages parsed from the simulator's output.
 
-The drawings use a white background, grayscale fills, 9-point or larger labels,
-embedded PDF fonts, vector lines and a 7.16-inch canvas. They are intended for
-full-width placement. The dimensions and typography follow the guidance from
+The drawings use a restrained, color-accessible palette: blue for data flow,
+orange for the custom instruction and event markers, and green for successful
+writeback. The white background, embedded PDF fonts, vector lines and 7.16-inch
+canvas are intended for full-width placement. Labels and annotations are
+hierarchically emphasized for quick scanning. The dimensions and typography follow the guidance from
 the [IEEE Author Center](https://conferences.ieeeauthorcenter.ieee.org/write-your-paper/improve-your-graphics/).
 The [IEEE size guidance](https://journals.ieeeauthorcenter.ieee.org/create-your-ieee-journal-article/resolution-and-size/)
 also explains vector output and column widths. Check the final venue's rules.
@@ -32,8 +35,13 @@ create a new environment; do not copy the Mac virtual environment.
 
 On Ubuntu, pass `--riscv riscv64-unknown-elf-` if that is the installed prefix.
 Omitting `--riscv` detects an available supported compiler prefix, or uses the
-`RISCV` environment variable. The collector itself needs only standard Python,
-Make, Verilator and the RISC-V toolchain; it does not need Matplotlib.
+`RISCV` environment variable. Older GCC releases that predate the separate
+`zicsr` extension spelling can use `--riscv-arch rv32imc`; the default remains
+`rv32imc_zicsr`. If an older linker does not recognize
+`--no-warn-rwx-segments`, run the collector with `RISCV_LDFLAGS=` in its
+environment to omit that warning-only linker option. The collector itself
+needs only standard Python, Make, Verilator and the RISC-V toolchain; it does
+not need Matplotlib.
 
 ## Simulation to figure data
 
