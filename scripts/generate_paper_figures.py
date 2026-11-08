@@ -273,7 +273,9 @@ def main():
                "fig03_writeback": timing(data, measured), "fig04_benchmark": benchmark(evidence)}
     for name, fig in figures.items():
         fig.savefig(args.out_dir / f"{name}.pdf", metadata={"Title": CAPTIONS[name]})
-        fig.savefig(args.out_dir / f"{name}.svg")
+        svg_path = args.out_dir / f"{name}.svg"
+        fig.savefig(svg_path)
+        svg_path.write_text("\n".join(line.rstrip() for line in svg_path.read_text().splitlines()) + "\n")
         fig.savefig(args.out_dir / f"{name}.png", dpi=600)
         plt.close(fig)
         if args.render_pdfs:
