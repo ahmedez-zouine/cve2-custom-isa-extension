@@ -1,5 +1,9 @@
 # Figure data
 
+**Historical snapshot only.** The generator now consumes freshly collected
+`build/figure_data/results.json` and its referenced simulator artifacts. It
+does not use this old CSV or fall back to it. See `../README-figures.md`.
+
 `step_10_waveform.csv` is a saved extract of the actual Step 10 VCD, not a
 synthetic waveform. It is included so the figures can be regenerated on another
 machine without the ignored build directory.
@@ -16,7 +20,7 @@ The VCD uses 1 ps units and a 10 ps simulation clock period.
 These values describe RTL simulation, not FPGA delays.
 
 All CSV fields are decimal integers. `a1` was extracted from bits [383:352]
-of the packed `register_file_i.rf_reg` signal. The plotting script checks the
-execution/writeback values and records the input file's SHA-256 in its manifest.
+of the packed `register_file_i.rf_reg` signal. This was the input for the original
+version of the plotting script, before automated simulation collection was added.
 Blank bus regions in the published timing figure omit other instructions; they
 do not denote unknown or high-impedance values in the VCD.

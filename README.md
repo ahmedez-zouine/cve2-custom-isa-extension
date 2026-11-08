@@ -320,12 +320,20 @@ With the Python environment from the
 [figure guide](scripts/README-figures.md) activated, run:
 
 ```sh
+python scripts/collect_simulation_results.py --riscv riscv64-elf-
 python scripts/generate_paper_figures.py --render-pdfs
 ```
 
 The script exports vector PDF and SVG files, 600-dpi PNG copies, and
 [LaTeX figure environments with captions](output/pdf/include_figures.tex).
-The timing plot uses the [saved waveform extract](scripts/figure_data/README.md)
-included with the source, so it can be regenerated without rerunning simulation.
-Use the PDFs for the paper and check that labels remain readable at the final
-printed size.
+The collector rebuilds and runs all three simulation tests, then exports checked
+JSON and CSV data under `build/figure_data/`. The timing plot uses captured VCD
+values and timestamps; a fourth figure compares the workload averages printed
+by the software and hardware tests. Register numbers and measured values are
+read from the run rather than fixed in the drawing.
+
+Missing evidence, failed tests or sources changed since collection stop figure
+generation. Architecture diagrams remain illustrations of the reviewed RTL;
+they are not physical measurements. Use the PDFs for the paper and check that
+labels remain readable at the final printed size. On Ubuntu, adjust the compiler
+prefix to match the installed toolchain.

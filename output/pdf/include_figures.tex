@@ -12,14 +12,21 @@
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{output/pdf/fig02_recurrence.pdf}
-  \caption{Unrolled restoring square-root recurrence. Each stage consumes two input bits and produces one root bit. All 16 stages are combinational; there are no registers between stages. The worked example shows the final three stages for an input of 20; the preceding stages process zero pairs. The 16-bit root is zero-extended onto the 32-bit ALU result bus.}
+  \caption{Unrolled restoring square-root recurrence with no registers between its 16 stages. The arithmetic example is computed from the captured input 20; its final root matches the measured result 4. The table shows the last three recurrence rounds, not measured internal stage delays. The 16-bit root is zero-extended onto the 32-bit result bus.}
   \label{fig:fig02_recurrence}
 \end{figure}
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{output/pdf/fig03_writeback.pdf}
-  \caption{Sampled RTL waveform for isqrt a1, a1 with input 20. The register contains 20 during execution and updates to 4 at the next rising clock edge. The shaded interval has valid instruction and execution signals, no stall, and no illegal-instruction indication. Time is normalized to the observed clock period; the plot does not represent physical propagation delay. Operand, result and destination buses are shown only for the selected instruction.}
+  \caption{Sampled RTL waveform for isqrt x11, x11 at PC 0x00000d20, with input 20 and result 4. ID/EX entry is at 20565 ps; register writeback occurs at 20575 ps. The selected instruction has no execution stall or illegal-instruction indication. The horizontal axis is normalized to the observed simulation clock period; timestamps are not physical FPGA delays. Operand, result and destination buses are shown only for the selected instruction.}
   \label{fig:fig03_writeback}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{output/pdf/fig04_benchmark.pdf}
+  \caption{Benchmark workload averages printed by the simulated software and hardware tests. Both workloads use the same seeded input sequence and produce matching checksums. The reported integer-rounded averages include loop and random-number-generation overhead; they are not individual instruction latencies or physical execution times.}
+  \label{fig:fig04_benchmark}
 \end{figure}
 
