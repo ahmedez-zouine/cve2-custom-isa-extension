@@ -16,10 +16,27 @@ The simulation source list and core RTL are unchanged.
 
 ## Run on a machine with Vivado
 
-From the repository root, after loading the installed Vivado environment:
+Vivado is a separately licensed AMD tool and is not included in this repository,
+the Python virtual environment, or a standard GitHub Codespace image. Run this
+flow on a Linux host where Vivado has been installed and licensed. If the
+`vivado` command is not found, source the settings script from the installation
+before running the flow:
 
 ```sh
+# Replace 2024.2 with the installed version, or use the installation's actual path.
+source /tools/Xilinx/Vivado/2024.2/settings64.sh
 vivado -version
+```
+
+If Vivado was installed elsewhere, locate `settings64.sh` under its install
+directory and source that file instead. Run `source` in each new terminal, or
+add the exact settings-script path to your shell startup file if Vivado should
+be available in every interactive shell. Verify the setup with `command -v
+vivado` and `vivado -version`.
+
+Then, from the repository root:
+
+```sh
 # Example part only; replace it with your selected 7-series part.
 vivado -mode batch -source fpga/synth.tcl -tclargs xc7a35tcsg324-1
 ```
