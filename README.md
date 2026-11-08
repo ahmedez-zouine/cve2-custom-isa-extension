@@ -4,6 +4,9 @@ This project adds an unsigned integer square-root instruction to CVE2, a compact
 32-bit RISC-V processor. The goal is to calculate a result in hardware, verify
 the instruction in simulation, and measure its implementation cost on an FPGA.
 
+The [FPGA build guide](fpga/README.md) describes the Vivado synthesis preparation.
+FPGA area and timing results are still pending.
+
 ## 1. Mathematical definition
 
 For an unsigned input (x), the integer square root (r) is
