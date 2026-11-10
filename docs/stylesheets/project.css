@@ -116,16 +116,78 @@
 
 .md-typeset .project-equations {
   margin-block: 1rem;
-  padding: 0.6rem 1rem;
+  padding: 0.8rem;
   background: var(--project-paper);
   border-inline-start: 3px solid var(--project-accent);
   color: var(--project-ink);
-  font-family: var(--md-code-font-family);
-  font-size: clamp(0.72rem, 2.5vw, 0.9rem);
 }
 
-.md-typeset .project-equations p {
-  margin: 0.2rem 0;
+.md-typeset .project-equations math {
+  font-size: clamp(0.86rem, 4vw, 1.15rem);
+}
+
+.md-typeset .project-equations math + math {
+  margin-top: 0.8rem;
+}
+
+.md-typeset h3.project-step {
+  margin: 1.2rem 0 0.6rem;
+  padding: 0.5rem 0.8rem;
+  background: var(--project-paper);
+  border-inline-start: 3px solid var(--project-accent);
+  color: var(--project-ink);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.md-typeset :is(table:not([class]), .project-data) {
+  width: 100%;
+  border: 1px solid var(--project-rule);
+  border-radius: 0.4rem;
+  border-spacing: 0;
+  background: #fff;
+  color: var(--project-ink);
+  font-size: 0.82rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.4;
+}
+
+.md-typeset :is(table:not([class]), .project-data) thead th {
+  background: var(--project-paper);
+  color: var(--project-ink);
+  font-weight: 600;
+}
+
+.md-typeset :is(table:not([class]), .project-data) :is(th, td) {
+  padding: 0.6rem 0.75rem;
+  vertical-align: middle;
+}
+
+.md-typeset :is(table:not([class]), .project-data) tbody :is(th, td) {
+  border-top: 1px solid var(--project-rule);
+}
+
+.md-typeset :is(table:not([class]), .project-data) tbody tr:nth-child(even) {
+  background: var(--project-paper);
+}
+
+.md-typeset .project-table-scroll {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.md-typeset .project-trace {
+  min-width: 28rem;
+  text-align: right;
+}
+
+.md-typeset .project-trace thead th {
+  text-align: right;
+}
+
+.md-typeset .project-trace tbody tr:last-child {
+  background: #f6eef0;
+  font-weight: 600;
 }
 
 .md-typeset .isqrt-explorer {
@@ -174,11 +236,13 @@
 
 .md-typeset .isqrt-explorer details {
   margin-bottom: 0;
+  padding: 0;
   border-color: var(--project-rule);
   box-shadow: none;
 }
 
 .md-typeset .isqrt-explorer summary {
+  margin: 0;
   padding: 0.4rem 0.6rem;
   color: var(--project-ink);
   background: #fff;
@@ -188,19 +252,8 @@
   display: none;
 }
 
-.isqrt-scroll {
-  overflow-x: auto;
-}
-
-.md-typeset .isqrt-scroll table {
-  width: 100%;
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-}
-
-.md-typeset .isqrt-scroll :is(th, td) {
-  padding: 0.4rem 0.6rem;
-  text-align: right;
+.md-typeset .isqrt-explorer .project-table-scroll {
+  margin: 0.6rem;
 }
 
 @media (max-width: 36rem) {
