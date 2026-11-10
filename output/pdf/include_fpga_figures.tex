@@ -1,0 +1,15 @@
+% Add \usepackage{graphicx}. Paths assume compilation from the repository root.
+% Full-width 7.16-inch figures. For an IEEE two-column template use figure*.
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{output/pdf/fig05_fpga_resources.pdf}
+  \caption{Whole-design FPGA resource utilization for the original CVE2 and the isqrt extension, parsed from Vivado out-of-context post-synthesis reports. Total LUTs and FFs use the top-level utilization row; CARRY4 counts come from the synthesis primitive table. Both designs include the same wrapper and processor configuration. Panel scales differ. The DSP belongs to the existing multiplier; no implemented area is claimed.}
+  \label{fig:fig05_fpga_resources}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{output/pdf/fig06_fpga_timing.pdf}
+  \caption{Worst setup and hold slack parsed from the complete design timing summaries for both cores at the same clock target. Nonnegative slack meets the corresponding check. Original core passes setup; with isqrt fails setup. Original core fails hold; with isqrt fails hold. These are out-of-context post-synthesis estimates with an unset HD.CLK\_SRC clock context. They do not establish routed timing closure or implemented Fmax.}
+  \label{fig:fig06_fpga_timing}
+\end{figure}

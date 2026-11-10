@@ -5,6 +5,13 @@ and changes estimated setup slack from +2.994 ns to -30.800 ns at a 20 ns clock
 target. The original core passes the reported setup checks, but both designs
 have hold violations. Neither result establishes complete timing closure.
 
+Figures generated directly from these reports are available as
+[resource cost](../pdf/fig05_fpga_resources.pdf) and
+[setup/hold timing](../pdf/fig06_fpga_timing.pdf). The
+[parsed data](../pdf/fpga_results.json) and
+[figure manifest](../pdf/fpga_figure_manifest.json) retain their numerical
+inputs and source hashes.
+
 ## Conditions and source identity
 
 Both runs use Vivado 2024.2, build 5239630, on Ubuntu 24.04.5 LTS, targeting

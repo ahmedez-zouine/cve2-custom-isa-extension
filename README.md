@@ -243,6 +243,34 @@ The bar heights and checksum are read from the simulator logs. These averages
 compare the complete benchmark workloads; they do not measure the latency of
 one square-root instruction.
 
+### FPGA synthesis comparison
+
+The following figures read the saved Vivado reports for the original and
+extended cores. Both use the same Artix-7 part, processor configuration and
+20 ns clock target. These are out-of-context post-synthesis estimates.
+
+<p align="center">
+  <img src="output/pdf/fig05_fpga_resources.svg" width="800" alt="Vivado resource comparison: original core 3034 LUTs and 1961 FFs; with isqrt 4178 LUTs and 1962 FFs">
+</p>
+<p align="center">
+  <em>Whole-design resource cost: 1,144 additional LUTs (+37.7%), one additional FF, and no additional DSP or BRAM.</em><br>
+  <a href="output/pdf/fig05_fpga_resources.pdf">Download vector PDF</a>
+</p>
+
+<p align="center">
+  <img src="output/pdf/fig06_fpga_timing.svg" width="800" alt="Estimated setup slack changes from positive 2.994 ns to negative 30.800 ns; both cores have negative 0.956 ns hold slack">
+</p>
+<p align="center">
+  <em>The original core passes the reported setup checks; the extension fails setup. Both have hold violations.</em><br>
+  <a href="output/pdf/fig06_fpga_timing.pdf">Download vector PDF</a>
+</p>
+
+The [comparison review](output/fpga/comparison.md) explains the timing limits.
+The [parsed JSON](output/pdf/fpga_results.json), [CSV](output/pdf/fpga_metrics.csv)
+and [figure manifest](output/pdf/fpga_figure_manifest.json) retain the values,
+source hashes and figure captions. Placement, routing, implemented Fmax and
+power results remain pending.
+
 ## 6. Repository map
 
 - [Package: opcode and ALU operation types](cve2/rtl/cve2_pkg.sv)
@@ -371,6 +399,19 @@ Every collection uses a new run directory. Keep it with its results JSON to
 preserve the evidence behind a figure. The exported
 [`figure_manifest.json`](output/pdf/figure_manifest.json) records which run and
 file hashes produced the figures. No bundled example CSV is used as a fallback.
+
+To regenerate the two FPGA figures from the saved reports, using the same
+Python environment:
+
+```sh
+python scripts/generate_fpga_figures.py --render-pdfs
+```
+
+This command reads `output/fpga/baseline/` and `output/fpga/extended/`; it does
+not run Vivado. It checks report identity, successful synthesis logs and source
+provenance before plotting. The separate
+[FPGA LaTeX environments](output/pdf/include_fpga_figures.tex) include captions
+and timing limitations. The existing simulation figures are kept unchanged.
 
 ## 10. Use GitHub Codespaces
 

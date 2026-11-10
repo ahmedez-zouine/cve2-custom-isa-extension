@@ -1,0 +1,143 @@
+{
+  "schema": 1,
+  "scope": "Whole wrapper and core; OOC post-synthesis estimates",
+  "runs": {
+    "baseline": {
+      "identity": {
+        "tool": "2024.2",
+        "part": "xc7a35tcsg324-1",
+        "scope": "baseline core, out-of-context, post-synthesis estimates",
+        "revision": "d02858e65c16b61822e5c2d42b1508c263d48057",
+        "rtl_revision": "af1e7b4fcab772e1976f41f36b38ced25cb9f377",
+        "flow_reference_revision": "81c378c5fe8ebbb9856cf47f808fde3b12b7eaab",
+        "clock_period_ns": 20.0,
+        "report_date": "Tue Nov 10 12:03:45 2026"
+      },
+      "resources": {
+        "total_luts": 3034,
+        "logic_luts": 3034,
+        "lutrams": 0,
+        "srls": 0,
+        "ffs": 1961,
+        "ramb36": 0,
+        "ramb18": 0,
+        "dsps": 1,
+        "carry4": 68
+      },
+      "timing": {
+        "wns_ns": 2.994,
+        "tns_ns": 0.0,
+        "setup_failing_endpoints": 0,
+        "setup_total_endpoints": 5944,
+        "whs_ns": -0.956,
+        "ths_ns": -171.701,
+        "hold_failing_endpoints": 368,
+        "hold_total_endpoints": 5944,
+        "wpws_ns": 9.5,
+        "tpws_ns": 0.0,
+        "pulse_failing_endpoints": 0,
+        "pulse_total_endpoints": 1962
+      },
+      "clock_context_warning": true
+    },
+    "extended": {
+      "identity": {
+        "tool": "2024.2",
+        "part": "xc7a35tcsg324-1",
+        "scope": "extended core, out-of-context, post-synthesis estimates",
+        "revision": "81c378c5fe8ebbb9856cf47f808fde3b12b7eaab",
+        "clock_period_ns": 20.0,
+        "report_date": "Tue Nov 10 01:13:14 2026"
+      },
+      "resources": {
+        "total_luts": 4178,
+        "logic_luts": 4178,
+        "lutrams": 0,
+        "srls": 0,
+        "ffs": 1962,
+        "ramb36": 0,
+        "ramb18": 0,
+        "dsps": 1,
+        "carry4": 240
+      },
+      "timing": {
+        "wns_ns": -30.8,
+        "tns_ns": -5259.459,
+        "setup_failing_endpoints": 341,
+        "setup_total_endpoints": 5947,
+        "whs_ns": -0.956,
+        "ths_ns": -171.927,
+        "hold_failing_endpoints": 368,
+        "hold_total_endpoints": 5947,
+        "wpws_ns": 9.5,
+        "tpws_ns": 0.0,
+        "pulse_failing_endpoints": 0,
+        "pulse_total_endpoints": 1963
+      },
+      "clock_context_warning": true
+    }
+  },
+  "verified_source_files": 180,
+  "sources": {
+    "baseline/run_info.txt": {
+      "path": "output/fpga/baseline/run_info.txt",
+      "sha256": "6dfd0b0cd1ffe1302b15a76782dc498715fb9f4e854d404cc35b6cca74eba5a5"
+    },
+    "baseline/utilization.rpt": {
+      "path": "output/fpga/baseline/utilization.rpt",
+      "sha256": "f735182b7f78bf244dc59491c6bb221b41bf351f7f49db8b6325e91a72a84400"
+    },
+    "baseline/timing_summary.rpt": {
+      "path": "output/fpga/baseline/timing_summary.rpt",
+      "sha256": "d23e37dc7955775beba03f62af1eded5a5d1464f3bff865e7ff9d74c112e8d1c"
+    },
+    "baseline/clocks.rpt": {
+      "path": "output/fpga/baseline/clocks.rpt",
+      "sha256": "74db113814a5f63d03a4fe7331d8a3024c50daa7807d47cb982243c4f13887ce"
+    },
+    "baseline/check_timing.rpt": {
+      "path": "output/fpga/baseline/check_timing.rpt",
+      "sha256": "8e22df915725c3efcbe21d2669afb03698a3657a397a2841c8e7a41e0172ac09"
+    },
+    "baseline/vivado.log": {
+      "path": "output/fpga/baseline/vivado.log",
+      "sha256": "007dfd9bdfb3820d39dd87ececed5c056b3d053af3eaf73f3edce1c1acef7c84"
+    },
+    "extended/run_info.txt": {
+      "path": "output/fpga/extended/run_info.txt",
+      "sha256": "5695a6c980943ccebaa4b8c3bebc442d5a522576f2a50f146039cbbc60b920b7"
+    },
+    "extended/utilization.rpt": {
+      "path": "output/fpga/extended/utilization.rpt",
+      "sha256": "88acf81b5b0b48fb00d4f0e4e6a3d6303ebc2892b8e6cb75b0929bc9c886844f"
+    },
+    "extended/timing_summary.rpt": {
+      "path": "output/fpga/extended/timing_summary.rpt",
+      "sha256": "e539b3ff3af0fc40303403e9da477c6ad9ef12528f1a8cd0416adba875fd858b"
+    },
+    "extended/clocks.rpt": {
+      "path": "output/fpga/extended/clocks.rpt",
+      "sha256": "3a2d08a00c59940ed6782102791ce81647a6c22eb5596565a8658b415c46d6f9"
+    },
+    "extended/check_timing.rpt": {
+      "path": "output/fpga/extended/check_timing.rpt",
+      "sha256": "30ec946f3585cb4ac9a504a2a927a9a8085be67e96a9762d4d64696a1dd32a85"
+    },
+    "extended/vivado.log": {
+      "path": "output/fpga/extended/vivado.log",
+      "sha256": "254c7fdc2d73870de38aaa33b00141ccd5b269a5f05ed6e0482c3be148b10cfa"
+    },
+    "baseline/source_manifest.json": {
+      "path": "output/fpga/baseline/source_manifest.json",
+      "sha256": "7663f260f98f0518b4adb871bdcc5d529fc421db5151da4d5f76a892acf12b59"
+    },
+    "baseline/source_info.txt": {
+      "path": "output/fpga/baseline/source_info.txt",
+      "sha256": "cf25da6c741be83b76c80bcf752b3555e8f7a2d600225e81db495d47c90af13f"
+    },
+    "baseline/synth_driver.tcl": {
+      "path": "output/fpga/baseline/synth_driver.tcl",
+      "sha256": "c8ddb66654f26b443ba7a1382821d129a3e3afdca4b14ee0de524ba9954e32a5"
+    }
+  }
+}

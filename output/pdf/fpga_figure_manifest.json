@@ -1,0 +1,92 @@
+{
+  "schema": 1,
+  "generator_sha256": "04ae06d18f79d9090e38f857b3e0f75cf54ac1c212fc390f5d38581d298a19af",
+  "matplotlib": "3.11.2",
+  "width_inches": 7.16,
+  "data_file": "fpga_results.json",
+  "data_sha256": "39eb1a157c3f777a2df46178716a35662c2ca164575937a74f35df89c13d4464",
+  "sources": {
+    "baseline/run_info.txt": {
+      "path": "output/fpga/baseline/run_info.txt",
+      "sha256": "6dfd0b0cd1ffe1302b15a76782dc498715fb9f4e854d404cc35b6cca74eba5a5"
+    },
+    "baseline/utilization.rpt": {
+      "path": "output/fpga/baseline/utilization.rpt",
+      "sha256": "f735182b7f78bf244dc59491c6bb221b41bf351f7f49db8b6325e91a72a84400"
+    },
+    "baseline/timing_summary.rpt": {
+      "path": "output/fpga/baseline/timing_summary.rpt",
+      "sha256": "d23e37dc7955775beba03f62af1eded5a5d1464f3bff865e7ff9d74c112e8d1c"
+    },
+    "baseline/clocks.rpt": {
+      "path": "output/fpga/baseline/clocks.rpt",
+      "sha256": "74db113814a5f63d03a4fe7331d8a3024c50daa7807d47cb982243c4f13887ce"
+    },
+    "baseline/check_timing.rpt": {
+      "path": "output/fpga/baseline/check_timing.rpt",
+      "sha256": "8e22df915725c3efcbe21d2669afb03698a3657a397a2841c8e7a41e0172ac09"
+    },
+    "baseline/vivado.log": {
+      "path": "output/fpga/baseline/vivado.log",
+      "sha256": "007dfd9bdfb3820d39dd87ececed5c056b3d053af3eaf73f3edce1c1acef7c84"
+    },
+    "extended/run_info.txt": {
+      "path": "output/fpga/extended/run_info.txt",
+      "sha256": "5695a6c980943ccebaa4b8c3bebc442d5a522576f2a50f146039cbbc60b920b7"
+    },
+    "extended/utilization.rpt": {
+      "path": "output/fpga/extended/utilization.rpt",
+      "sha256": "88acf81b5b0b48fb00d4f0e4e6a3d6303ebc2892b8e6cb75b0929bc9c886844f"
+    },
+    "extended/timing_summary.rpt": {
+      "path": "output/fpga/extended/timing_summary.rpt",
+      "sha256": "e539b3ff3af0fc40303403e9da477c6ad9ef12528f1a8cd0416adba875fd858b"
+    },
+    "extended/clocks.rpt": {
+      "path": "output/fpga/extended/clocks.rpt",
+      "sha256": "3a2d08a00c59940ed6782102791ce81647a6c22eb5596565a8658b415c46d6f9"
+    },
+    "extended/check_timing.rpt": {
+      "path": "output/fpga/extended/check_timing.rpt",
+      "sha256": "30ec946f3585cb4ac9a504a2a927a9a8085be67e96a9762d4d64696a1dd32a85"
+    },
+    "extended/vivado.log": {
+      "path": "output/fpga/extended/vivado.log",
+      "sha256": "254c7fdc2d73870de38aaa33b00141ccd5b269a5f05ed6e0482c3be148b10cfa"
+    },
+    "baseline/source_manifest.json": {
+      "path": "output/fpga/baseline/source_manifest.json",
+      "sha256": "7663f260f98f0518b4adb871bdcc5d529fc421db5151da4d5f76a892acf12b59"
+    },
+    "baseline/source_info.txt": {
+      "path": "output/fpga/baseline/source_info.txt",
+      "sha256": "cf25da6c741be83b76c80bcf752b3555e8f7a2d600225e81db495d47c90af13f"
+    },
+    "baseline/synth_driver.tcl": {
+      "path": "output/fpga/baseline/synth_driver.tcl",
+      "sha256": "c8ddb66654f26b443ba7a1382821d129a3e3afdca4b14ee0de524ba9954e32a5"
+    }
+  },
+  "artifact_sha256": {
+    "fig05_fpga_resources.pdf": "1f6c2a5f8242d5eef947fdb9b1b69388100ed5aaaac23490880452975172a3e8",
+    "fig05_fpga_resources.svg": "cfa810c01b9b67d5eefcaff79f5e6aba98e890636da5ce00a71f6aff267867c1",
+    "fig05_fpga_resources.png": "d0f9681af61d441decb1df24a2a98e81017d9bdddf3eaf03c357bc04d18afa7a",
+    "fig05_fpga_resources_pdf_preview.png": "b6616b7490e64e80a1053ab080d1afb6bc198931c18f15d3840f3c4f7d9f3016",
+    "fig06_fpga_timing.pdf": "d962338d718478a4b6a0832a233b28af086e7190488195cc8535264c819847bd",
+    "fig06_fpga_timing.svg": "bfede131ec5a9816f716f9727fcb7c0d909ee3bc579de5684d943bda77f40c4a",
+    "fig06_fpga_timing.png": "7090c9cfe9bb0ace795b1453c08fc0f5459198f349e737a794349d7c1e74ee49",
+    "fig06_fpga_timing_pdf_preview.png": "e922d635b429835e37651697df3e00e1549bad7604959f9d8b300698e916a406",
+    "fpga_results.json": "39eb1a157c3f777a2df46178716a35662c2ca164575937a74f35df89c13d4464",
+    "fpga_metrics.csv": "44b3579ca2e2e38ebb9a8f812a29e4b0d7a1f06130756a0931d3e36998f043a6",
+    "include_fpga_figures.tex": "720590822bf962291f8cc61a157b2f2d28d5b897a4488e2f9134cec535a3ddf0"
+  },
+  "captions": {
+    "fig05_fpga_resources": "Whole-design FPGA resource utilization for the original CVE2 and the isqrt extension, parsed from Vivado out-of-context post-synthesis reports. Total LUTs and FFs use the top-level utilization row; CARRY4 counts come from the synthesis primitive table. Both designs include the same wrapper and processor configuration. Panel scales differ. The DSP belongs to the existing multiplier; no implemented area is claimed.",
+    "fig06_fpga_timing": "Worst setup and hold slack parsed from the complete design timing summaries for both cores at the same clock target. Nonnegative slack meets the corresponding check. Original core passes setup; with isqrt fails setup. Original core fails hold; with isqrt fails hold. These are out-of-context post-synthesis estimates with an unset HD.CLK_SRC clock context. They do not establish routed timing closure or implemented Fmax."
+  },
+  "limitations": [
+    "OOC post-synthesis estimates",
+    "Original core fails hold; with isqrt fails hold.",
+    "No routed Fmax or power result"
+  ]
+}
