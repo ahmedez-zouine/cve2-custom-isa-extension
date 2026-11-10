@@ -1,0 +1,5 @@
+session_design: checkpoint_post_route
+part: xc7a35tcsg324-1
+u_core_ref_name: cve2_top
+u_cve2_core_ref_name: cve2_core
+clock_period_ns: 20.000

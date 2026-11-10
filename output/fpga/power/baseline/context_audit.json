@@ -1,0 +1,183 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-11-10T21:20:19.608119+00:00",
+  "execution_host": "Goodman",
+  "execution_system": "Linux",
+  "generator_sha256": "79e6bea809638d3ee1b1bb17dd3b469c34a8bd6c70bda44498e923a205146b7b",
+  "review_manifest_sha256": "d5276e89eaa5f981542941d24e5d129d6e447d6e74e3fa5552e965879b5d8a84",
+  "evaluation_scope": "Retain the recorded exploratory OOC comparison and report worst slack",
+  "physical_timing_context_complete": false,
+  "runs": {
+    "baseline": {
+      "part": "xc7a35tcsg324-1",
+      "clock_period_ns": 20.0,
+      "constraint_commands": [
+        "create_clock -period 20.000 -name core_clk [get_ports clk_i]",
+        "set_input_delay -clock core_clk -max 4.000 [get_ports -filter {DIRECTION == IN && NAME != clk_i && NAME != rst_ni}]",
+        "set_input_delay -clock core_clk -min 0.000 [get_ports -filter {DIRECTION == IN && NAME != clk_i && NAME != rst_ni}]",
+        "set _xlnx_shared_i0 [all_outputs]",
+        "set_output_delay -clock core_clk -max 4.000 $_xlnx_shared_i0",
+        "set_output_delay -clock core_clk -min 0.000 $_xlnx_shared_i0",
+        "set_false_path -from [get_ports rst_ni]",
+        "current_instance -quiet"
+      ],
+      "constraint_file_sha256": "c11018c41a17703f1302a59e22ac5f8a8ff72c53169582d39bbad79604f1d260",
+      "hd_clk_src": "",
+      "partition_pin_constraints_present": false,
+      "synthesis_checkpoint": {
+        "path": "/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline/post_synth.dcp",
+        "expected_sha256": "0fc7b5fc1ae8879a3f76cf5f3f793f7e5e7c1b347ac9db770ae04893a3ed65fd",
+        "exists": true,
+        "sha256": "0fc7b5fc1ae8879a3f76cf5f3f793f7e5e7c1b347ac9db770ae04893a3ed65fd",
+        "size_bytes": 1085268,
+        "status": "matched"
+      },
+      "routed_checkpoint": {
+        "path": "/home/azureuser/cve2-custom-isa-extension/build/fpga/implementation/baseline/post_route.dcp",
+        "expected_sha256": null,
+        "exists": true,
+        "sha256": "5088f6addc8649a2c9f19e28d5cedb76244fd5611d67e76b918cb72179f9f804",
+        "size_bytes": 2057755,
+        "status": "fingerprinted_only"
+      },
+      "overall_setup_slack_ns": -0.884,
+      "register_setup_slack_ns": 0.058,
+      "hold_slack_ns": -2.232,
+      "examined_logs": [
+        {
+          "path": "/home/azureuser/cve2-custom-isa-extension/build/fpga/implementation/baseline/vivado.log",
+          "sha256": "03d73cf25a811274f698748988d87ec3109e40a81b792181699336ad35c37d70",
+          "matches_recorded_run": true,
+          "rejection_reasons": [],
+          "warning_counts": {
+            "Constraints 18-8777": 1,
+            "DRC 23-814": 5,
+            "Route 35-197": 1,
+            "Route 35-198": 93,
+            "Route 35-328": 1,
+            "Route 35-468": 1,
+            "Timing 38-242": 4
+          },
+          "timestamp_assumption": "UTC, matching the recorded Ubuntu runs"
+        },
+        {
+          "path": "/home/azureuser/cve2-custom-isa-extension/build/fpga/implementation/baseline/vivado_15568.backup.log",
+          "sha256": "e1ae193d671d1482dd47c887fb861067aebf8e892a9e2062709e61e5b3a2bb4b",
+          "matches_recorded_run": false,
+          "rejection_reasons": [
+            "no standalone completion line for the recorded output directory",
+            "session start does not match the recorded run",
+            "session finish does not match the recorded run"
+          ],
+          "warning_counts": {},
+          "timestamp_assumption": "UTC, matching the recorded Ubuntu runs"
+        },
+        {
+          "path": "/home/azureuser/cve2-custom-isa-extension/output/fpga/implementation/baseline/vivado.log",
+          "sha256": "03d73cf25a811274f698748988d87ec3109e40a81b792181699336ad35c37d70",
+          "matches_recorded_run": true,
+          "rejection_reasons": [],
+          "warning_counts": {
+            "Constraints 18-8777": 1,
+            "DRC 23-814": 5,
+            "Route 35-197": 1,
+            "Route 35-198": 93,
+            "Route 35-328": 1,
+            "Route 35-468": 1,
+            "Timing 38-242": 4
+          },
+          "timestamp_assumption": "UTC, matching the recorded Ubuntu runs"
+        },
+        {
+          "path": "/home/azureuser/cve2-custom-isa-extension/output/fpga/implementation/baseline/vivado_15568.backup.log",
+          "sha256": "e1ae193d671d1482dd47c887fb861067aebf8e892a9e2062709e61e5b3a2bb4b",
+          "matches_recorded_run": false,
+          "rejection_reasons": [
+            "no standalone completion line for the recorded output directory",
+            "session start does not match the recorded run",
+            "session finish does not match the recorded run"
+          ],
+          "warning_counts": {},
+          "timestamp_assumption": "UTC, matching the recorded Ubuntu runs"
+        }
+      ],
+      "matched_completed_logs": [
+        {
+          "source_path": "/home/azureuser/cve2-custom-isa-extension/build/fpga/implementation/baseline/vivado.log",
+          "copy": "recovered_logs/baseline_03d73cf25a81.log",
+          "sha256": "03d73cf25a811274f698748988d87ec3109e40a81b792181699336ad35c37d70"
+        }
+      ]
+    },
+    "extended": {
+      "part": "xc7a35tcsg324-1",
+      "clock_period_ns": 20.0,
+      "constraint_commands": [
+        "create_clock -period 20.000 -name core_clk [get_ports clk_i]",
+        "set_input_delay -clock core_clk -max 4.000 [get_ports -filter {DIRECTION == IN && NAME != clk_i && NAME != rst_ni}]",
+        "set_input_delay -clock core_clk -min 0.000 [get_ports -filter {DIRECTION == IN && NAME != clk_i && NAME != rst_ni}]",
+        "set _xlnx_shared_i0 [all_outputs]",
+        "set_output_delay -clock core_clk -max 4.000 $_xlnx_shared_i0",
+        "set_output_delay -clock core_clk -min 0.000 $_xlnx_shared_i0",
+        "set_false_path -from [get_ports rst_ni]",
+        "current_instance -quiet"
+      ],
+      "constraint_file_sha256": "74f120fc64e6494b371f93bb17a2916b18272c35a48837f850a02c0eae899a8b",
+      "hd_clk_src": "",
+      "partition_pin_constraints_present": false,
+      "synthesis_checkpoint": {
+        "path": "/home/azureuser/cve2-custom-isa-extension/build/fpga/extended/post_synth.dcp",
+        "expected_sha256": "e21e31474a8e29f4cb1d565069e0a9f778ef80b658e20eee0a375facd7c9dbad",
+        "exists": true,
+        "sha256": "e21e31474a8e29f4cb1d565069e0a9f778ef80b658e20eee0a375facd7c9dbad",
+        "size_bytes": 1372738,
+        "status": "matched"
+      },
+      "routed_checkpoint": {
+        "path": "/home/azureuser/cve2-custom-isa-extension/build/fpga/implementation/extended/post_route.dcp",
+        "expected_sha256": null,
+        "exists": true,
+        "sha256": "b623ff4eaa564018dcb8b2db0792dbf90e3e96c06e8e3e281ece81c6987033a6",
+        "size_bytes": 2629342,
+        "status": "fingerprinted_only"
+      },
+      "overall_setup_slack_ns": -29.556,
+      "register_setup_slack_ns": -29.556,
+      "hold_slack_ns": -2.168,
+      "examined_logs": [
+        {
+          "path": "/home/azureuser/cve2-custom-isa-extension/build/fpga/implementation/extended/vivado.log",
+          "sha256": "aae1f1bf2d8c6b9a6aa26befa6b199d38c3018ef02b835a22deac9018cf4ee42",
+          "matches_recorded_run": false,
+          "rejection_reasons": [
+            "no standalone completion line for the recorded output directory",
+            "session start does not match the recorded run",
+            "session finish does not match the recorded run"
+          ],
+          "warning_counts": {},
+          "timestamp_assumption": "UTC, matching the recorded Ubuntu runs"
+        },
+        {
+          "path": "/home/azureuser/cve2-custom-isa-extension/output/fpga/implementation/extended/vivado.log",
+          "sha256": "aae1f1bf2d8c6b9a6aa26befa6b199d38c3018ef02b835a22deac9018cf4ee42",
+          "matches_recorded_run": false,
+          "rejection_reasons": [
+            "no standalone completion line for the recorded output directory",
+            "session start does not match the recorded run",
+            "session finish does not match the recorded run"
+          ],
+          "warning_counts": {},
+          "timestamp_assumption": "UTC, matching the recorded Ubuntu runs"
+        }
+      ],
+      "matched_completed_logs": []
+    }
+  },
+  "limitations": [
+    "External clock-source and physical interface context remain incomplete",
+    "Constraints 18-8777 root cause and effect are unresolved",
+    "No complete timing closure, implemented Fmax or board operation is established"
+  ],
+  "checkpoint_audit_status": "inputs_matched_routes_fingerprinted",
+  "routed_checkpoint_identity_note": "Routed hashes fingerprint current files; archived routed hashes are unavailable for comparison. Verify design identity in Vivado before power analysis."
+}

@@ -1,0 +1,20 @@
+FPGA timing-context and provenance audit
+
+Checkpoint audit: inputs_matched_routes_fingerprinted
+Scope: exploratory OOC analysis; physical timing context remains incomplete.
+
+baseline:
+  Synthesis checkpoint: matched
+  Routed checkpoint: fingerprinted_only
+  Matching completed log copies: 1
+  Overall/register setup: -0.884 / +0.058 ns
+
+extended:
+  Synthesis checkpoint: matched
+  Routed checkpoint: fingerprinted_only
+  Matching completed log copies: 0
+  Overall/register setup: -29.556 / -29.556 ns
+
+No RTL, constraints, checkpoints or existing report archive files were changed.
+Review audit.json and recovered_logs before adopting recovered evidence.
+A matched checkpoint hash does not imply passing timing.

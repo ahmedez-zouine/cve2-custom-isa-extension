@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "variant": "baseline",
+  "status": "reports_generated_pending_power_review",
+  "started_utc": "2026-11-10T21:46:49.411118+00:00",
+  "execution_host": "Goodman",
+  "revision": "94a6e497fa470232f3f5d4a6149703b676d0b04d",
+  "command": [
+    "/home/azureuser/tools/Xilinx/Vivado/2024.2/bin/vivado",
+    "-mode",
+    "batch",
+    "-source",
+    "/home/azureuser/cve2-custom-isa-extension/build/fpga/power_attempt2/baseline/power_driver.tcl",
+    "-log",
+    "/home/azureuser/cve2-custom-isa-extension/build/fpga/power_attempt2/baseline/vivado.log",
+    "-journal",
+    "/home/azureuser/cve2-custom-isa-extension/build/fpga/power_attempt2/baseline/vivado.jou",
+    "-tclargs",
+    "/home/azureuser/cve2-custom-isa-extension/build/fpga/implementation/baseline/post_route.dcp",
+    "/home/azureuser/cve2-custom-isa-extension/build/fpga/power_attempt2/baseline"
+  ],
+  "checkpoint": "/home/azureuser/cve2-custom-isa-extension/build/fpga/implementation/baseline/post_route.dcp",
+  "checkpoint_sha256": "5088f6addc8649a2c9f19e28d5cedb76244fd5611d67e76b918cb72179f9f804",
+  "audit_sha256": "eeb0474b1a821c39d516f541451a7283d81caad7c2cda763373c6743e2b5e860",
+  "runner_sha256": "ef91649e2a38c6d8935666ef90cf4a4ec75eab7cfe289b177907e29af94def29",
+  "driver_sha256": "b319fc022380679ae69d9cd27c4236b64b8ae55050fe3a3248b8816b7294724f",
+  "assumptions": {
+    "model": "vectorless; generic activity, not an executed instruction workload",
+    "clock_period_ns": 20.0,
+    "assumed_clock_mhz": 50.0,
+    "default_input_toggle_percent": 12.5,
+    "default_static_probability": 0.5,
+    "data_and_handshake_input_signal_rate_mtr_s": 6.25,
+    "held_high": [
+      "rst_ni",
+      "fetch_enable_i"
+    ],
+    "held_low": [
+      "irq_*",
+      "debug_req_i",
+      "instr_err_i",
+      "data_err_i"
+    ],
+    "internal_activity": "Vivado vectorless propagation; no forced register/LUT toggle rates",
+    "process": "typical",
+    "temperature_grade": "commercial",
+    "junction_temperature_c": 25,
+    "ambient_temperature_c": 25,
+    "voltage": "reset to device/tool nominal defaults; review operating_conditions.rpt",
+    "thermal": "fixed junction temperature; remaining thermal settings reset to tool defaults",
+    "scope": "OOC mapped module in the selected device; physical I/O and board context incomplete",
+    "timing": "Both original routed timing summaries fail at the assumed 50 MHz; not an operating-frequency claim"
+  },
+  "limitations": [
+    "Routed hash is a current fingerprint, not a comparison with an original routed hash",
+    "Missing extended original completion log remains an evidence gap",
+    "Incomplete external clock/interface context; Constraints 18-8777 unresolved",
+    "No measured power, validated workload activity, energy per instruction or timing closure claim"
+  ],
+  "reopened_report_crosscheck": {
+    "session_design": "checkpoint_post_route",
+    "core_hierarchy": "matched",
+    "resources": "matched",
+    "routing": "matched",
+    "timing": "matched within 0.002 ns rounding tolerance"
+  },
+  "finished_utc": "2026-11-10T21:47:12.310724+00:00",
+  "artifact_sha256": {
+    "checkpoint_identity.txt": "04bd18fb8f110b6343696e93e03827a4143f779dd735ab43cda619450bb709ab",
+    "clocks.rpt": "319a466b9537235651afcc7026cfb2901ec676b206620f49e656f86c734f85fc",
+    "context_audit.json": "eeb0474b1a821c39d516f541451a7283d81caad7c2cda763373c6743e2b5e860",
+    "implementation_review_manifest.json": "d5276e89eaa5f981542941d24e5d129d6e447d6e74e3fa5552e965879b5d8a84",
+    "input_activity.rpt": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "lut_activity.rpt": "54751bed7ed7011e870b335bfcd1defa141ddc0cd2a825a33d1cc8c2bc18a030",
+    "operating_conditions.rpt": "5e8c8ebbecdccdd02adca287925fd856637d8fd403d7bb0eb5c224ed8c6fdc9c",
+    "power.rpt": "b625e81d1ca4de8de5ee549937f5e720e20a760b99c716c9d86b32264060062d",
+    "power_constraints.xdc": "bdce826c2a0c197c97cd83347662aef66b0e3c562ab57b2511d31bac0ff858c4",
+    "power_driver.tcl": "b319fc022380679ae69d9cd27c4236b64b8ae55050fe3a3248b8816b7294724f",
+    "register_activity.rpt": "a6d59194b898e6dd12ec31ce56b56be5092eb168bec26dca147692c93132d4ed",
+    "reopened_route_status.rpt": "99cb90f197121adde0b74b4ce25bef3f8b1592d090f0af0df3b576f260282c3c",
+    "reopened_timing_summary.rpt": "910144ceda589a94c2ca525564194a75a1dc9d8ef866799d336a1dcbc56925c4",
+    "reopened_utilization.rpt": "1e81f42a6e40c28635525256e6577865b47120c682ce61b43f12017fdfea8fcf",
+    "vivado.jou": "d714e9965cf26881f32bbbb072b9df5d91f01741dc84bb4b0331ca566cdf8417",
+    "vivado.log": "4a581fa24e9a430e48c38504574ff3acf6539f486c19b74678acb7954c4766dd"
+  }
+}
