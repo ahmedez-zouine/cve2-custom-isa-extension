@@ -316,9 +316,16 @@ and timing values are distinct from the synthesis figures above.
   <a href="output/pdf/fig11_routed_path_delay.pdf">Download vector PDF</a>
 </p>
 
-The [four-figure gallery](output/pdf/routed_figures.md) also includes a
-[timing heatmap](output/pdf/fig10_routed_timing.pdf) and
-[synthesis-to-routing line plots](output/pdf/fig12_fpga_stage_comparison.pdf).
+<p align="center">
+  <img src="output/pdf/fig12_fpga_stage_comparison.svg" width="800" alt="Synthesis-to-routing comparison of whole-design LUT counts and overall setup slack for the original and isqrt cores">
+</p>
+<p align="center">
+  <em>Recorded synthesis and routed results. Lines indicate flow order; negative setup slack means the reported check fails.</em><br>
+  <a href="output/pdf/fig12_fpga_stage_comparison.pdf">Download vector PDF</a>
+</p>
+
+The [four-figure gallery](output/pdf/routed_figures.md) includes all routed
+figures and the [timing heatmap](output/pdf/fig10_routed_timing.pdf).
 External clock and interface routing limitations remain; these plots do not
 establish implemented Fmax or physical timing closure.
 
