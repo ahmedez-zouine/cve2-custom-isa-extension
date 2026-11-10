@@ -1,0 +1,27 @@
+[project]
+site_name = "CVE2 isqrt"
+site_description = "An integer square-root instruction for CVE2, from RTL to routed FPGA results."
+site_url = "https://ahmedez-zouine.github.io/cve2-custom-isa-extension/"
+repo_url = "https://github.com/ahmedez-zouine/cve2-custom-isa-extension"
+repo_name = "cve2-custom-isa-extension"
+strict = true
+extra_css = ["stylesheets/project.css"]
+nav = [
+  { "Overview" = "index.md" },
+  { "Design" = "design.md" },
+  { "Verification" = "verification.md" },
+  { "FPGA results" = "results.md" },
+  { "Reproduce" = "reproduce.md" },
+]
+
+[project.theme]
+features = ["navigation.tabs", "navigation.top", "content.code.copy"]
+
+[project.theme.font]
+text = "Inter"
+code = "IBM Plex Mono"
+
+[[project.theme.palette]]
+scheme = "default"
+primary = "custom"
+accent = "custom"

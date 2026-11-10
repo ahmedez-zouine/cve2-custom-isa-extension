@@ -3,7 +3,7 @@
 Build the Zensical site in this repository. Publish the generated pages on GitHub Pages.
 
 - [x] Agree on the five pages and record the files below.
-- [ ] Write the pages, add the project figures and check the local build.
+- [x] Write the pages, add the project figures and check the local build.
 - [ ] Add the GitHub Pages workflow and check the published site.
 
 ## Files

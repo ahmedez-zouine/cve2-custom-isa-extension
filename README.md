@@ -14,6 +14,16 @@ estimates 86 mW for the original core and 101 mW with isqrt at the assumed
 50 MHz clock. The comparison, integration results and reproduction commands
 are in the [technical handoff](output/fpga/verified_results.md).
 
+The [project documentation](docs/index.md) brings the design, waveform and
+FPGA results together. To preview the site locally with Python 3.11 or newer:
+
+```sh
+python3 -m venv tmp/docs-venv
+source tmp/docs-venv/bin/activate
+python -m pip install -r requirements-docs.txt
+zensical serve
+```
+
 ## 1. Mathematical definition
 
 For an unsigned input (x), the integer square root (r) is

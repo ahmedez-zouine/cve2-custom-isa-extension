@@ -5,3 +5,4 @@ vivado/
 /vivado*.log
 /vivado*.jou
 /cmds.sh
+/site/

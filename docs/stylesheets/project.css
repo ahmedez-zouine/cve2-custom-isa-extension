@@ -1,0 +1,55 @@
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color: #18313f;
+  --md-accent-fg-color: #7a263a;
+  --md-typeset-a-color: #285f7d;
+}
+
+.md-typeset h1 {
+  color: #18313f;
+  font-weight: 720;
+  letter-spacing: -0.035em;
+}
+
+.md-typeset .md-button--primary {
+  background: #285f7d;
+  border-color: #285f7d;
+}
+
+.md-typeset .project-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.15rem;
+  margin: 1.5rem 0 1.8rem;
+}
+
+.md-typeset .project-metrics > div {
+  border-top: 2px solid #7a263a;
+  padding-top: 0.55rem;
+}
+
+.md-typeset .project-metrics dt {
+  color: #526572;
+  font-size: 0.72rem;
+}
+
+.md-typeset .project-metrics dd {
+  color: #18313f;
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0.1rem 0 0;
+}
+
+.md-typeset img[src*="assets/"] {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-block: 1rem;
+  border: 1px solid #dce3e6;
+}
+
+@media (max-width: 36rem) {
+  .md-typeset .project-metrics {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+}
