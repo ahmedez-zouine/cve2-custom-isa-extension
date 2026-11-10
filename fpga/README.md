@@ -335,7 +335,100 @@ without Vivado:
 python3 -B -m unittest discover -s scripts -p test_audit_fpga_context.py -v
 ```
 
-References: AMD's [implementation command sequence](https://docs.amd.com/r/2024.2-English/ug835-vivado-tcl-commands/place_design),
+## Estimate power from the audited routed checkpoints
+
+Power analysis is prepared in `fpga/power.tcl` and
+`scripts/run_fpga_power.py`. Run it on the Ubuntu Vivado host after the context
+audit has matched both synthesis checkpoints and fingerprinted both routed
+checkpoints:
+
+```sh
+source ~/tools/Xilinx/Vivado/2024.2/settings64.sh
+python3 -B scripts/run_fpga_power.py
+```
+
+The default command processes baseline, then extended. Use `--variant baseline`
+or `--variant extended` to run just one. It reads
+`output/fpga/context_audit/ubuntu/audit.json`, rechecks the input hashes, and
+requires the same reviewed implementation evidence. It refuses to overwrite
+an existing variant directory under `build/fpga/power/`. For a deliberate new
+attempt, preserve the old directory and select a fresh parent, for example
+`--out-dir build/fpga/power_attempt2`.
+
+The Tcl flow opens each routed checkpoint without synthesis, placement,
+routing or power optimization. It checks tool/part/top/clock identity and saves
+fresh resource, route and timing reports. The Python runner compares these
+with the reviewed implementation pair; a mismatch marks the attempt failed
+and preserves its files. Matching metrics strengthen the current checkpoint
+identification, but cannot recover a missing original routed hash or launch log.
+
+Both variants use this explicitly assumed vectorless scenario:
+
+| Setting | Assumption |
+|---|---|
+| Clock | Original 20 ns constraint, assumed 50 MHz |
+| Data and grant/valid inputs | 6.25 million transitions/s; probability of logic 1 = 0.5 |
+| Reset / fetch enable | `rst_ni=1`, `fetch_enable_i=1`, no transitions |
+| Interrupts, debug request, instruction/data errors | Logic 0, no transitions |
+| Internal activity | Vivado propagation; no forced LUT/register activity or SAIF |
+| Process / grade | Typical / commercial |
+| Junction / ambient temperature | Fixed 25 °C / 25 °C |
+| Voltages and remaining thermal settings | Reset to device/tool defaults; actual values saved in the operating-conditions report |
+
+The input rate corresponds to the tool's usual 12.5% toggle assumption at
+50 MHz. It is a generic comparison scenario, not activity measured from the
+benchmark or a valid instruction stream. The clock follows timing constraints;
+clock gating remains part of the design and the inferred power model. Check
+its reported activity and advisories. Fixed junction temperature controls the
+comparison; it does not predict the temperature of a particular board.
+
+Both original routed timing summaries fail at 20 ns. Estimates at this assumed
+frequency do not establish operation at 50 MHz. The OOC design lacks physical
+I/O and external clock context, so a reported device total does not describe a
+complete processor board. Device static power is not attributable solely to
+the custom unit. No energy-per-instruction or workload power claim follows
+from this model.
+
+Each new directory contains `power.rpt` (with confidence and advisories),
+operating conditions, input/register/LUT activity, clocks, power constraints,
+the reopened reports, driver/audit copies, Vivado log/journal and
+`power_run.json` with settings and file hashes. A completed runner reports
+`reports_generated_pending_power_review`: review operating voltages,
+confidence, clock and control activity, annotation coverage and warnings
+before accepting numerical values. No power result is supplied by this setup.
+
+After both runs finish, inspect the reports:
+
+```sh
+sed -n '1,180p' build/fpga/power/baseline/power.rpt
+sed -n '1,180p' build/fpga/power/extended/power.rpt
+cat build/fpga/power/baseline/operating_conditions.rpt
+cat build/fpga/power/extended/operating_conditions.rpt
+```
+
+Transfer the new text evidence and the Ubuntu audit for review, keeping DCP
+files in `build/`:
+
+```sh
+for variant in baseline extended; do
+  src="build/fpga/power/$variant"
+  dst="output/fpga/power/$variant"
+  mkdir -p "$dst"
+  cp "$src"/*.rpt "$src"/*.json "$src"/*.tcl "$src"/*.xdc \
+    "$src"/*.log "$src"/*.jou "$dst/"
+done
+git add -- output/fpga/context_audit/ubuntu output/fpga/power
+git diff --cached --stat
+git commit -m "Archive vectorless FPGA power reports and Ubuntu checkpoint audit"
+git push origin Master
+```
+
+References for power setup: AMD's [switching activity command](https://docs.amd.com/r/2024.2-English/ug835-vivado-tcl-commands/set_switching_activity),
+[operating conditions](https://docs.amd.com/r/2024.2-English/ug835-vivado-tcl-commands/set_operating_conditions),
+[power reporting](https://docs.amd.com/r/2024.2-English/ug835-vivado-tcl-commands/report_power),
+and [activity reporting](https://docs.amd.com/r/2024.2-English/ug835-vivado-tcl-commands/report_switching_activity).
+
+References for implementation: AMD's [implementation command sequence](https://docs.amd.com/r/2024.2-English/ug835-vivado-tcl-commands/place_design),
 [opening a saved checkpoint](https://docs.amd.com/r/2024.2-English/ug835-vivado-tcl-commands/open_checkpoint),
 [routing status](https://docs.amd.com/r/2024.2-English/ug835-vivado-tcl-commands/report_route_status),
 [OOC context constraints](https://docs.amd.com/r/en-US/ug905-vivado-hierarchical-design/Out-of-Context-Design-Constraints),
