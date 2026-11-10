@@ -2,6 +2,7 @@
 """Estimate OOC power on the audited Vivado host without changing the routed designs."""
 
 import argparse
+import csv
 from datetime import datetime, timezone
 import json
 from pathlib import Path
@@ -23,7 +24,8 @@ ASSUMPTIONS = {
     "held_low": ["irq_*", "debug_req_i", "instr_err_i", "data_err_i"],
     "internal_activity": "Vivado vectorless propagation; no forced register/LUT toggle rates",
     "process": "typical", "temperature_grade": "commercial",
-    "junction_temperature_c": 25, "ambient_temperature_c": 25,
+    "junction_temperature_c": 25, "ambient_temperature_mode": "derived by Vivado with fixed junction temperature",
+    "input_annotation": "connected input nets; explicit readback before and after propagation",
     "voltage": "reset to device/tool nominal defaults; review operating_conditions.rpt",
     "thermal": "fixed junction temperature; remaining thermal settings reset to tool defaults",
     "scope": "OOC mapped module in the selected device; physical I/O and board context incomplete",
@@ -102,6 +104,48 @@ def save_json(path, value):
     path.write_text(json.dumps(value, indent=2) + "\n")
 
 
+def expected_input_activity():
+    source = (ROOT / "fpga/cve2_fpga_top.sv").read_text().split(");", 1)[0]
+    expected = {}
+    for high, low, name in re.findall(r"input\s+logic\s*(?:\[(\d+):(\d+)\])?\s*(\w+)", source):
+        if name == "clk_i":
+            continue
+        if name in ("rst_ni", "fetch_enable_i"):
+            activity = (1.0, 0.0)
+        elif name.startswith("irq_") or name in ("debug_req_i", "instr_err_i", "data_err_i"):
+            activity = (0.0, 0.0)
+        else:
+            activity = (0.5, 6.25)
+        names = [name + "[" + str(bit) + "]" for bit in range(int(low), int(high) + 1)] if high else [name]
+        expected.update((bit, activity) for bit in names)
+    require(len(expected) == 93, "Wrapper input shape changed; review the power model")
+    return expected
+
+
+def verify_input_activity(directory):
+    expected = expected_input_activity()
+    with (directory / "input_bindings.tsv").open(newline="") as stream:
+        bindings = list(csv.DictReader(stream, delimiter="\t"))
+    require(len(bindings) == len(expected) and {row["port"] for row in bindings} == set(expected),
+            "Input bindings do not cover every non-clock input bit exactly once")
+    pattern = (r"^(.+?):\s+static probability\s*=\s*([0-9.eE+-]+)\s*\(([A-Z]+)\)"
+               r"\s+signal rate\s*=\s*([0-9.eE+-]+)\s*\(([A-Z]+)\)")
+    for name in ("input_activity.rpt", "input_activity_after.rpt"):
+        records = {net: (float(probability), p_source, float(rate), r_source)
+                   for net, probability, p_source, rate, r_source in
+                   re.findall(pattern, (directory / name).read_text(), re.MULTILINE)}
+        require(set(records) == {row["net"] for row in bindings}, "Incomplete net activity readback in " + name)
+        for row in bindings:
+            probability, rate = expected[row["port"]]
+            actual_p, p_source, actual_r, r_source = records[row["net"]]
+            require(p_source in ("A", "C") and r_source in ("A", "C"), "Activity is not explicitly assigned: " + row["port"])
+            for actual, wanted in ((float(row["static_probability"]), probability), (actual_p, probability),
+                                   (float(row["signal_rate_mtr_s"]), rate), (actual_r, rate)):
+                require(abs(actual - wanted) <= 0.000001, "Input activity differs for " + row["port"] + " in " + name)
+    return {"verified_input_bits": len(expected), "readback_stages": ["before propagation", "after propagation"],
+            "annotation_sources": "explicit A/C required"}
+
+
 def run_variant(variant, checkpoint, audit_path, out, expected, vivado):
     out.mkdir(parents=True, exist_ok=False)
     driver = out / "power_driver.tcl"
@@ -127,10 +171,13 @@ def run_variant(variant, checkpoint, audit_path, out, expected, vivado):
         subprocess.run(command, cwd=out, check=True)
         log = (out / "vivado.log").read_text(errors="replace")
         require(not re.search(r"^ERROR:", log, re.MULTILINE), "Vivado log contains an error")
+        require("WARNING: [Power 33-294]" not in log, "Power port-connectivity warning: input activity remains unverified")
         require("\nPower reports generated for review in " + str(out) in log, "Power completion line missing")
         receipt["reopened_report_crosscheck"] = verify_reopened(out, expected)
+        receipt["input_activity_crosscheck"] = verify_input_activity(out)
         require(digest(checkpoint) == receipt["checkpoint_sha256"], "Input checkpoint changed during analysis")
-        for name in ("checkpoint_identity.txt", "power.rpt", "operating_conditions.rpt", "input_activity.rpt", "register_activity.rpt",
+        for name in ("checkpoint_identity.txt", "input_bindings.tsv", "input_activity_after.rpt", "power.rpt",
+                     "operating_conditions.rpt", "input_activity.rpt", "register_activity.rpt",
                      "lut_activity.rpt", "clocks.rpt", "power_constraints.xdc"):
             require((out / name).is_file() and (out / name).stat().st_size > 0, "Missing power evidence: " + name)
         receipt["status"] = "reports_generated_pending_power_review"

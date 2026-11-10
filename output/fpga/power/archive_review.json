@@ -1,0 +1,204 @@
+{
+  "schema_version": 1,
+  "scope": "Archived routed OOC vectorless estimates; values rounded to 0.001 W",
+  "runs": {
+    "baseline": {
+      "estimated_power": {
+        "total_w": 0.083,
+        "dynamic_w": 0.015,
+        "device_static_w": 0.068
+      },
+      "confidence": "Medium",
+      "junction_temperature_c": 25.0,
+      "power_report_ambient_temperature_c": 24.6,
+      "operating_conditions": {
+        "Device Grade": "commercial",
+        "Process Type": "typical",
+        "Junction Temp": "25.0 (C)",
+        "Ambient Temp": "24.7 (C)",
+        "ThetaJa": "4.78",
+        "ThetaSa": "4.6 (C/W)",
+        "ThetaJb": "6.8 (C/W)",
+        "Airflow": "250 (LFM)",
+        "Heat Sink Type": "medium (Medium Profile)",
+        "Board Type": "medium (10\"x10\")",
+        "Board Temp": "25.0 (C)",
+        "Number Of Board Layers": "12to15 (12 to 15 Layers)",
+        "Vccint": "1.000 V",
+        "Vccaux": "1.800 V",
+        "Vcco33": "3.300 V",
+        "Vcco25": "2.500 V",
+        "Vcco18": "1.800 V",
+        "Vcco15": "1.500 V",
+        "Vcco135": "1.350 V",
+        "Vcco12": "1.200 V",
+        "Vccaux_io": "1.800 V",
+        "Vccbram": "1.000 V",
+        "MGTAVcc": "1.000 V",
+        "MGTAVtt": "1.200 V",
+        "Vccadc": "1.800 V",
+        "Design Power Budget": "Unspecified",
+        "Supply Current Budget: Vccint": "Unspecified",
+        "Supply Current Budget: Vccaux": "Unspecified",
+        "Supply Current Budget: Vcco33": "Unspecified",
+        "Supply Current Budget: Vcco25": "Unspecified",
+        "Supply Current Budget: Vcco18": "Unspecified",
+        "Supply Current Budget: Vcco15": "Unspecified",
+        "Supply Current Budget: Vcco135": "Unspecified",
+        "Supply Current Budget: Vcco12": "Unspecified",
+        "Supply Current Budget: Vccaux_io": "Unspecified",
+        "Supply Current Budget: Vccbram": "Unspecified",
+        "Supply Current Budget: MGTAVcc": "Unspecified",
+        "Supply Current Budget: MGTAVtt": "Unspecified",
+        "Supply Current Budget: Vccadc": "Unspecified"
+      },
+      "reported_input_confidence": "High",
+      "reported_internal_confidence": "Medium",
+      "advisory_rows": {
+        "Low": 50,
+        "Medium": 14,
+        "High": 2
+      },
+      "logged_warnings": {
+        "Timing 38-242": 1,
+        "Power 33-294": 100
+      },
+      "warning_limit_reached": true,
+      "input_activity_report_blank": true,
+      "input_activity_crosscheck": {
+        "verified": false,
+        "reason": "Missing or unreadable input activity evidence: input_bindings.tsv"
+      },
+      "reopened_report_crosscheck": {
+        "session_design": "checkpoint_post_route",
+        "core_hierarchy": "matched",
+        "resources": "matched",
+        "routing": "matched",
+        "timing": "matched within 0.002 ns rounding tolerance"
+      },
+      "routed_checkpoint_sha256": "5088f6addc8649a2c9f19e28d5cedb76244fd5611d67e76b918cb72179f9f804",
+      "review_issues": [
+        "Explicit input activity readback is incomplete or inconsistent",
+        "Port-connectivity warnings occur while applying activity; intended overrides are unverified"
+      ]
+    },
+    "extended": {
+      "estimated_power": {
+        "total_w": 0.1,
+        "dynamic_w": 0.032,
+        "device_static_w": 0.068
+      },
+      "confidence": "Medium",
+      "junction_temperature_c": 25.0,
+      "power_report_ambient_temperature_c": 24.5,
+      "operating_conditions": {
+        "Device Grade": "commercial",
+        "Process Type": "typical",
+        "Junction Temp": "25.0 (C)",
+        "Ambient Temp": "24.7 (C)",
+        "ThetaJa": "4.78",
+        "ThetaSa": "4.6 (C/W)",
+        "ThetaJb": "6.8 (C/W)",
+        "Airflow": "250 (LFM)",
+        "Heat Sink Type": "medium (Medium Profile)",
+        "Board Type": "medium (10\"x10\")",
+        "Board Temp": "25.0 (C)",
+        "Number Of Board Layers": "12to15 (12 to 15 Layers)",
+        "Vccint": "1.000 V",
+        "Vccaux": "1.800 V",
+        "Vcco33": "3.300 V",
+        "Vcco25": "2.500 V",
+        "Vcco18": "1.800 V",
+        "Vcco15": "1.500 V",
+        "Vcco135": "1.350 V",
+        "Vcco12": "1.200 V",
+        "Vccaux_io": "1.800 V",
+        "Vccbram": "1.000 V",
+        "MGTAVcc": "1.000 V",
+        "MGTAVtt": "1.200 V",
+        "Vccadc": "1.800 V",
+        "Design Power Budget": "Unspecified",
+        "Supply Current Budget: Vccint": "Unspecified",
+        "Supply Current Budget: Vccaux": "Unspecified",
+        "Supply Current Budget: Vcco33": "Unspecified",
+        "Supply Current Budget: Vcco25": "Unspecified",
+        "Supply Current Budget: Vcco18": "Unspecified",
+        "Supply Current Budget: Vcco15": "Unspecified",
+        "Supply Current Budget: Vcco135": "Unspecified",
+        "Supply Current Budget: Vcco12": "Unspecified",
+        "Supply Current Budget: Vccaux_io": "Unspecified",
+        "Supply Current Budget: Vccbram": "Unspecified",
+        "Supply Current Budget: MGTAVcc": "Unspecified",
+        "Supply Current Budget: MGTAVtt": "Unspecified",
+        "Supply Current Budget: Vccadc": "Unspecified"
+      },
+      "reported_input_confidence": "High",
+      "reported_internal_confidence": "Medium",
+      "advisory_rows": {
+        "Low": 50,
+        "Medium": 14,
+        "High": 2
+      },
+      "logged_warnings": {
+        "Timing 38-242": 1,
+        "Power 33-294": 100
+      },
+      "warning_limit_reached": true,
+      "input_activity_report_blank": true,
+      "input_activity_crosscheck": {
+        "verified": false,
+        "reason": "Missing or unreadable input activity evidence: input_bindings.tsv"
+      },
+      "reopened_report_crosscheck": {
+        "session_design": "checkpoint_post_route",
+        "core_hierarchy": "matched",
+        "resources": "matched",
+        "routing": "matched",
+        "timing": "matched within 0.002 ns rounding tolerance"
+      },
+      "routed_checkpoint_sha256": "b623ff4eaa564018dcb8b2db0792dbf90e3e96c06e8e3e281ece81c6987033a6",
+      "review_issues": [
+        "Explicit input activity readback is incomplete or inconsistent",
+        "Port-connectivity warnings occur while applying activity; intended overrides are unverified"
+      ]
+    }
+  },
+  "implementation_review_manifest_sha256": "d5276e89eaa5f981542941d24e5d129d6e447d6e74e3fa5552e965879b5d8a84",
+  "declared_assumptions": {
+    "model": "vectorless; generic activity, not an executed instruction workload",
+    "clock_period_ns": 20.0,
+    "assumed_clock_mhz": 50.0,
+    "default_input_toggle_percent": 12.5,
+    "default_static_probability": 0.5,
+    "data_and_handshake_input_signal_rate_mtr_s": 6.25,
+    "held_high": [
+      "rst_ni",
+      "fetch_enable_i"
+    ],
+    "held_low": [
+      "irq_*",
+      "debug_req_i",
+      "instr_err_i",
+      "data_err_i"
+    ],
+    "internal_activity": "Vivado vectorless propagation; no forced register/LUT toggle rates",
+    "process": "typical",
+    "temperature_grade": "commercial",
+    "junction_temperature_c": 25,
+    "ambient_temperature_c": 25,
+    "voltage": "reset to device/tool nominal defaults; review operating_conditions.rpt",
+    "thermal": "fixed junction temperature; remaining thermal settings reset to tool defaults",
+    "scope": "OOC mapped module in the selected device; physical I/O and board context incomplete",
+    "timing": "Both original routed timing summaries fail at the assumed 50 MHz; not an operating-frequency claim"
+  },
+  "accepted_for_controlled_power_comparison": false,
+  "review_status": "input_activity_recheck_required",
+  "limitations": [
+    "Generic vectorless activity, not a benchmark trace or measured board power",
+    "Both original timing summaries fail at the assumed 50 MHz",
+    "External clock and physical interface context remain incomplete",
+    "Medium internal-activity confidence and reported control advisories require qualification",
+    "Fixed junction temperature takes precedence; ambient is a tool-derived result",
+    "No high-precision component subtraction or energy-per-instruction claim"
+  ]
+}

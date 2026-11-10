@@ -1,4 +1,19 @@
 # Invoked by scripts/run_fpga_power.py on the Vivado host.
+proc checked_input_activity {port probability rate} {
+    set nets [get_nets -quiet -of_objects $port]
+    if {[llength $nets] != 1} { error "Expected one connected net for input $port; got $nets" }
+    set_switching_activity -signal_rate $rate -static_probability $probability $nets
+    set activity [report_switching_activity -signal_rate -static_probability -return_string $nets]
+    if {![regexp {static probability\s*=\s*([0-9.eE+-]+)\s*\(([AC])\)} $activity -> actual_probability probability_source] ||
+        ![regexp {signal rate\s*=\s*([0-9.eE+-]+)\s*\(([AC])\)} $activity -> actual_rate rate_source]} {
+        error "Input $port lacks explicit net activity readback: $activity"
+    }
+    if {abs($actual_probability - $probability) > 0.000001 || abs($actual_rate - $rate) > 0.000001} {
+        error "Input $port activity readback differs from requested probability=$probability rate=$rate: $activity"
+    }
+    return [list [lindex $nets 0] $activity]
+}
+
 if {$argc != 2} { error "Usage: -tclargs CHECKPOINT OUTPUT_DIRECTORY" }
 set checkpoint [file normalize [lindex $argv 0]]
 set out [file normalize [lindex $argv 1]]
@@ -43,28 +58,50 @@ report_timing_summary -report_unconstrained -file [file join $out reopened_timin
 report_clocks -file [file join $out clocks.rpt]
 
 reset_operating_conditions
-set_operating_conditions -process typical -grade commercial \
-    -junction_temp 25 -ambient_temp 25
+set_operating_conditions -process typical -grade commercial -junction_temp 25
 reset_switching_activity [get_nets -hierarchical]
 set_switching_activity -default_toggle_rate 12.5
 set_switching_activity -default_static_probability 0.5
 
 set inputs [get_ports -filter {DIRECTION == IN && NAME != clk_i}]
-set_switching_activity -signal_rate 6.25 -static_probability 0.5 $inputs
-foreach name {rst_ni fetch_enable_i} {
-    set port [get_ports -quiet $name]
-    if {[llength $port] != 1} { error "Missing power-model input $name" }
-    set_switching_activity -signal_rate 0 -static_probability 1 $port
+if {[llength $inputs] != 93} { error "Expected the wrapper's 93 non-clock input bits" }
+set bindings [open [file join $out input_bindings.tsv] w]
+puts $bindings "port\tnet\tstatic_probability\tsignal_rate_mtr_s"
+set activity_file [open [file join $out input_activity.rpt] w]
+set input_nets {}
+set counts [dict create high 0 low 0 dynamic 0]
+foreach port $inputs {
+    set name [get_property NAME $port]
+    if {$name in {rst_ni fetch_enable_i}} {
+        set probability 1.0
+        set rate 0.0
+        dict incr counts high
+    } elseif {[string match irq_* $name] || $name in {debug_req_i instr_err_i data_err_i}} {
+        set probability 0.0
+        set rate 0.0
+        dict incr counts low
+    } else {
+        set probability 0.5
+        set rate 6.25
+        dict incr counts dynamic
+    }
+    lassign [checked_input_activity $port $probability $rate] net activity
+    lappend input_nets $net
+    puts $bindings "$name\t[get_property NAME $net]\t$probability\t$rate"
+    puts $activity_file [string trim $activity]
 }
-set inactive [get_ports -filter {DIRECTION == IN && (NAME =~ irq_* || NAME == debug_req_i || NAME == instr_err_i || NAME == data_err_i)}]
-if {[llength $inactive] != 23} { error "Unexpected interrupt/error/debug input set" }
-set_switching_activity -signal_rate 0 -static_probability 0 $inactive
+close $bindings
+close $activity_file
+if {[dict get $counts high] != 2 || [dict get $counts low] != 23 || [dict get $counts dynamic] != 68} {
+    error "Unexpected input activity groups: $counts"
+}
+puts "Explicit activity readback passed for 93 connected non-clock input bits"
 
 report_operating_conditions -all -file [file join $out operating_conditions.rpt]
-report_switching_activity -signal_rate -static_probability \
-    -file [file join $out input_activity.rpt] [all_inputs]
 report_power -advisory -hier all -hierarchical_depth 4 -l 100 \
     -file [file join $out power.rpt]
+report_switching_activity -signal_rate -static_probability \
+    -file [file join $out input_activity_after.rpt] [lsort -unique $input_nets]
 report_switching_activity -signal_rate -static_probability -type register -all \
     -file [file join $out register_activity.rpt]
 report_switching_activity -signal_rate -static_probability -type lut -all \

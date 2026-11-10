@@ -2,6 +2,7 @@
 
 import copy
 import json
+import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -9,7 +10,8 @@ import tempfile
 import unittest
 
 from audit_fpga_context import digest
-from run_fpga_power import REVIEW, ROOT, validate_audit, verify_reopened
+from run_fpga_power import (REVIEW, ROOT, expected_input_activity, validate_audit,
+                            verify_input_activity, verify_reopened)
 
 
 class PowerInputTests(unittest.TestCase):
@@ -121,7 +123,6 @@ error "Harness failed to stop"
 '''
         harness_path = self.root / "guard.tcl"
         harness_path.write_text(harness)
-        import os
         environment = dict(os.environ, POWER_DRIVER=str(ROOT / "fpga/power.tcl"))
         for part, ref, message in (("xc7a35tcsg324-1", "cve2_top", "TEST_ONLY_IDENTITY_GUARD_PASSED"),
                                    ("wrong-part", "cve2_top", "Unexpected checkpoint part:"),
@@ -130,6 +131,65 @@ error "Harness failed to stop"
             result = subprocess.run([shutil.which("tclsh"), str(harness_path), "unused", str(checkpoint), str(self.root)],
                                     env=environment, text=True, capture_output=True, check=True)
             self.assertIn(message, result.stdout)
+
+    def write_activity_fixture(self):
+        expected = expected_input_activity()
+        rows = ["port\tnet\tstatic_probability\tsignal_rate_mtr_s"]
+        activity = []
+        for index, (port, (probability, rate)) in enumerate(expected.items()):
+            net = "fixture_net_" + str(index)
+            rows.append(f"{port}\t{net}\t{probability}\t{rate}")
+            activity.append(f"{net}:  static probability = {probability} (A)  signal rate = {rate} (A)")
+        (self.root / "input_bindings.tsv").write_text("\n".join(rows) + "\n")
+        for name in ("input_activity.rpt", "input_activity_after.rpt"):
+            (self.root / name).write_text("\n".join(activity) + "\n")
+
+    def test_activity_requires_complete_explicit_readback_before_and_after(self):
+        self.write_activity_fixture()
+        self.assertEqual(verify_input_activity(self.root)["verified_input_bits"], 93)
+        path = self.root / "input_activity_after.rpt"
+        path.write_text(path.read_text().replace("(A)", "(D)", 1))
+        with self.assertRaisesRegex(ValueError, "not explicitly assigned"):
+            verify_input_activity(self.root)
+
+    def test_blank_or_changed_activity_cannot_pass(self):
+        self.write_activity_fixture()
+        path = self.root / "input_activity.rpt"
+        original = path.read_text()
+        path.write_text("\n")
+        with self.assertRaisesRegex(ValueError, "Incomplete net activity"):
+            verify_input_activity(self.root)
+        path.write_text(original.replace("static probability = 1.0", "static probability = 0.5", 1))
+        with self.assertRaisesRegex(ValueError, "Input activity differs"):
+            verify_input_activity(self.root)
+
+    @unittest.skipUnless(shutil.which("tclsh"), "Tcl interpreter unavailable")
+    def test_tcl_readback_rejects_ignored_annotations(self):
+        harness = r'''
+set argc 0
+catch {source $::env(POWER_DRIVER)}
+proc get_nets {args} {
+    if {$::env(TEST_MODE) eq "disconnected"} { return {} }
+    return {fixture_net}
+}
+proc set_switching_activity {args} {}
+proc report_switching_activity {args} {
+    switch $::env(TEST_MODE) {
+        matched { return {fixture_net: static probability = 1 (A) signal rate = 0 (A)} }
+        defaulted { return {fixture_net: static probability = 1 (D) signal rate = 0 (D)} }
+        changed { return {fixture_net: static probability = 0.5 (A) signal rate = 6.25 (A)} }
+        blank { return {} }
+    }
+}
+if {[catch {checked_input_activity rst_ni 1 0} result]} { puts "REJECTED: $result" } else { puts "MATCHED" }
+'''
+        path = self.root / "activity_guard.tcl"
+        path.write_text(harness)
+        for mode in ("matched", "defaulted", "changed", "blank", "disconnected"):
+            environment = dict(os.environ, POWER_DRIVER=str(ROOT / "fpga/power.tcl"), TEST_MODE=mode)
+            result = subprocess.run([shutil.which("tclsh"), str(path)], env=environment,
+                                    text=True, capture_output=True, check=True)
+            self.assertIn("MATCHED" if mode == "matched" else "REJECTED:", result.stdout)
 
 
 if __name__ == "__main__":

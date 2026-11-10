@@ -9,7 +9,9 @@ The [routed OOC comparison](output/fpga/implementation/comparison.md) reports
 2,987 LUTs for the original core and 4,205 with isqrt (+40.8%). The worst
 reported register setup slack changes from +0.058 ns to -29.556 ns at a
 50 MHz target. Both complete design reports fail timing, with incomplete
-external clock and interface context. Power evaluation remains pending.
+external clock and interface context. The [power archive review](output/fpga/power/review.md)
+keeps the initial estimates provisional because the intended input activity
+overrides were not verified. A corrected power-only retry is prepared.
 
 ## 1. Mathematical definition
 
