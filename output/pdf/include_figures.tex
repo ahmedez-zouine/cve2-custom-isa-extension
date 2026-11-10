@@ -5,7 +5,7 @@
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{output/pdf/fig01_pipeline.pdf}
-  \caption{Integration of the unsigned integer square-root instruction in the two-stage CVE2 pipeline. The shaded block denotes the added datapath within the existing ALU. The existing register-file write port captures the selected result at the closing clock edge. Dashed arrows denote control; solid arrows denote data. Only the relevant instruction and data paths are shown.}
+  \caption{Integration of the unsigned integer square-root instruction in the two-stage CVE2 pipeline. The burgundy ISQRT block denotes the added datapath within the existing ALU. The existing register-file write port captures the selected result at the closing clock edge. Dashed arrows denote control; solid arrows denote data. Only the relevant instruction and data paths are shown.}
   \label{fig:fig01_pipeline}
 \end{figure}
 
@@ -19,7 +19,7 @@
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{output/pdf/fig03_writeback.pdf}
-  \caption{Modular summary of the measured RTL trace for isqrt x11, x11 at PC 0x00000cc4. The execution, control, and register-file panels show input 20, result 4, and the measured destination update. ID/EX entry is at 22865 ps; writeback occurs at 22875 ps. The timeline is normalized to the observed clock period; simulation timestamps are not physical FPGA delays.}
+  \caption{Modular summary of the measured RTL trace for isqrt x11, x11 at PC 0x00000d20. The execution, control, and register-file panels show input 20, result 4, and the measured destination update. ID/EX entry is at 20565 ps; writeback occurs at 20575 ps. The timeline is normalized to the observed clock period; simulation timestamps are not physical FPGA delays.}
   \label{fig:fig03_writeback}
 \end{figure}
 
@@ -29,4 +29,3 @@
   \caption{Benchmark workload averages printed by the simulated software and hardware tests. Both workloads use the same seeded input sequence and produce matching checksums. The reported integer-rounded averages include loop and random-number-generation overhead; they are not individual instruction latencies or physical execution times.}
   \label{fig:fig04_benchmark}
 \end{figure}
-

@@ -239,9 +239,12 @@ The horizontal axis counts clock periods, not physical propagation delay.
   <a href="output/pdf/fig04_benchmark.pdf">Download vector PDF</a>
 </p>
 
-The bar heights and checksum are read from the simulator logs. These averages
+The plotted values and checksum are read from the simulator logs. These averages
 compare the complete benchmark workloads; they do not measure the latency of
-one square-root instruction.
+one square-root instruction. The current figure uses the refreshed macOS run
+with GCC 16.2.0: 247 software cycles and 23 hardware cycles per root. The earlier
+Ubuntu toolchain run reported 261 and 22; each manifest retains its own tool
+and source identity.
 
 ### FPGA synthesis comparison
 
@@ -253,16 +256,32 @@ extended cores. Both use the same Artix-7 part, processor configuration and
   <img src="output/pdf/fig05_fpga_resources.svg" width="800" alt="Vivado resource comparison: original core 3034 LUTs and 1961 FFs; with isqrt 4178 LUTs and 1962 FFs">
 </p>
 <p align="center">
-  <em>Whole-design resource cost: 1,144 additional LUTs (+37.7%), one additional FF, and no additional DSP or BRAM.</em><br>
+  <em>Paired point plots: 1,144 additional LUTs (+37.7%), one additional FF, and no additional DSP or BRAM.</em><br>
   <a href="output/pdf/fig05_fpga_resources.pdf">Download vector PDF</a>
 </p>
 
 <p align="center">
-  <img src="output/pdf/fig06_fpga_timing.svg" width="800" alt="Estimated setup slack changes from positive 2.994 ns to negative 30.800 ns; both cores have negative 0.956 ns hold slack">
+  <img src="output/pdf/fig06_fpga_timing.svg" width="800" alt="Heatmap of setup, hold and pulse-width slack with failing endpoint counts, using one nanosecond color scale centred on zero">
 </p>
 <p align="center">
-  <em>The original core passes the reported setup checks; the extension fails setup. Both have hold violations.</em><br>
+  <em>Timing heatmap: one signed nanosecond scale, with failing endpoints in each cell. Both designs have hold violations.</em><br>
   <a href="output/pdf/fig06_fpga_timing.pdf">Download vector PDF</a>
+</p>
+
+<p align="center">
+  <img src="output/pdf/fig07_fpga_tradeoff.svg" width="800" alt="Scatter plot of the original and isqrt configurations: whole-design LUT count versus estimated setup slack">
+</p>
+<p align="center">
+  <em>Area versus setup slack: two reported configurations, with no fitted trend or parameter sweep.</em><br>
+  <a href="output/pdf/fig07_fpga_tradeoff.pdf">Download vector PDF</a>
+</p>
+
+<p align="center">
+  <img src="output/pdf/fig08_experimental_setup.svg" width="800" alt="Modular experimental schematic showing shared inputs, separate original and extended synthesis runs, report archives and checked figure generation">
+</p>
+<p align="center">
+  <em>Experimental setup: matching conditions, separate synthesis runs and traceable report outputs.</em><br>
+  <a href="output/pdf/fig08_experimental_setup.pdf">Download vector PDF</a>
 </p>
 
 The [comparison review](output/fpga/comparison.md) explains the timing limits.
@@ -400,7 +419,7 @@ preserve the evidence behind a figure. The exported
 [`figure_manifest.json`](output/pdf/figure_manifest.json) records which run and
 file hashes produced the figures. No bundled example CSV is used as a fallback.
 
-To regenerate the two FPGA figures from the saved reports, using the same
+To regenerate the four FPGA figures from the saved reports, using the same
 Python environment:
 
 ```sh
@@ -411,7 +430,9 @@ This command reads `output/fpga/baseline/` and `output/fpga/extended/`; it does
 not run Vivado. It checks report identity, successful synthesis logs and source
 provenance before plotting. The separate
 [FPGA LaTeX environments](output/pdf/include_fpga_figures.tex) include captions
-and timing limitations. The existing simulation figures are kept unchanged.
+and timing limitations. Both figure generators use the shared palette and
+typography in `scripts/figure_style.py`. The waveform is a measured step-line
+plot; architecture and workflow diagrams are labelled structural schematics.
 
 ## 10. Use GitHub Codespaces
 

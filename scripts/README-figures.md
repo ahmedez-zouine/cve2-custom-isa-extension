@@ -2,22 +2,30 @@
 
 The simulation collector runs the actual simulator, and its generator creates
 four figures from checked outputs and the reviewed RTL structure. A separate
-FPGA generator adds two figures from the saved Vivado reports:
+FPGA generator adds four figures from the saved Vivado reports:
 
 1. `fig01_pipeline`: instruction decoding, ALU integration and register writeback.
 2. `fig02_recurrence`: the 16 combinational stages and equations; its example is
    calculated from the input captured in the simulation.
 3. `fig03_writeback`: modular execution, control and register-file view of measured
    writeback values and clock timestamps from the VCD.
-4. `fig04_benchmark`: workload cycle averages parsed from the simulator's output.
-5. `fig05_fpga_resources`: original/extended whole-design LUTs, FFs and other
-   resource counts parsed from Vivado utilization reports and primitive tables.
-6. `fig06_fpga_timing`: setup and hold slack, with failing endpoint counts,
-   parsed from the original/extended design timing summaries.
+4. `fig04_benchmark`: workload cycle averages as a point plot parsed from the
+   simulator's output.
+5. `fig05_fpga_resources`: paired resource point plots with distinct circle and
+   diamond markers for original/extended counts.
+6. `fig06_fpga_timing`: heatmap of setup, hold and pulse-width worst slack, with
+   failing endpoint counts from the complete design timing summaries.
+7. `fig07_fpga_tradeoff`: scatter plot of Total LUTs versus setup WNS for the two
+   saved configurations. There is no fitted line or parameter sweep.
+8. `fig08_experimental_setup`: modular schematic of matching synthesis inputs,
+   separate runs, archived reports and checked figure generation.
 
-The drawings use a restrained, color-accessible palette: blue for data flow,
-orange for the custom instruction and event markers, and green for successful
-writeback. The white background, embedded PDF fonts, vector lines and 7.16-inch
+The shared `figure_style.py` uses navy for baseline/data paths, burgundy for the
+custom instruction, and green for writeback or positive slack. Marker shapes,
+direct numerical labels and line styles also distinguish the variants. The
+heatmap uses a single diverging nanosecond scale centered on zero, with every
+cell labelled. It does not combine LUT counts, endpoints and slack into a
+single color scale. The white background, embedded PDF fonts, vector lines and 7.16-inch
 canvas are intended for full-width placement. Labels and annotations are
 hierarchically emphasized for quick scanning. The dimensions and typography follow the guidance from
 the [IEEE Author Center](https://conferences.ieeeauthorcenter.ieee.org/write-your-paper/improve-your-graphics/).
@@ -99,8 +107,8 @@ Outputs go to `output/pdf/`:
   metadata, including input hashes, times, versions and provenance for each figure.
 
 PyMuPDF is needed only for `--render-pdfs`. Matplotlib generates the figures.
-The script uses Arial when available and an embedded DejaVu Sans fallback
-otherwise; check layout when regenerating on a machine with different fonts.
+Both scripts use embedded DejaVu Sans fonts to keep typography consistent across
+macOS and Ubuntu.
 
 ## FPGA figures from saved reports
 
@@ -113,7 +121,7 @@ tmp/figures_venv/bin/python scripts/generate_fpga_figures.py --render-pdfs
 The default inputs are `output/fpga/baseline/` and `output/fpga/extended/`.
 The script reads the top-level utilization row rather than adding primitive
 LUT counts or hierarchy rows. It reads the complete design timing summary
-rather than selecting a passing path. Bar heights, numerical annotations,
+rather than selecting a passing path. Point locations, heatmap cells, numerical annotations,
 percentage changes and status text come from those parsed values.
 
 Before plotting, it checks the tool, FPGA part and speed grade, design state,
@@ -131,9 +139,9 @@ formats as the simulation figures. The output directory also contains:
 | `fpga_results.json` | Parsed run identity, resource/timing values and source SHA-256 hashes |
 | `fpga_metrics.csv` | Original, extended and difference columns, with units |
 | `fpga_figure_manifest.json` | Generator/input/output hashes, captions and limitations |
-| `include_fpga_figures.tex` | LaTeX environments for the two new figures |
+| `include_fpga_figures.tex` | LaTeX environments for the four FPGA figures |
 
-The two figures are **out-of-context post-synthesis estimates**. Both runs have
+The quantitative FPGA figures are **out-of-context post-synthesis estimates**. Both runs have
 hold violations and an unset `HD.CLK_SRC` clock context. Positive baseline
 setup slack does not mean complete timing closure. There is no power or
 implemented Fmax plot because those results have not been produced.
@@ -149,6 +157,24 @@ The report parser checks can be run with:
 tmp/figures_venv/bin/python -B -m unittest discover \
   -s scripts -p test_generate_fpga_figures.py -v
 ```
+
+## Choosing the right figure type
+
+The step-line waveform is based on captured VCD timestamps. It is a valid
+time-series view. The scatter plot has only two reported configurations, so
+the script draws no connecting trend line, interpolation, fit or uncertainty
+band. A frequency sweep, per-input latency curve or repeated-run distribution
+would require additional experiments first.
+
+The architecture and experimental setup diagrams are explanatory schematics.
+Their box dimensions and arrow lengths do not encode measured delay or area.
+The recurrence illustration calculates its example from a captured operand;
+it does not measure intermediate combinational propagation times.
+
+The refreshed simulation figures use the current macOS collection (GCC 16.2.0,
+247/23 workload cycles). The saved FPGA pair remains the Ubuntu Vivado run.
+The two manifests identify these separate evidence sources. The simulation
+generator still requires fresh source-matching evidence before redrawing.
 
 ## Use in LaTeX
 
@@ -183,7 +209,7 @@ CSV is historical evidence only; the generator no longer reads it. Do not edit
 CSV numbers to make a failing check pass.
 
 The first four figures describe the simulated implementation; the waveform is
-a redraw of sampled VCD data, not a GTKWave screenshot. The two FPGA figures
+a redraw of sampled VCD data, not a GTKWave screenshot. The four FPGA figures
 describe the saved synthesis runs and their limitations. Retain the project's
 required AI-use acknowledgement when describing assistance with these scripts
 and figures in the eventual report.

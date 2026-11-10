@@ -1,6 +1,7 @@
 {
   "schema": 1,
-  "generator_sha256": "04ae06d18f79d9090e38f857b3e0f75cf54ac1c212fc390f5d38581d298a19af",
+  "generator_sha256": "69186e91f0277813fe387754be317c409bd7a2434bbeaa7c4e4a857cb2fcaa5f",
+  "style_sha256": "909b42374e77af72a0be8f263a88ef69f381c374679742c4dd9510190a92babe",
   "matplotlib": "3.11.2",
   "width_inches": 7.16,
   "data_file": "fpga_results.json",
@@ -68,25 +69,41 @@
     }
   },
   "artifact_sha256": {
-    "fig05_fpga_resources.pdf": "1f6c2a5f8242d5eef947fdb9b1b69388100ed5aaaac23490880452975172a3e8",
-    "fig05_fpga_resources.svg": "cfa810c01b9b67d5eefcaff79f5e6aba98e890636da5ce00a71f6aff267867c1",
-    "fig05_fpga_resources.png": "d0f9681af61d441decb1df24a2a98e81017d9bdddf3eaf03c357bc04d18afa7a",
-    "fig05_fpga_resources_pdf_preview.png": "b6616b7490e64e80a1053ab080d1afb6bc198931c18f15d3840f3c4f7d9f3016",
-    "fig06_fpga_timing.pdf": "d962338d718478a4b6a0832a233b28af086e7190488195cc8535264c819847bd",
-    "fig06_fpga_timing.svg": "bfede131ec5a9816f716f9727fcb7c0d909ee3bc579de5684d943bda77f40c4a",
-    "fig06_fpga_timing.png": "7090c9cfe9bb0ace795b1453c08fc0f5459198f349e737a794349d7c1e74ee49",
-    "fig06_fpga_timing_pdf_preview.png": "e922d635b429835e37651697df3e00e1549bad7604959f9d8b300698e916a406",
+    "fig05_fpga_resources.pdf": "7390d2f5782af1b7de9ef9b8ddc78957caf4ae8200d14b11cf507f7f7ec65bd0",
+    "fig05_fpga_resources.svg": "768934b00bc4112760e91f8ead9265255dbebdd2ceb9d5de200dff3e5c1c862d",
+    "fig05_fpga_resources.png": "b60629ee34c16416239bddae9345486424ec2ac4eace7f56cf1362d16912969a",
+    "fig05_fpga_resources_pdf_preview.png": "0ece734fc158ff03676d6964eb48a08639317163dfb50e972732492331509558",
+    "fig06_fpga_timing.pdf": "187bc9263b6192452c5f6b8a75212cb7d08bd8f253c9feebcd032b1e20e5eb4e",
+    "fig06_fpga_timing.svg": "61f19ac503abc80eb7f1484b28b1fe4bdd9deebb6f0bd3138482fd3808ca9bc0",
+    "fig06_fpga_timing.png": "7fe1addf721849dd5d67ddca183cae7eb2a82fd3e2c5b30b4cebe9142fda9b28",
+    "fig06_fpga_timing_pdf_preview.png": "08a2c1b5f603bbec59042065bee27aef1c0b011e3529ff67a44347542d7c6fab",
+    "fig07_fpga_tradeoff.pdf": "ccd5a76e603801cb2c754f45f7a23299fc18cf818a4ae26cac7da5a08fb8bb85",
+    "fig07_fpga_tradeoff.svg": "17533b598b31054dacb52499e4766b8f8ad1a6d929f16a80b36c2a5da5897c2a",
+    "fig07_fpga_tradeoff.png": "af40d6736bf8717a7701f4d50c01b7907d7fe604993af5ac784ca1ff7184f6fe",
+    "fig07_fpga_tradeoff_pdf_preview.png": "35a79b7ecf9b390fc4cf4d694751117c5ae0af92743714e8bd3db9c9d3e75cab",
+    "fig08_experimental_setup.pdf": "5c651b8c2150328b300ab5094398467fc1f29b5c3de2d75945703462f70f83d1",
+    "fig08_experimental_setup.svg": "3417aac925399ea2712a0efb1f4474f0396a8d19d62929fe8e557e5044e6f666",
+    "fig08_experimental_setup.png": "578f986886d1f2a01a708bf9094f6d1a733281d52d16bfcc05b349c79f642ec1",
+    "fig08_experimental_setup_pdf_preview.png": "29f0746bc9a3c98b2f660cd203569d1ac07853dd7eb0139a50653ee96c2582f6",
     "fpga_results.json": "39eb1a157c3f777a2df46178716a35662c2ca164575937a74f35df89c13d4464",
     "fpga_metrics.csv": "44b3579ca2e2e38ebb9a8f812a29e4b0d7a1f06130756a0931d3e36998f043a6",
-    "include_fpga_figures.tex": "720590822bf962291f8cc61a157b2f2d28d5b897a4488e2f9134cec535a3ddf0"
+    "include_fpga_figures.tex": "e177faa306a1223343c081aa5c780a55063a6b3322afde0b87c79441a5d25638"
   },
   "captions": {
-    "fig05_fpga_resources": "Whole-design FPGA resource utilization for the original CVE2 and the isqrt extension, parsed from Vivado out-of-context post-synthesis reports. Total LUTs and FFs use the top-level utilization row; CARRY4 counts come from the synthesis primitive table. Both designs include the same wrapper and processor configuration. Panel scales differ. The DSP belongs to the existing multiplier; no implemented area is claimed.",
-    "fig06_fpga_timing": "Worst setup and hold slack parsed from the complete design timing summaries for both cores at the same clock target. Nonnegative slack meets the corresponding check. Original core passes setup; with isqrt fails setup. Original core fails hold; with isqrt fails hold. These are out-of-context post-synthesis estimates with an unset HD.CLK_SRC clock context. They do not establish routed timing closure or implemented Fmax."
+    "fig05_fpga_resources": "Whole-design FPGA resource utilization for the original CVE2 and the isqrt extension, parsed from Vivado out-of-context post-synthesis reports. Total LUTs and FFs use the top-level utilization row; CARRY4 counts come from the synthesis primitive table. The paired point plots use circles for the original and diamonds for isqrt. Both designs include the same wrapper and processor configuration. Panel scales differ. The DSP belongs to the existing multiplier; no implemented area is claimed.",
+    "fig06_fpga_timing": "Heatmap of worst setup, hold and pulse-width slack from the complete design timing summaries for both cores at the same clock target. All colors share one diverging nanosecond scale centered on zero. Each cell also reports failing and total endpoints. Nonnegative slack meets the corresponding check. Original core passes setup; with isqrt fails setup. Original core fails hold; with isqrt fails hold. These are out-of-context post-synthesis estimates with an unset HD.CLK_SRC clock context. They do not establish routed timing closure or implemented Fmax.",
+    "fig07_fpga_tradeoff": "Scatter plot of whole-design Total LUTs against worst setup slack for the two saved synthesis configurations. Each marker represents one run; there is no parameter sweep, fitted trend or statistical replication. The zero-slack reference concerns setup only. Both designs have hold violations, and routing and clock delays remain estimates.",
+    "fig08_experimental_setup": "Schematic of the recorded FPGA experiment and evidence pipeline. The original snapshot and extended core share the wrapper, source list, part, clock constraints, configuration and synthesis options. Reports, successful logs and source identity feed the checked plotting script. This is a workflow illustration, not a measurement of latency or hardware area."
   },
   "limitations": [
     "OOC post-synthesis estimates",
     "Original core fails hold; with isqrt fails hold.",
     "No routed Fmax or power result"
-  ]
+  ],
+  "figure_kinds": {
+    "fig05_fpga_resources": "Report-derived paired point plots",
+    "fig06_fpga_timing": "Report-derived slack heatmap",
+    "fig07_fpga_tradeoff": "Two report-derived scatter points",
+    "fig08_experimental_setup": "Reviewed workflow schematic"
+  }
 }

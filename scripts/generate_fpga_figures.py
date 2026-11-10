@@ -19,14 +19,12 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from matplotlib.colors import LinearSegmentedColormap, TwoSlopeNorm
+from matplotlib.patches import FancyArrowPatch, FancyBboxPatch
 from matplotlib.ticker import MaxNLocator, StrMethodFormatter
-
-WIDTH = 7.16
-INK = "#17324D"
-MUTED = "#65788B"
-BLUE = "#167D9A"
-ORANGE = "#E87932"
-GRID = "#DCE5EC"
+from figure_style import (WIDTH, INK, MUTED, DATA as BLUE, CUSTOM as ORANGE,
+                          DATA_LIGHT, CUSTOM_LIGHT, SUCCESS, SUCCESS_LIGHT,
+                          PANEL, GRID, configure)
 COLORS = [BLUE, ORANGE]
 LABELS = ["Original core", "With isqrt"]
 RESOURCE_FIELDS = ("total_luts", "logic_luts", "lutrams", "srls", "ffs",
@@ -196,21 +194,24 @@ def resource_figure(evidence):
     original, extended = [runs[name]["resources"] for name in ("baseline", "extended")]
     fig = plt.figure(figsize=(WIDTH, 3.85))
     title(fig, "Hardware cost of the ISQRT extension", runs["baseline"]["identity"])
-    for bounds, field, name in [([0.095, 0.31, 0.37, 0.40], "total_luts", "(a) Total LUTs"),
-                                 ([0.585, 0.31, 0.37, 0.40], "ffs", "(b) Flip-flops")]:
+    for bounds, field, name in [([0.18, 0.31, 0.30, 0.40], "total_luts", "(a) Total LUTs"),
+                                 ([0.68, 0.31, 0.28, 0.40], "ffs", "(b) Flip-flops")]:
         ax = fig.add_axes(bounds)
         values = [original[field], extended[field]]
-        bars = ax.bar([0, 1], values, color=COLORS, width=0.55, zorder=3)
-        ax.bar_label(bars, labels=[f"{value:,}" for value in values], padding=5,
-                     fontsize=9, color=INK, fontweight="bold")
-        ax.set(xticks=[0, 1], xticklabels=LABELS, ylim=(0, max(values) * 1.24), ylabel="Count")
-        ax.yaxis.set_major_locator(MaxNLocator(nbins=4, integer=True))
-        ax.yaxis.set_major_formatter(StrMethodFormatter("{x:,.0f}"))
+        for y, value, color, marker in zip([1, 0], values, COLORS, ["o", "D"]):
+            ax.hlines(y, 0, value, color=color, alpha=.25, lw=2.5)
+            ax.scatter(value, y, color=color, marker=marker, s=60, zorder=3)
+            ax.text(value + max(values) * .055, y, f"{value:,}", va="center",
+                    color=INK, fontsize=8.5, fontweight="bold")
+        ax.set(yticks=[1, 0], yticklabels=LABELS, xlim=(0, max(values) * 1.35),
+               ylim=(-.65, 1.65), xlabel="Count")
+        ax.xaxis.set_major_locator(MaxNLocator(nbins=3, integer=True))
+        ax.xaxis.set_major_formatter(StrMethodFormatter("{x:,.0f}"))
         ax.set_title(name, fontsize=9, color=INK, pad=30, loc="left", fontweight="bold")
         delta = values[1] - values[0]
         change = f"{delta:+,}" + (f" LUTs ({100 * delta / values[0]:+.1f}%)" if field == "total_luts" else " FF")
         ax.text(0.5, 1.12, change, transform=ax.transAxes, ha="center", fontsize=9, color=ORANGE)
-        style_axis(ax)
+        style_axis(ax, horizontal=True)
     fig.text(0.5, 0.17,
              f"Original / with isqrt:  DSP {original['dsps']} / {extended['dsps']}"
              f"     BRAM36 {original['ramb36']} / {extended['ramb36']}"
@@ -226,39 +227,134 @@ def resource_figure(evidence):
 
 def timing_figure(evidence):
     runs = evidence["runs"]
-    original, extended = [runs[name]["timing"] for name in ("baseline", "extended")]
     period = runs["baseline"]["identity"]["clock_period_ns"]
-    fig = plt.figure(figsize=(WIDTH, 4.05))
-    title(fig, f"Timing estimates at {1000 / period:g} MHz ({period:g} ns)", runs["baseline"]["identity"])
-    panels = [([0.17, 0.39, 0.37, 0.32], "wns_ns", "setup", "(a) Worst setup slack"),
-              ([0.70, 0.39, 0.26, 0.32], "whs_ns", "hold", "(b) Worst hold slack")]
-    for bounds, field, kind, name in panels:
-        ax = fig.add_axes(bounds)
-        values = [original[field], extended[field]]
-        extent = max(abs(value) for value in values) or 1.0
-        left, right = min(0, *values) - extent * 0.16, max(0, *values) + extent * 0.31
-        ax.barh([1, 0], values, color=COLORS, height=0.42, zorder=3)
-        ax.axvline(0, color=INK, linewidth=1, linestyle=(0, (3, 3)), zorder=4)
-        for y, value in zip([1, 0], values):
-            x = value + extent * 0.04 if value >= 0 else extent * 0.04
-            ax.text(x, y, f"{value:+.3f}", ha="left", va="center", color=INK, fontsize=8.5,
-                    fontweight="bold")
-        ax.set(xlim=(left, right), ylim=(-0.55, 1.55), yticks=[1, 0], yticklabels=LABELS,
-               xlabel="Slack (ns)")
-        ax.xaxis.set_major_locator(MaxNLocator(nbins=4))
-        ax.set_title(name, fontsize=9, color=INK, pad=15, loc="left", fontweight="bold")
-        style_axis(ax, horizontal=True)
-        failures = [item[f"{kind}_failing_endpoints"] for item in (original, extended)]
-        ax.text(0.5, -0.55, f"Failing endpoints: {failures[0]} / {failures[1]}",
-                transform=ax.transAxes, ha="center", fontsize=7.5, color=INK)
-    fig.text(0.5, 0.17, "Slack >= 0 meets that check; negative slack is a violation.",
-             ha="center", fontsize=8, color=INK)
-    fig.text(0.5, 0.10, check_status(evidence, "hold"),
-             ha="center", fontsize=8, color=INK, fontweight="bold")
+    fig = plt.figure(figsize=(WIDTH, 4.25))
+    title(fig, "Timing heatmap: worst slack and failing endpoints", runs["baseline"]["identity"])
+    fig.text(.5, .82, f"Clock target: {1000 / period:g} MHz ({period:g} ns) | every cell uses nanoseconds",
+             ha="center", fontsize=8, color=MUTED)
+    ax = fig.add_axes([.21, .405, .74, .32])
+    fields = [("wns_ns", "setup", "Setup WNS"), ("whs_ns", "hold", "Hold WHS"),
+              ("wpws_ns", "pulse", "Pulse-width WPWS")]
+    matrix = [[runs[variant]["timing"][field] for field, _, _ in fields]
+              for variant in ("baseline", "extended")]
+    extent = max(abs(value) for row in matrix for value in row) or 1.0
+    cmap = LinearSegmentedColormap.from_list("slack", [ORANGE, "#FCFCFA", SUCCESS])
+    image = ax.imshow(matrix, cmap=cmap, norm=TwoSlopeNorm(vmin=-extent, vcenter=0, vmax=extent),
+                      aspect="auto", interpolation="nearest")
+    for row, variant in enumerate(("baseline", "extended")):
+        timing = runs[variant]["timing"]
+        for column, (field, kind, _) in enumerate(fields):
+            value = timing[field]
+            color = "white" if abs(value) > extent * .70 else INK
+            ax.text(column, row - .10, f"{value:+.3f}", ha="center", va="center",
+                    color=color, fontsize=10, fontweight="bold")
+            failed, total = timing[f"{kind}_failing_endpoints"], timing[f"{kind}_total_endpoints"]
+            ax.text(column, row + .19, f"{failed} / {total} fail", ha="center", va="center",
+                    color=color, fontsize=7)
+    ax.set(xticks=range(3), xticklabels=[item[2] for item in fields],
+           yticks=[0, 1], yticklabels=LABELS)
+    ax.xaxis.tick_top()
+    ax.tick_params(length=0, pad=10, labelsize=8, colors=INK)
+    for side in ax.spines.values():
+        side.set_visible(False)
+    ax.set_xticks([.5, 1.5], minor=True)
+    ax.set_yticks([.5], minor=True)
+    ax.grid(which="minor", color="white", lw=3)
+    ax.tick_params(which="minor", length=0)
+    cax = fig.add_axes([.29, .285, .58, .025])
+    colorbar = fig.colorbar(image, cax=cax, orientation="horizontal", ticks=[-extent, 0, extent])
+    colorbar.outline.set_visible(False)
+    colorbar.ax.tick_params(length=0, colors=MUTED, labelsize=7)
+    colorbar.set_label("Slack (ns): negative = violation; nonnegative = check met", fontsize=7.5, color=INK)
+    fig.text(.5, .115, check_status(evidence, "hold"), ha="center", fontsize=8, color=INK)
     warning = any(run["clock_context_warning"] for run in runs.values())
     limitation = "HD.CLK_SRC unset; routing and clock delays are estimates." if warning else "Routing delays are estimates."
     fig.text(0.5, 0.035, limitation + " No implemented Fmax is claimed.",
              ha="center", fontsize=7, color=MUTED)
+    return fig
+
+
+def tradeoff_figure(evidence):
+    runs = evidence["runs"]
+    fig = plt.figure(figsize=(WIDTH, 4.0))
+    title(fig, "Area versus setup slack: two reported configurations", runs["baseline"]["identity"])
+    ax = fig.add_axes([.14, .25, .81, .51])
+    points = [(runs[key]["resources"]["total_luts"], runs[key]["timing"]["wns_ns"])
+              for key in ("baseline", "extended")]
+    xs, ys = zip(*points)
+    dx, dy = max(xs) - min(xs) or 1, max(ys) - min(ys) or 1
+    ax.set(xlim=(min(xs) - dx * .25, max(xs) + dx * .30),
+           ylim=(min(ys) - dy * .28, max(ys) + dy * .35),
+           xlabel="Whole-design Total LUTs", ylabel="Setup WNS (ns)")
+    ax.axhline(0, color=SUCCESS, ls=(0, (3, 3)), lw=1)
+    ax.text(.98, (0 - ax.get_ylim()[0]) / (ax.get_ylim()[1] - ax.get_ylim()[0]) + .035,
+            "setup boundary", transform=ax.transAxes, ha="right", color=SUCCESS, fontsize=7)
+    for (x, y), color, marker, name, offset in zip(points, COLORS, ["o", "D"], LABELS, [(10, 12), (-12, 18)]):
+        ax.scatter(x, y, color=color, marker=marker, s=85, zorder=3)
+        ax.annotate(f"{name}\n{x:,} LUTs / {y:+.3f} ns", (x, y), xytext=offset,
+                    textcoords="offset points", ha="left" if offset[0] > 0 else "right",
+                    va="bottom" if offset[1] > 0 else "top", fontsize=8, color=color,
+                    fontweight="bold")
+    ax.xaxis.set_major_locator(MaxNLocator(nbins=5, integer=True))
+    ax.xaxis.set_major_formatter(StrMethodFormatter("{x:,.0f}"))
+    style_axis(ax)
+    ax.xaxis.grid(True, color=GRID, linewidth=.8)
+    fig.text(.5, .095, "Two configurations from one saved synthesis run each; no fitted trend or parameter sweep.",
+             ha="center", fontsize=7.2, color=MUTED)
+    fig.text(.5, .035, "Both designs have hold violations. These points do not establish implemented Fmax.",
+             ha="center", fontsize=7.2, color=MUTED)
+    return fig
+
+
+def experiment_figure(evidence):
+    identity = evidence["runs"]["baseline"]["identity"]
+    extended = evidence["runs"]["extended"]["identity"]
+    fig, ax = plt.subplots(figsize=(WIDTH, 4.75))
+    fig.subplots_adjust(left=.025, right=.975, top=.97, bottom=.03)
+    ax.set(xlim=(0, 12), ylim=(0, 9))
+    ax.axis("off")
+    ax.text(6, 8.65, "Experimental setup and evidence flow", ha="center", fontsize=12, fontweight="bold")
+    ax.text(6, 8.16, "Shared inputs / two source variants / identical synthesis conditions",
+            ha="center", fontsize=8, color=MUTED)
+
+    def module(x, y, w, h, heading, detail, color=BLUE, fill=DATA_LIGHT):
+        ax.add_patch(FancyBboxPatch((x, y), w, h,
+                     boxstyle="round,pad=.04,rounding_size=.10", edgecolor=color,
+                     facecolor=fill, lw=1, zorder=2))
+        ax.text(x + w/2, y + h * .73, heading, ha="center", va="center", fontsize=8,
+                color=color, fontweight="bold", zorder=3)
+        ax.text(x + w/2, y + h * .32, detail, ha="center", va="center", fontsize=7,
+                color=INK, linespacing=1.4, zorder=3)
+
+    def route(points, color=MUTED):
+        if len(points) > 2:
+            ax.plot(*zip(*points[:-1]), color=color, lw=1.1, zorder=1)
+        ax.add_patch(FancyArrowPatch(points[-2], points[-1], arrowstyle="-|>",
+                     mutation_scale=10, color=color, lw=1.1, shrinkA=0, shrinkB=0, zorder=1))
+
+    module(.35, 6.65, 3.25, .95, "Shared RTL inputs", "CVE2 sources + wrapper\nFPGA source list")
+    module(4.22, 6.65, 3.20, .95, "Fixed constraints", f"{identity['part']}\n{identity['clock_period_ns']:g} ns target", fill=PANEL)
+    module(8.04, 6.65, 3.60, .95, "FPGA wrapper", "BUFGCE + reset synchronizer\nlive instruction / data buses")
+    ax.plot([1.975, 1.975, 9.84, 9.84], [6.65, 6.16, 6.16, 6.65], color=MUTED, lw=1.1)
+    ax.plot([5.82, 5.82], [6.65, 6.16], color=MUTED, lw=1.1)
+    module(.65, 4.55, 4.55, 1.05, "Original-core snapshot",
+           f"RTL {identity['rtl_revision'][:7]}\noriginal package / decoder / ALU")
+    module(6.80, 4.55, 4.55, 1.05, "Core with ISQRT",
+           f"RTL {extended['revision'][:7]}\ncustom package / decoder / ALU", color=ORANGE, fill=CUSTOM_LIGHT)
+    route([(2.925, 6.16), (2.925, 5.60)])
+    route([(9.075, 6.16), (9.075, 5.60)], color=ORANGE)
+    module(3.70, 2.90, 4.60, .95, f"Vivado {identity['tool']} synthesis",
+           "Separate OOC runs / same configuration and options", color=INK, fill=PANEL)
+    route([(2.925, 4.55), (2.925, 4.16), (6, 4.16), (6, 3.85)])
+    ax.plot([9.075, 9.075, 6], [4.55, 4.16, 4.16], color=ORANGE, lw=1.1)
+    module(.55, 1.02, 4.70, 1.12, "Archive each variant's evidence",
+           "Utilization + timing + clock reports\nsuccessful log + source identity")
+    module(6.75, 1.02, 4.70, 1.12, "Checked plotting pipeline",
+           "Identity + source hash validation\nPDF / SVG / PNG / JSON / CSV", color=SUCCESS, fill=SUCCESS_LIGHT)
+    route([(6, 2.90), (6, 2.55), (2.90, 2.55), (2.90, 2.14)])
+    route([(5.25, 1.58), (6.75, 1.58)], color=SUCCESS)
+    ax.text(6, .34, "Workflow schematic; dimensions and arrow lengths do not represent execution time.",
+            ha="center", fontsize=7, color=MUTED)
     return fig
 
 
@@ -288,25 +384,37 @@ def main():
         evidence, _ = load_reports(args.report_dir)
     except (OSError, ValueError, KeyError, subprocess.CalledProcessError) as error:
         parser.error(f"Cannot plot FPGA evidence: {error}. Restore matching successful reports and Git history.")
-    plt.rcParams.update({"font.family": "sans-serif", "font.sans-serif": ["Arial", "DejaVu Sans"],
-                         "font.size": 8.5, "text.color": INK, "axes.labelcolor": INK,
-                         "pdf.fonttype": 42, "ps.fonttype": 42, "svg.fonttype": "path",
-                         "svg.hashsalt": "cve2-fpga", "axes.unicode_minus": False})
+    configure()
     captions = {
         "fig05_fpga_resources": (
             "Whole-design FPGA resource utilization for the original CVE2 and the isqrt extension, "
             "parsed from Vivado out-of-context post-synthesis reports. Total LUTs and FFs use the "
             "top-level utilization row; CARRY4 counts come from the synthesis primitive table. "
+            "The paired point plots use circles for the original and diamonds for isqrt. "
             "Both designs include the same wrapper and processor configuration. Panel scales differ. "
             "The DSP belongs to the existing multiplier; no implemented area is claimed."),
         "fig06_fpga_timing": (
-            "Worst setup and hold slack parsed from the complete design timing summaries for both "
-            "cores at the same clock target. Nonnegative slack meets the corresponding check. "
+            "Heatmap of worst setup, hold and pulse-width slack from the complete design timing "
+            "summaries for both cores at the same clock target. All colors share one diverging "
+            "nanosecond scale centered on zero. Each cell also reports failing and total endpoints. "
+            "Nonnegative slack meets the corresponding check. "
             + check_status(evidence, "setup") + " " + check_status(evidence, "hold") + " " +
             "These are out-of-context post-synthesis estimates with an unset HD.CLK_SRC clock "
-            "context. They do not establish routed timing closure or implemented Fmax.")}
+            "context. They do not establish routed timing closure or implemented Fmax."),
+        "fig07_fpga_tradeoff": (
+            "Scatter plot of whole-design Total LUTs against worst setup slack for the two saved "
+            "synthesis configurations. Each marker represents one run; there is no parameter sweep, "
+            "fitted trend or statistical replication. The zero-slack reference concerns setup only. "
+            "Both designs have hold violations, and routing and clock delays remain estimates."),
+        "fig08_experimental_setup": (
+            "Schematic of the recorded FPGA experiment and evidence pipeline. The original snapshot "
+            "and extended core share the wrapper, source list, part, clock constraints, configuration "
+            "and synthesis options. Reports, successful logs and source identity feed the checked "
+            "plotting script. This is a workflow illustration, not a measurement of latency or hardware area.")}
     figures = {"fig05_fpga_resources": resource_figure(evidence),
-               "fig06_fpga_timing": timing_figure(evidence)}
+               "fig06_fpga_timing": timing_figure(evidence),
+               "fig07_fpga_tradeoff": tradeoff_figure(evidence),
+               "fig08_experimental_setup": experiment_figure(evidence)}
     args.out_dir.mkdir(parents=True, exist_ok=True)
     data_path = export_data(evidence, args.out_dir)
     artifacts = {}
@@ -341,11 +449,16 @@ def main():
     for name in ("fpga_results.json", "fpga_metrics.csv", "include_fpga_figures.tex"):
         artifacts[name] = digest(args.out_dir / name)
     manifest = {"schema": 1, "generator_sha256": digest(Path(__file__)),
+                "style_sha256": digest(Path(__file__).with_name("figure_style.py")),
                 "matplotlib": matplotlib.__version__, "width_inches": WIDTH,
                 "data_file": data_path.name, "data_sha256": digest(data_path),
                 "sources": evidence["sources"], "artifact_sha256": artifacts,
                 "captions": captions, "limitations": ["OOC post-synthesis estimates",
                     check_status(evidence, "hold"), "No routed Fmax or power result"]}
+    manifest["figure_kinds"] = {"fig05_fpga_resources": "Report-derived paired point plots",
+                                "fig06_fpga_timing": "Report-derived slack heatmap",
+                                "fig07_fpga_tradeoff": "Two report-derived scatter points",
+                                "fig08_experimental_setup": "Reviewed workflow schematic"}
     (args.out_dir / "fpga_figure_manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
 
 

@@ -15,22 +15,12 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle, FancyArrowPatch, FancyBboxPatch
-
-INK = "#17324D"
-MUTED = "#65788B"
-DATA = "#167D9A"
-DATA_LIGHT = "#E8F4F7"
-CUSTOM = "#E87932"
-CUSTOM_LIGHT = "#FFF1E6"
-SUCCESS = "#26856E"
-SUCCESS_LIGHT = "#E8F4EF"
-PANEL = "#F3F6F9"
-GRID = "#DCE5EC"
-WIDTH = 7.16
+from figure_style import (INK, MUTED, DATA, DATA_LIGHT, CUSTOM, CUSTOM_LIGHT,
+                          SUCCESS, SUCCESS_LIGHT, PANEL, GRID, WIDTH, configure)
 CAPTIONS = {
     "fig01_pipeline": (
         "Integration of the unsigned integer square-root instruction in the two-stage "
-        "CVE2 pipeline. The shaded block denotes the added datapath within the existing ALU. "
+        "CVE2 pipeline. The burgundy ISQRT block denotes the added datapath within the existing ALU. "
         "The existing register-file write port captures the selected result at the "
         "closing clock edge. Dashed arrows denote control; solid arrows denote data. "
         "Only the relevant instruction and data paths are shown."
@@ -65,8 +55,9 @@ def label(ax, x, y, text, **kwargs):
 
 
 def box(ax, x, y, w, h, text, shaded=False, facecolor=None, edgecolor=INK):
-    ax.add_patch(Rectangle((x, y), w, h, facecolor=facecolor or (PANEL if shaded else "white"),
-                           edgecolor=edgecolor, linewidth=1.05, zorder=2))
+    ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.02,rounding_size=0.07",
+                              facecolor=facecolor or (PANEL if shaded else "white"),
+                              edgecolor=edgecolor, linewidth=1.05, zorder=2))
     label(ax, x + w / 2, y + h / 2, text, linespacing=1.4, zorder=3)
 
 
@@ -81,53 +72,42 @@ def arrow(ax, points, control=False, color=None):
 
 
 def pipeline():
-    fig, ax = canvas(3.8, 6.2)
-    label(ax, 5, 5.95, "ISQRT integration in the CVE2 pipeline",
+    fig, ax = canvas(4.15, 7.0)
+    label(ax, 5, 6.70, "CVE2 architecture with the ISQRT extension",
           fontsize=12, fontweight="bold")
-    label(ax, 5, 5.58, "Two-stage core  ·  instruction control and result data paths",
-          fontsize=8.5, color=MUTED)
-    label(ax, 1.65, 5.12, "01  FETCH", fontsize=8, color=DATA, fontweight="bold")
-    label(ax, 6.65, 5.12, "02  DECODE + EXECUTE", fontsize=8, color=INK,
-          fontweight="bold")
-    ax.plot([3.35, 3.35], [1.0, 4.9], color=GRID, lw=1.0, ls=(0, (2, 2)))
-
-    box(ax, 0.2, 3.75, 1.3, 0.85, "PC / fetch\nbuffer",
-        facecolor=DATA_LIGHT, edgecolor=DATA)
-    box(ax, 1.85, 3.75, 1.3, 0.85, "IF / ID\nregisters",
-        facecolor=DATA_LIGHT, edgecolor=DATA)
-    box(ax, 3.75, 3.75, 2.0, 0.85, "Instruction decoder\nreserved-field checks",
-        facecolor=PANEL)
-    box(ax, 7.45, 3.75, 2.3, 0.85, "Controller\nillegal-instruction trap",
+    label(ax, 5, 6.27, "Two pipeline stages | modular datapath and control view",
+          fontsize=8, color=MUTED)
+    for x, w, heading in [(0.18, 2.15, "IF / FETCH"), (2.68, 7.10, "ID / EX / DECODE + EXECUTE")]:
+        ax.add_patch(FancyBboxPatch((x, 1.45), w, 4.25,
+                     boxstyle="round,pad=0.03,rounding_size=0.10",
+                     facecolor=PANEL, edgecolor=GRID, lw=0.9, zorder=0))
+        label(ax, x + w / 2, 5.92, heading, fontsize=8, color=DATA, fontweight="bold")
+    box(ax, 0.42, 4.35, 1.67, 0.80, "PC + prefetch\nbuffer", facecolor=DATA_LIGHT, edgecolor=DATA)
+    box(ax, 0.42, 2.95, 1.67, 0.80, "IF / ID\ninstruction", facecolor="white", edgecolor=DATA)
+    arrow(ax, [(1.25, 4.35), (1.25, 3.75)])
+    box(ax, 3.00, 4.35, 2.35, 0.80, "Instruction decoder\ncustom-0 + legality", facecolor="white")
+    box(ax, 7.38, 4.35, 2.10, 0.80, "Controller\nillegal-instruction trap",
         facecolor=CUSTOM_LIGHT, edgecolor=CUSTOM)
-    arrow(ax, [(1.5, 4.175), (1.85, 4.175)])
-    arrow(ax, [(3.15, 4.175), (3.75, 4.175)])
-    arrow(ax, [(5.75, 4.175), (7.45, 4.175)], control=True)
-    label(ax, 6.6, 4.42, "illegal encoding", fontsize=7.5, color=CUSTOM)
-
-    box(ax, 3.75, 1.65, 2.0, 0.95, "Register file\nRead rs1  ·  write rd",
-        facecolor=PANEL)
-    box(ax, 6.35, 1.65, 1.45, 0.95, "ISQRT\n16 stages",
-        facecolor=CUSTOM_LIGHT, edgecolor=CUSTOM)
-    box(ax, 8.35, 1.65, 1.4, 0.95, "Result /\nwriteback mux",
-        facecolor=SUCCESS_LIGHT, edgecolor=SUCCESS)
-    arrow(ax, [(4.55, 3.75), (4.55, 2.6)], control=True)
-    label(ax, 3.98, 3.12, "register\ncontrol", fontsize=7, color=CUSTOM)
-    arrow(ax, [(5.15, 3.75), (5.15, 3.1), (7.05, 3.1), (7.05, 2.6)],
-          control=True)
-    label(ax, 6.15, 3.3, "ALU_ISQRT", fontsize=7, color=CUSTOM)
-    arrow(ax, [(5.75, 2.125), (6.35, 2.125)])
-    arrow(ax, [(7.8, 2.125), (8.35, 2.125)])
-    arrow(ax, [(9.05, 1.65), (9.05, 1.15), (4.75, 1.15), (4.75, 1.65)],
-          color=SUCCESS)
-    label(ax, 6.9, 0.83, "32-bit result  ·  destination register updates at the clock edge",
-          fontsize=7.5, color=SUCCESS)
-    ax.plot([0.3, 9.7], [0.48, 0.48], color=GRID, lw=0.8)
-    ax.plot([0.55, 0.95], [0.25, 0.25], color=DATA, lw=1.5)
-    label(ax, 1.48, 0.25, "Data", fontsize=7, color=MUTED)
-    ax.plot([3.0, 3.4], [0.25, 0.25], color=CUSTOM, lw=1.5, ls="--")
-    label(ax, 3.92, 0.25, "Control", fontsize=7, color=MUTED)
-    ax.plot([6.0, 6.4], [0.25, 0.25], color=SUCCESS, lw=1.5)
-    label(ax, 6.92, 0.25, "Writeback", fontsize=7, color=MUTED)
+    arrow(ax, [(2.09, 3.35), (2.47, 3.35), (2.47, 4.75), (3.00, 4.75)])
+    arrow(ax, [(5.35, 4.75), (7.38, 4.75)], control=True)
+    label(ax, 6.38, 5.00, "illegal encoding", fontsize=7, color=CUSTOM)
+    box(ax, 3.00, 2.65, 2.35, 0.85, "Register file\nread rs1 / write rd", facecolor="white")
+    box(ax, 6.00, 2.65, 1.40, 0.85, "ISQRT ALU\n16 stages", facecolor=CUSTOM_LIGHT, edgecolor=CUSTOM)
+    box(ax, 8.00, 2.65, 1.48, 0.85, "Result /\nwriteback mux", facecolor=SUCCESS_LIGHT, edgecolor=SUCCESS)
+    arrow(ax, [(4.17, 4.35), (4.17, 3.50)], control=True)
+    label(ax, 3.60, 3.92, "RF control", fontsize=7, color=CUSTOM)
+    arrow(ax, [(4.85, 4.35), (4.85, 3.95), (6.70, 3.95), (6.70, 3.50)], control=True)
+    label(ax, 5.85, 4.15, "ALU_ISQRT", fontsize=7, color=CUSTOM)
+    arrow(ax, [(5.35, 3.07), (6.00, 3.07)])
+    arrow(ax, [(7.40, 3.07), (8.00, 3.07)])
+    arrow(ax, [(8.74, 2.65), (8.74, 1.96), (4.17, 1.96), (4.17, 2.65)], color=SUCCESS)
+    label(ax, 6.50, 2.18, "32-bit result / capture at the closing edge", fontsize=7.2, color=SUCCESS)
+    for x, color, name, control in [(0.7, DATA, "Data", False),
+                                   (3.5, CUSTOM, "Control", True),
+                                   (6.7, SUCCESS, "Writeback", False)]:
+        ax.plot([x, x + .45], [.90, .90], color=color, lw=1.4, ls="--" if control else "-")
+        label(ax, x + 1.12, .90, name, fontsize=7.5, color=MUTED)
+    label(ax, 5, .35, "Structural schematic: only paths relevant to ISQRT are shown.", fontsize=7.2, color=MUTED)
     return fig
 
 
@@ -327,10 +307,11 @@ def benchmark(evidence):
     fig, ax = plt.subplots(figsize=(WIDTH, 3.5))
     fig.subplots_adjust(left=0.31, right=0.96, top=0.66, bottom=0.27)
     y = [1, 0]
-    bars = ax.barh(y, [values[0], values[1]], height=0.48,
-                   color=[DATA, CUSTOM], edgecolor="none", zorder=3)
-    ax.bar_label(bars, labels=[f"{value} cycles" for value in values], padding=7,
-                 color=INK, fontweight="bold", fontsize=9)
+    for row, value, color, marker in zip(y, values, [DATA, CUSTOM], ["o", "D"]):
+        ax.hlines(row, 0, value, color=color, alpha=0.25, lw=2.5)
+        ax.scatter(value, row, color=color, marker=marker, s=70, zorder=3)
+        ax.text(value + max(values) * .045, row, f"{value} cycles", va="center",
+                color=INK, fontweight="bold", fontsize=9)
     ratio = values[0] / values[1]
     ax.set(yticks=y, yticklabels=["Software implementation", "Custom instruction"],
            xlabel="Reported average cycles per root", xlim=(0, max(values) * 1.22), ylim=(-0.65, 1.65))
@@ -343,9 +324,10 @@ def benchmark(evidence):
     ax.spines["bottom"].set_color(GRID)
     fig.text(0.5, 0.96, "Benchmark workload comparison", ha="center", va="top",
              color=INK, fontweight="bold", fontsize=11)
-    fig.text(0.5, 0.87, "Integer-rounded simulator average  ·  cycles per root",
+    gcc_version = evidence["versions"]["gcc"].split()[-1]
+    fig.text(0.5, 0.87, f"Integer-rounded RTL workload average | GCC {gcc_version} | cycles per root",
              ha="center", va="top", color=MUTED, fontsize=8)
-    fig.text(0.5, 0.77, f"{ratio:.1f}× fewer reported cycles per root",
+    fig.text(0.5, 0.77, f"Software / hardware cycle ratio: {ratio:.1f}×",
              ha="center", va="center", color=CUSTOM, fontsize=9, fontweight="bold")
     fig.text(0.5, 0.075, f"Matching checksum: {results['sw_isqrt']['checksum']}",
              ha="center", color=INK, fontsize=8, fontweight="bold")
@@ -365,11 +347,7 @@ def main():
     except (OSError, ValueError, KeyError, StopIteration) as error:
         parser.error(f"Cannot generate measured figures: {error}. Run scripts/collect_simulation_results.py first.")
     args.out_dir.mkdir(parents=True, exist_ok=True)
-    plt.rcParams.update({"font.family": "sans-serif", "font.sans-serif": ["Arial", "DejaVu Sans"],
-                         "font.size": 8.5, "text.color": INK, "axes.labelcolor": INK,
-                         "axes.edgecolor": GRID, "mathtext.fontset": "dejavusans",
-                         "pdf.fonttype": 42, "ps.fonttype": 42, "svg.fonttype": "path",
-                         "axes.unicode_minus": False})
+    configure()
     measured = evidence["timing"]
     CAPTIONS["fig02_recurrence"] = (
         "Unrolled restoring square-root recurrence with no registers between its 16 stages. "
@@ -387,9 +365,10 @@ def main():
     figures = {"fig01_pipeline": pipeline(), "fig02_recurrence": recurrence(measured),
                "fig03_writeback": timing(data, measured), "fig04_benchmark": benchmark(evidence)}
     for name, fig in figures.items():
-        fig.savefig(args.out_dir / f"{name}.pdf", metadata={"Title": CAPTIONS[name]})
+        fig.savefig(args.out_dir / f"{name}.pdf", metadata={"Title": CAPTIONS[name],
+                    "CreationDate": None, "ModDate": None})
         svg_path = args.out_dir / f"{name}.svg"
-        fig.savefig(svg_path)
+        fig.savefig(svg_path, metadata={"Date": None, "Description": CAPTIONS[name]})
         svg_path.write_text("\n".join(line.rstrip() for line in svg_path.read_text().splitlines()) + "\n")
         fig.savefig(args.out_dir / f"{name}.png", dpi=600)
         plt.close(fig)
@@ -408,10 +387,11 @@ def main():
         tex.extend([r"\begin{figure}[t]", r"  \centering",
                     rf"  \includegraphics[width=\linewidth]{{{pdf_path}}}",
                     rf"  \caption{{{caption}}}", rf"  \label{{fig:{name}}}", r"\end{figure}", ""])
-    (args.out_dir / "include_figures.tex").write_text("\n".join(tex) + "\n")
+    (args.out_dir / "include_figures.tex").write_text("\n".join(tex).rstrip() + "\n")
     manifest = {"matplotlib": matplotlib.__version__, "width_inches": WIDTH,
                 "results_file": str(args.results), "results_sha256": digest(args.results),
                 "generator_sha256": digest(Path(__file__)),
+                "style_sha256": digest(Path(__file__).with_name("figure_style.py")),
                 "simulation_evidence": evidence, "captions": CAPTIONS,
                 "figure_kinds": {"fig01_pipeline": "Reviewed structural schematic",
                                  "fig02_recurrence": "Reviewed recurrence; example computed from captured input",

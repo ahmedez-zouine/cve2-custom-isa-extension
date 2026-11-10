@@ -6,8 +6,10 @@ target. The original core passes the reported setup checks, but both designs
 have hold violations. Neither result establishes complete timing closure.
 
 Figures generated directly from these reports are available as
-[resource cost](../pdf/fig05_fpga_resources.pdf) and
-[setup/hold timing](../pdf/fig06_fpga_timing.pdf). The
+[resource point plots](../pdf/fig05_fpga_resources.pdf),
+[timing heatmap](../pdf/fig06_fpga_timing.pdf) and
+[area/slack scatter plot](../pdf/fig07_fpga_tradeoff.pdf). A separate
+[experimental schematic](../pdf/fig08_experimental_setup.pdf) explains the workflow. The
 [parsed data](../pdf/fpga_results.json) and
 [figure manifest](../pdf/fpga_figure_manifest.json) retain their numerical
 inputs and source hashes.

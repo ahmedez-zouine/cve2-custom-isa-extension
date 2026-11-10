@@ -66,6 +66,29 @@ class ReportTests(unittest.TestCase):
         updated["runs"]["extended"]["timing"]["setup_failing_endpoints"] = 0
         self.assertIn("with isqrt passes setup", figures.check_status(updated, "setup"))
 
+    def test_heatmap_contains_worst_slack_in_nanoseconds(self):
+        original, _ = figures.read_run(REPORTS / "baseline", "baseline")
+        extended, _ = figures.read_run(REPORTS / "extended", "extended")
+        figure = figures.timing_figure({"runs": {"baseline": original, "extended": extended}})
+        try:
+            matrix = figure.axes[0].images[0].get_array().tolist()
+            self.assertEqual(matrix, [[2.994, -.956, 9.5], [-30.8, -.956, 9.5]])
+            self.assertEqual(figure.axes[0].images[0].norm.vcenter, 0)
+        finally:
+            figures.plt.close(figure)
+
+    def test_scatter_contains_exactly_the_two_reported_configurations(self):
+        original, _ = figures.read_run(REPORTS / "baseline", "baseline")
+        extended, _ = figures.read_run(REPORTS / "extended", "extended")
+        figure = figures.tradeoff_figure({"runs": {"baseline": original, "extended": extended}})
+        try:
+            points = [tuple(point) for collection in figure.axes[0].collections
+                      for point in collection.get_offsets()]
+            self.assertEqual(points, [(3034, 2.994), (4178, -30.8)])
+            self.assertEqual(len(figure.axes[0].lines), 1)
+        finally:
+            figures.plt.close(figure)
+
 
 if __name__ == "__main__":
     unittest.main()
