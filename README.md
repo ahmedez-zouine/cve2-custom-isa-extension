@@ -4,7 +4,8 @@ This project adds an unsigned integer square-root instruction to CVE2, a compact
 32-bit RISC-V processor. The goal is to calculate a result in hardware, verify
 the instruction in simulation, and measure its implementation cost on an FPGA.
 
-The [FPGA build guide](fpga/README.md) describes the Vivado synthesis preparation.
+The [FPGA build guide](fpga/README.md) describes synthesis and the prepared
+placement-and-routing flow for the saved Vivado checkpoints.
 The [FPGA synthesis comparison](output/fpga/comparison.md) reports 3,034 LUTs for
 the original core and 4,178 with isqrt, an increase of 37.7%. Estimated setup
 slack changes from +2.994 ns to -30.800 ns at 50 MHz. Both runs have hold
@@ -288,7 +289,9 @@ The [comparison review](output/fpga/comparison.md) explains the timing limits.
 The [parsed JSON](output/pdf/fpga_results.json), [CSV](output/pdf/fpga_metrics.csv)
 and [figure manifest](output/pdf/fpga_figure_manifest.json) retain the values,
 source hashes and figure captions. Placement, routing, implemented Fmax and
-power results remain pending.
+power results remain pending. The [implementation script](fpga/implement.tcl)
+continues the saved synthesis checkpoints with the same default flow for both
+cores; its run and review commands are in the [FPGA guide](fpga/README.md#place-and-route-the-saved-synthesis-checkpoints).
 
 ## 6. Repository map
 

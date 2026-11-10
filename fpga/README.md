@@ -1,4 +1,4 @@
-# CVE2 FPGA synthesis preparation
+# CVE2 FPGA synthesis and implementation
 
 This directory prepares an out-of-context (OOC) synthesis of the extended core
 using Vivado and a Xilinx 7-series part. Select the actual part supported by your
@@ -148,6 +148,117 @@ the file under `build/fpga/baseline/` may still belong to an earlier run.
 Vivado's `.Xil/` cache and root logs are ignored. The selected evidence in
 `output/fpga/` remains tracked.
 
-References: AMD's [BUFGCE primitive](https://docs.amd.com/r/en-US/ug953-vivado-7series-libraries/BUFGCE),
+## Place and route the saved synthesis checkpoints
+
+`implement.tcl` continues each successful synthesis checkpoint through
+`opt_design`, `place_design`, `phys_opt_design` and `route_design`, using the
+Default directives and four threads for both variants. It opens the checkpoint
+with its saved OOC mode and constraints. It checks the part, clock period,
+variant metadata, synthesis completion log and Vivado version before running.
+It records a SHA-256 hash of the input checkpoint and copies its synthesis
+metadata and log into the new report directory.
+
+Run this on the Vivado host where the synthesis checkpoints were generated.
+GitHub contains the text reports; the DCP files remain under `build/` on that
+host. The existing comparison uses Vivado 2024.2, `xc7a35tcsg324-1` and a 20 ns
+clock. Load that Vivado installation, then run from the repository root:
+
+```sh
+ls -lh build/fpga/extended/post_synth.dcp build/fpga/baseline/post_synth.dcp
+mkdir -p build/fpga/implementation/extended
+vivado -mode batch -source fpga/implement.tcl \
+  -log build/fpga/implementation/extended/vivado.log \
+  -journal build/fpga/implementation/extended/vivado.jou \
+  -tclargs extended
+```
+
+Inspect the extended run before starting the baseline:
+
+```sh
+tail -n 25 build/fpga/implementation/extended/vivado.log
+cat build/fpga/implementation/extended/implementation_info.txt
+cat build/fpga/implementation/extended/route_status.rpt
+```
+
+Then use the same flow for the baseline:
+
+```sh
+mkdir -p build/fpga/implementation/baseline
+vivado -mode batch -source fpga/implement.tcl \
+  -log build/fpga/implementation/baseline/vivado.log \
+  -journal build/fpga/implementation/baseline/vivado.jou \
+  -tclargs baseline
+```
+
+The earlier baseline run wrote its successful log to the repository root; its
+`build/fpga/baseline/vivado.log` may still describe the failed preparation.
+If the script rejects that log, compare `build/fpga/baseline/run_info.txt` with
+`output/fpga/baseline/run_info.txt`. If they identify the same saved run, preserve
+the stale build log and copy the reviewed successful
+`output/fpga/baseline/vivado.log` into its place before launching implementation.
+Do not substitute an unrelated run's log or regenerate the baseline with changed
+settings to work around a provenance error.
+
+An existing `implementation_info.txt` causes the script to stop before changing
+the design. Preserve and rename that variant's implementation directory before
+another attempt, including after a failed run. The launch log can be rewritten
+by Vivado before the Tcl script starts, so archive the directory before
+relaunching the command.
+
+The implementation reports live in `build/fpga/implementation/<variant>/`:
+
+| File | What to review |
+|---|---|
+| `route_status.rpt` | Unrouted, partially routed or conflicting internal connections |
+| `timing_summary.rpt` | Routed setup, hold and pulse-width slack, failing endpoints and unconstrained paths |
+| `setup_paths.rpt`, `hold_paths.rpt` | Ten worst paths with clock details |
+| `register_setup_paths.rpt` | Ten worst register-to-register setup paths |
+| `utilization.rpt` | Resources after physical optimization and routing |
+| `check_timing.rpt` | Missing constraints, clocks and timing loops |
+| `methodology.rpt`, `drc.rpt` | Methodology issues and physical design rule violations |
+| `clocks.rpt`, `clock_utilization.rpt` | Clock definitions and buffer placement |
+| `implemented_constraints.xdc` | Constraints exported from the implemented design |
+| `implementation_info.txt` | Start/end state, input DCP hash, tool, settings and limitations |
+| `synthesis_run_info.txt`, `synthesis_vivado.log` | Provenance of the input synthesis run |
+| `post_place.dcp`, `post_route.dcp` | Checkpoints for inspection in Vivado |
+
+`status: reports_generated` means all script commands finished. Review routing
+completeness, DRC and every timing check before accepting a result. Negative
+WNS is a setup failure; negative WHS is a hold failure. A run that finishes can
+still violate timing. Do not fill the comparison with expected numbers: the
+routed LUT count, slack and critical path must come from these new reports.
+
+This remains OOC module analysis. The external `HD.CLK_SRC` clock location and
+board interfaces are undefined. Internal routed delays provide additional
+evidence, while complete clock timing and board sign-off require an enclosing
+design with reviewed constraints. Keep that limitation in any report, including
+if the new slack is positive. These scripts do not calculate an implemented
+Fmax, generate a board bitstream or estimate power. Power needs its own stated
+activity and operating conditions.
+
+After reviewing both runs, archive their text evidence separately from synthesis:
+
+```sh
+for variant in extended baseline; do
+  src="build/fpga/implementation/$variant"
+  dst="output/fpga/implementation/$variant"
+  mkdir -p "$dst"
+  cp "$src"/*.rpt "$src"/*.txt "$src"/*.tcl "$src"/*.xdc \
+    "$src/vivado.log" "$src/vivado.jou" "$dst/"
+  if [ -f "$src/synthesis_source_manifest.json" ]; then
+    cp "$src/synthesis_source_manifest.json" "$dst/"
+  fi
+done
+```
+
+This export preserves existing synthesis evidence and leaves the DCP files in
+`build/`. The current figure generator reads the archived synthesis pair; routed
+results must be reviewed and integrated explicitly before plotting them.
+
+References: AMD's [implementation command sequence](https://docs.amd.com/r/2024.2-English/ug835-vivado-tcl-commands/place_design),
+[opening a saved checkpoint](https://docs.amd.com/r/2024.2-English/ug835-vivado-tcl-commands/open_checkpoint),
+[routing status](https://docs.amd.com/r/2024.2-English/ug835-vivado-tcl-commands/report_route_status),
+[OOC context constraints](https://docs.amd.com/r/en-US/ug905-vivado-hierarchical-design/Out-of-Context-Design-Constraints),
+[BUFGCE primitive](https://docs.amd.com/r/en-US/ug953-vivado-7series-libraries/BUFGCE),
 [OOC synthesis command](https://docs.amd.com/r/2023.1-English/ug835-vivado-tcl-commands/synth_design),
 and [timing summary](https://docs.amd.com/r/en-US/ug906-vivado-design-analysis/Report-Timing-Summary).
