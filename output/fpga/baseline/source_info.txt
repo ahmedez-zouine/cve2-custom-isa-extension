@@ -1,0 +1,3 @@
+rtl_revision: af1e7b4fcab772e1976f41f36b38ced25cb9f377
+flow_reference_revision: 81c378c5fe8ebbb9856cf47f808fde3b12b7eaab
+source_recipe: reference FPGA sources with three original RTL files

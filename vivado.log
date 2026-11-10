@@ -1,0 +1,824 @@
+#-----------------------------------------------------------
+# Vivado v2024.2 (64-bit)
+# SW Build 5239630 on Fri Nov 08 22:34:34 MST 2024
+# IP Build 5239520 on Sun Nov 10 16:12:51 MST 2024
+# SharedData Build 5239561 on Fri Nov 08 14:39:27 MST 2024
+# Start of session at: Tue Nov 10 12:00:40 2026
+# Process ID         : 3062
+# Current directory  : /home/azureuser/cve2-custom-isa-extension
+# Command line       : vivado -mode batch -source fpga/synth.tcl -tclargs xc7a35tcsg324-1 baseline
+# Log file           : /home/azureuser/cve2-custom-isa-extension/vivado.log
+# Journal file       : /home/azureuser/cve2-custom-isa-extension/vivado.jou
+# Running On         : Goodman
+# Platform           : Ubuntu
+# Operating System   : Ubuntu 24.04.5 LTS
+# Processor Detail   : Intel(R) Xeon(R) Platinum 8272CL CPU @ 2.60GHz
+# CPU Frequency      : 2993.115 MHz
+# CPU Physical cores : 2
+# CPU Logical cores  : 4
+# Host memory        : 16707 MB
+# Swap memory        : 0 MB
+# Total Virtual      : 16707 MB
+# Available Virtual  : 16178 MB
+#-----------------------------------------------------------
+source fpga/synth.tcl
+# if {$argc < 1 || $argc > 2} {
+#     error "Usage: -tclargs PART ?extended|baseline? (clock target: 20 ns / 50 MHz)"
+# }
+# set target_part [lindex $argv 0]
+# set variant extended
+# if {$argc == 2} { set variant [lindex $argv 1] }
+# if {$variant ni {extended baseline}} { error "Variant must be extended or baseline" }
+# set clock_period_ns 20.0
+# set driver [file normalize [info script]]
+# set root [file dirname [file dirname $driver]]
+# cd $root
+# set source_root $root
+# if {$variant eq "baseline"} {
+#     set source_root [file join $root build fpga baseline_src]
+#     foreach name {source_manifest.json source_info.txt} {
+#         if {![file isfile [file join $source_root $name]]} {
+#             error "Baseline sources missing. Run: python3 scripts/prepare_fpga_baseline.py"
+#         }
+#     }
+#     exec python3 [file join $root scripts prepare_fpga_baseline.py]
+# }
+# set out [file join $root build fpga $variant]
+# file mkdir $out
+# file copy -force $driver [file join $out synth_driver.tcl]
+# if {$variant eq "baseline"} {
+#     foreach name {source_manifest.json source_info.txt} {
+#         file copy -force [file join $source_root $name] [file join $out $name]
+#     }
+# }
+# create_project -in_memory -part $target_part
+# set_msg_config -id {Synth 8-11067} -new_severity INFO
+# set_property target_language Verilog [current_project]
+# set_property verilog_define {SYNTHESIS} [current_fileset]
+# set source_list [open [file join $source_root fpga files.f] r]
+# set includes {}
+# set sources {}
+# foreach line [split [read $source_list] "\n"] {
+#     set line [string trim $line]
+#     if {$line eq "" || [string match {//*} $line]} { continue }
+#     if {[string match {+incdir+*} $line]} {
+#         lappend includes [file normalize [file join $source_root [string range $line 8 end]]]
+#     } else {
+#         set source [file join $source_root $line]
+#         if {![file isfile $source]} { error "Missing RTL source: $source" }
+#         lappend sources [file normalize $source]
+#     }
+# }
+# close $source_list
+# set_property include_dirs $includes [current_fileset]
+# read_verilog -sv $sources
+# read_xdc [file join $source_root fpga core.xdc]
+# synth_design -top cve2_fpga_top -part $target_part -mode out_of_context
+Command: synth_design -top cve2_fpga_top -part xc7a35tcsg324-1 -mode out_of_context
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7a35t'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a35t'
+INFO: [Device 21-403] Loading part xc7a35tcsg324-1
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 7 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 3095
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 1825.988 ; gain = 426.773 ; free physical = 12341 ; free virtual = 14350
+---------------------------------------------------------------------------------
+INFO: [Synth 8-11067] parameter 'RAM_1P_CFG_DEFAULT' declared inside package 'prim_ram_1p_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/vendor/lowrisc_ip/ip/prim/rtl/prim_ram_1p_pkg.sv:18]
+INFO: [Synth 8-11067] parameter 'Secded2216ZeroEcc' declared inside package 'prim_secded_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/vendor/lowrisc_ip/ip/prim/rtl/prim_secded_pkg.sv:81]
+INFO: [Synth 8-11067] parameter 'Secded2216ZeroWord' declared inside package 'prim_secded_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/vendor/lowrisc_ip/ip/prim/rtl/prim_secded_pkg.sv:82]
+INFO: [Synth 8-11067] parameter 'Secded2822ZeroEcc' declared inside package 'prim_secded_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/vendor/lowrisc_ip/ip/prim/rtl/prim_secded_pkg.sv:90]
+INFO: [Synth 8-11067] parameter 'Secded2822ZeroWord' declared inside package 'prim_secded_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/vendor/lowrisc_ip/ip/prim/rtl/prim_secded_pkg.sv:91]
+INFO: [Synth 8-11067] parameter 'Secded3932ZeroEcc' declared inside package 'prim_secded_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/vendor/lowrisc_ip/ip/prim/rtl/prim_secded_pkg.sv:99]
+INFO: [Synth 8-11067] parameter 'Secded3932ZeroWord' declared inside package 'prim_secded_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/vendor/lowrisc_ip/ip/prim/rtl/prim_secded_pkg.sv:100]
+INFO: [Synth 8-11067] parameter 'Secded6457ZeroEcc' declared inside package 'prim_secded_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/vendor/lowrisc_ip/ip/prim/rtl/prim_secded_pkg.sv:108]
+INFO: [Synth 8-11067] parameter 'Secded6457ZeroWord' declared inside package 'prim_secded_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/vendor/lowrisc_ip/ip/prim/rtl/prim_secded_pkg.sv:109]
+INFO: [Synth 8-11067] parameter 'Secded7264ZeroEcc' declared inside package 'prim_secded_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/vendor/lowrisc_ip/ip/prim/rtl/prim_secded_pkg.sv:117]
+INFO: [Synth 8-11067] parameter 'Secded7264ZeroWord' declared inside package 'prim_secded_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/vendor/lowrisc_ip/ip/prim/rtl/prim_secded_pkg.sv:118]
+INFO: [Synth 8-11067] parameter 'SecdedHamming2216ZeroEcc' declared inside package 'prim_secded_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/vendor/lowrisc_ip/ip/prim/rtl/prim_secded_pkg.sv:126]
+INFO: [Synth 8-11067] parameter 'SecdedHamming2216ZeroWord' declared inside package 'prim_secded_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/vendor/lowrisc_ip/ip/prim/rtl/prim_secded_pkg.sv:127]
+INFO: [Synth 8-11067] parameter 'SecdedHamming3932ZeroEcc' declared inside package 'prim_secded_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/vendor/lowrisc_ip/ip/prim/rtl/prim_secded_pkg.sv:135]
+INFO: [Synth 8-11067] parameter 'SecdedHamming3932ZeroWord' declared inside package 'prim_secded_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/vendor/lowrisc_ip/ip/prim/rtl/prim_secded_pkg.sv:136]
+INFO: [Synth 8-11067] parameter 'SecdedHamming7264ZeroEcc' declared inside package 'prim_secded_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/vendor/lowrisc_ip/ip/prim/rtl/prim_secded_pkg.sv:144]
+INFO: [Synth 8-11067] parameter 'SecdedHamming7264ZeroWord' declared inside package 'prim_secded_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/vendor/lowrisc_ip/ip/prim/rtl/prim_secded_pkg.sv:145]
+INFO: [Synth 8-11067] parameter 'SecdedHamming7668ZeroEcc' declared inside package 'prim_secded_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/vendor/lowrisc_ip/ip/prim/rtl/prim_secded_pkg.sv:153]
+INFO: [Synth 8-11067] parameter 'SecdedHamming7668ZeroWord' declared inside package 'prim_secded_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/vendor/lowrisc_ip/ip/prim/rtl/prim_secded_pkg.sv:154]
+INFO: [Synth 8-11067] parameter 'SecdedInv2216ZeroEcc' declared inside package 'prim_secded_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/vendor/lowrisc_ip/ip/prim/rtl/prim_secded_pkg.sv:162]
+INFO: [Synth 8-11067] parameter 'SecdedInv2216ZeroWord' declared inside package 'prim_secded_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/vendor/lowrisc_ip/ip/prim/rtl/prim_secded_pkg.sv:163]
+INFO: [Synth 8-11067] parameter 'SecdedInv2822ZeroEcc' declared inside package 'prim_secded_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/vendor/lowrisc_ip/ip/prim/rtl/prim_secded_pkg.sv:171]
+INFO: [Synth 8-11067] parameter 'SecdedInv2822ZeroWord' declared inside package 'prim_secded_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/vendor/lowrisc_ip/ip/prim/rtl/prim_secded_pkg.sv:172]
+INFO: [Synth 8-11067] parameter 'SecdedInv3932ZeroEcc' declared inside package 'prim_secded_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/vendor/lowrisc_ip/ip/prim/rtl/prim_secded_pkg.sv:180]
+INFO: [Synth 8-11067] parameter 'SecdedInv3932ZeroWord' declared inside package 'prim_secded_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/vendor/lowrisc_ip/ip/prim/rtl/prim_secded_pkg.sv:181]
+INFO: [Synth 8-11067] parameter 'SecdedInv6457ZeroEcc' declared inside package 'prim_secded_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/vendor/lowrisc_ip/ip/prim/rtl/prim_secded_pkg.sv:189]
+INFO: [Synth 8-11067] parameter 'SecdedInv6457ZeroWord' declared inside package 'prim_secded_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/vendor/lowrisc_ip/ip/prim/rtl/prim_secded_pkg.sv:190]
+INFO: [Synth 8-11067] parameter 'SecdedInv7264ZeroEcc' declared inside package 'prim_secded_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/vendor/lowrisc_ip/ip/prim/rtl/prim_secded_pkg.sv:198]
+INFO: [Synth 8-11067] parameter 'SecdedInv7264ZeroWord' declared inside package 'prim_secded_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/vendor/lowrisc_ip/ip/prim/rtl/prim_secded_pkg.sv:199]
+INFO: [Synth 8-11067] parameter 'SecdedInvHamming2216ZeroEcc' declared inside package 'prim_secded_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/vendor/lowrisc_ip/ip/prim/rtl/prim_secded_pkg.sv:207]
+INFO: [Synth 8-11067] parameter 'SecdedInvHamming2216ZeroWord' declared inside package 'prim_secded_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/vendor/lowrisc_ip/ip/prim/rtl/prim_secded_pkg.sv:208]
+INFO: [Synth 8-11067] parameter 'SecdedInvHamming3932ZeroEcc' declared inside package 'prim_secded_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/vendor/lowrisc_ip/ip/prim/rtl/prim_secded_pkg.sv:216]
+INFO: [Synth 8-11067] parameter 'SecdedInvHamming3932ZeroWord' declared inside package 'prim_secded_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/vendor/lowrisc_ip/ip/prim/rtl/prim_secded_pkg.sv:217]
+INFO: [Synth 8-11067] parameter 'SecdedInvHamming7264ZeroEcc' declared inside package 'prim_secded_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/vendor/lowrisc_ip/ip/prim/rtl/prim_secded_pkg.sv:225]
+INFO: [Synth 8-11067] parameter 'SecdedInvHamming7264ZeroWord' declared inside package 'prim_secded_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/vendor/lowrisc_ip/ip/prim/rtl/prim_secded_pkg.sv:226]
+INFO: [Synth 8-11067] parameter 'SecdedInvHamming7668ZeroEcc' declared inside package 'prim_secded_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/vendor/lowrisc_ip/ip/prim/rtl/prim_secded_pkg.sv:234]
+INFO: [Synth 8-11067] parameter 'SecdedInvHamming7668ZeroWord' declared inside package 'prim_secded_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/vendor/lowrisc_ip/ip/prim/rtl/prim_secded_pkg.sv:235]
+INFO: [Synth 8-11067] parameter 'PMP_MAX_REGIONS' declared inside package 'cve2_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_pkg.sv:328]
+INFO: [Synth 8-11067] parameter 'PMP_CFG_W' declared inside package 'cve2_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_pkg.sv:329]
+INFO: [Synth 8-11067] parameter 'PMP_I' declared inside package 'cve2_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_pkg.sv:332]
+INFO: [Synth 8-11067] parameter 'PMP_I2' declared inside package 'cve2_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_pkg.sv:333]
+INFO: [Synth 8-11067] parameter 'PMP_D' declared inside package 'cve2_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_pkg.sv:334]
+INFO: [Synth 8-11067] parameter 'CSR_OFF_PMP_CFG' declared inside package 'cve2_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_pkg.sv:532]
+INFO: [Synth 8-11067] parameter 'CSR_OFF_PMP_ADDR' declared inside package 'cve2_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_pkg.sv:533]
+INFO: [Synth 8-11067] parameter 'CSR_MSTATUS_MIE_BIT' declared inside package 'cve2_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_pkg.sv:536]
+INFO: [Synth 8-11067] parameter 'CSR_MSTATUS_MPIE_BIT' declared inside package 'cve2_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_pkg.sv:537]
+INFO: [Synth 8-11067] parameter 'CSR_MSTATUS_MPP_BIT_LOW' declared inside package 'cve2_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_pkg.sv:538]
+INFO: [Synth 8-11067] parameter 'CSR_MSTATUS_MPP_BIT_HIGH' declared inside package 'cve2_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_pkg.sv:539]
+INFO: [Synth 8-11067] parameter 'CSR_MSTATUS_MPRV_BIT' declared inside package 'cve2_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_pkg.sv:540]
+INFO: [Synth 8-11067] parameter 'CSR_MSTATUS_TW_BIT' declared inside package 'cve2_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_pkg.sv:541]
+INFO: [Synth 8-11067] parameter 'CSR_MISA_MXL' declared inside package 'cve2_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_pkg.sv:544]
+INFO: [Synth 8-11067] parameter 'CSR_MSIX_BIT' declared inside package 'cve2_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_pkg.sv:547]
+INFO: [Synth 8-11067] parameter 'CSR_MTIX_BIT' declared inside package 'cve2_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_pkg.sv:548]
+INFO: [Synth 8-11067] parameter 'CSR_MEIX_BIT' declared inside package 'cve2_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_pkg.sv:549]
+INFO: [Synth 8-11067] parameter 'CSR_MFIX_BIT_LOW' declared inside package 'cve2_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_pkg.sv:550]
+INFO: [Synth 8-11067] parameter 'CSR_MFIX_BIT_HIGH' declared inside package 'cve2_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_pkg.sv:551]
+INFO: [Synth 8-11067] parameter 'CSR_MSECCFG_MML_BIT' declared inside package 'cve2_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_pkg.sv:554]
+INFO: [Synth 8-11067] parameter 'CSR_MSECCFG_MMWP_BIT' declared inside package 'cve2_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_pkg.sv:555]
+INFO: [Synth 8-11067] parameter 'CSR_MSECCFG_RLB_BIT' declared inside package 'cve2_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_pkg.sv:556]
+INFO: [Synth 8-11067] parameter 'MVENDORID_OFFSET' declared inside package 'cve2_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_pkg.sv:559]
+INFO: [Synth 8-11067] parameter 'MVENDORID_BANK' declared inside package 'cve2_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_pkg.sv:560]
+INFO: [Synth 8-11067] parameter 'MARCHID' declared inside package 'cve2_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_pkg.sv:563]
+INFO: [Synth 8-11067] parameter 'X_NUM_RS' declared inside package 'cve2_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_pkg.sv:660]
+INFO: [Synth 8-11067] parameter 'X_ID_WIDTH' declared inside package 'cve2_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_pkg.sv:661]
+INFO: [Synth 8-11067] parameter 'X_RFR_WIDTH' declared inside package 'cve2_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_pkg.sv:662]
+INFO: [Synth 8-11067] parameter 'X_RFW_WIDTH' declared inside package 'cve2_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_pkg.sv:663]
+INFO: [Synth 8-11067] parameter 'X_HARTID_WIDTH' declared inside package 'cve2_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_pkg.sv:664]
+INFO: [Synth 8-11067] parameter 'X_DUAL_READ' declared inside package 'cve2_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_pkg.sv:665]
+INFO: [Synth 8-11067] parameter 'X_DUAL_WRITE' declared inside package 'cve2_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_pkg.sv:666]
+INFO: [Synth 8-11067] parameter 'X_INSTR_INFLIGHT' declared inside package 'cve2_pkg' shall be treated as localparam [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_pkg.sv:667]
+INFO: [Synth 8-6157] synthesizing module 'cve2_fpga_top' [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/fpga/cve2_fpga_top.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'cve2_top' [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_top.sv:17]
+	Parameter MHPMCounterNum bound to: 32'b00000000000000000000000000000000 
+	Parameter MHPMCounterWidth bound to: 32'b00000000000000000000000000101000 
+	Parameter RV32E bound to: 1'b0 
+	Parameter RV32M bound to: 2 - type: integer 
+	Parameter XInterface bound to: 1'b0 
+INFO: [Synth 8-6157] synthesizing module 'cve2_clock_gate' [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/fpga/cve2_clock_gate.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'BUFGCE' [/home/azureuser/tools/Xilinx/Vivado/2024.2/scripts/rt/data/unisim_comp.v:2686]
+	Parameter SIM_DEVICE bound to: 7SERIES - type: string 
+INFO: [Synth 8-6155] done synthesizing module 'BUFGCE' (0#1) [/home/azureuser/tools/Xilinx/Vivado/2024.2/scripts/rt/data/unisim_comp.v:2686]
+INFO: [Synth 8-6155] done synthesizing module 'cve2_clock_gate' (0#1) [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/fpga/cve2_clock_gate.sv:1]
+INFO: [Synth 8-6157] synthesizing module 'cve2_core' [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_core.sv:16]
+	Parameter PMPEnable bound to: 1'b0 
+	Parameter PMPGranularity bound to: 32'b00000000000000000000000000000000 
+	Parameter PMPNumRegions bound to: 32'b00000000000000000000000000000100 
+	Parameter MHPMCounterNum bound to: 32'b00000000000000000000000000000000 
+	Parameter MHPMCounterWidth bound to: 32'b00000000000000000000000000101000 
+	Parameter RV32E bound to: 1'b0 
+	Parameter RV32M bound to: 2 - type: integer 
+	Parameter RV32B bound to: 0 - type: integer 
+	Parameter DbgTriggerEn bound to: 1'b1 
+	Parameter DbgHwBreakNum bound to: 32'b00000000000000000000000000000001 
+	Parameter XInterface bound to: 1'b0 
+INFO: [Synth 8-6157] synthesizing module 'cve2_if_stage' [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_if_stage.sv:16]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_if_stage.sv:125]
+INFO: [Synth 8-226] default block is never used [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_if_stage.sv:125]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_if_stage.sv:139]
+INFO: [Synth 8-6157] synthesizing module 'cve2_prefetch_buffer' [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_prefetch_buffer.sv:13]
+INFO: [Synth 8-6157] synthesizing module 'cve2_fetch_fifo' [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_fetch_fifo.sv:16]
+	Parameter NUM_REQS bound to: 32'b00000000000000000000000000000010 
+INFO: [Synth 8-6155] done synthesizing module 'cve2_fetch_fifo' (0#1) [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_fetch_fifo.sv:16]
+INFO: [Synth 8-6155] done synthesizing module 'cve2_prefetch_buffer' (0#1) [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_prefetch_buffer.sv:13]
+INFO: [Synth 8-6157] synthesizing module 'cve2_compressed_decoder' [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_compressed_decoder.sv:17]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_compressed_decoder.sv:43]
+INFO: [Synth 8-226] default block is never used [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_compressed_decoder.sv:43]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_compressed_decoder.sv:46]
+INFO: [Synth 8-226] default block is never used [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_compressed_decoder.sv:46]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_compressed_decoder.sv:87]
+INFO: [Synth 8-226] default block is never used [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_compressed_decoder.sv:87]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_compressed_decoder.sv:125]
+INFO: [Synth 8-226] default block is never used [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_compressed_decoder.sv:125]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_compressed_decoder.sv:143]
+INFO: [Synth 8-226] default block is never used [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_compressed_decoder.sv:143]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_compressed_decoder.sv:209]
+INFO: [Synth 8-226] default block is never used [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_compressed_decoder.sv:209]
+INFO: [Synth 8-6155] done synthesizing module 'cve2_compressed_decoder' (0#1) [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_compressed_decoder.sv:17]
+INFO: [Synth 8-6155] done synthesizing module 'cve2_if_stage' (0#1) [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_if_stage.sv:16]
+INFO: [Synth 8-6157] synthesizing module 'cve2_id_stage' [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_id_stage.sv:21]
+	Parameter RV32E bound to: 1'b0 
+	Parameter RV32M bound to: 2 - type: integer 
+	Parameter RV32B bound to: 0 - type: integer 
+	Parameter XInterface bound to: 1'b0 
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_id_stage.sv:430]
+INFO: [Synth 8-226] default block is never used [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_id_stage.sv:430]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_id_stage.sv:444]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_id_stage.sv:492]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_id_stage.sv:502]
+INFO: [Synth 8-6157] synthesizing module 'cve2_decoder' [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_decoder.sv:17]
+	Parameter RV32E bound to: 1'b0 
+	Parameter RV32M bound to: 2 - type: integer 
+	Parameter RV32B bound to: 0 - type: integer 
+	Parameter XInterface bound to: 1'b0 
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_decoder.sv:240]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_decoder.sv:280]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_decoder.sv:309]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_decoder.sv:326]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_decoder.sv:357]
+INFO: [Synth 8-226] default block is never used [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_decoder.sv:357]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_decoder.sv:366]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_decoder.sv:382]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_decoder.sv:407]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_decoder.sv:459]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_decoder.sv:569]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_decoder.sv:595]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_decoder.sv:631]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_decoder.sv:694]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_decoder.sv:736]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_decoder.sv:811]
+INFO: [Synth 8-226] default block is never used [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_decoder.sv:811]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_decoder.sv:981]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_decoder.sv:1129]
+INFO: [Synth 8-6155] done synthesizing module 'cve2_decoder' (0#1) [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_decoder.sv:17]
+INFO: [Synth 8-6157] synthesizing module 'cve2_controller' [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_controller.sv:14]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_controller.sv:380]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_controller.sv:624]
+INFO: [Synth 8-6155] done synthesizing module 'cve2_controller' (0#1) [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_controller.sv:14]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_id_stage.sv:801]
+INFO: [Synth 8-226] default block is never used [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_id_stage.sv:801]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_id_stage.sv:803]
+INFO: [Synth 8-6155] done synthesizing module 'cve2_id_stage' (0#1) [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_id_stage.sv:21]
+INFO: [Synth 8-6157] synthesizing module 'cve2_ex_block' [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_ex_block.sv:12]
+	Parameter RV32M bound to: 2 - type: integer 
+	Parameter RV32B bound to: 0 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'cve2_multdiv_fast' [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_multdiv_fast.sv:18]
+	Parameter RV32M bound to: 2 - type: integer 
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_multdiv_fast.sv:286]
+INFO: [Synth 8-226] default block is never used [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_multdiv_fast.sv:286]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_multdiv_fast.sv:416]
+INFO: [Synth 8-6155] done synthesizing module 'cve2_multdiv_fast' (0#1) [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_multdiv_fast.sv:18]
+INFO: [Synth 8-6157] synthesizing module 'cve2_alu' [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_alu.sv:10]
+	Parameter RV32B bound to: 0 - type: integer 
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_alu.sv:61]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_alu.sv:86]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_alu.sv:98]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_alu.sv:121]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_alu.sv:161]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_alu.sv:306]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_alu.sv:373]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_alu.sv:393]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_alu.sv:1323]
+INFO: [Synth 8-6155] done synthesizing module 'cve2_alu' (0#1) [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_alu.sv:10]
+INFO: [Synth 8-6155] done synthesizing module 'cve2_ex_block' (0#1) [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_ex_block.sv:12]
+INFO: [Synth 8-6157] synthesizing module 'cve2_load_store_unit' [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_load_store_unit.sv:18]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_load_store_unit.sv:112]
+INFO: [Synth 8-226] default block is never used [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_load_store_unit.sv:112]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_load_store_unit.sv:115]
+INFO: [Synth 8-226] default block is never used [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_load_store_unit.sv:115]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_load_store_unit.sv:123]
+INFO: [Synth 8-226] default block is never used [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_load_store_unit.sv:123]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_load_store_unit.sv:135]
+INFO: [Synth 8-226] default block is never used [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_load_store_unit.sv:135]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_load_store_unit.sv:149]
+INFO: [Synth 8-226] default block is never used [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_load_store_unit.sv:149]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_load_store_unit.sv:169]
+INFO: [Synth 8-226] default block is never used [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_load_store_unit.sv:169]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_load_store_unit.sv:222]
+INFO: [Synth 8-226] default block is never used [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_load_store_unit.sv:222]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_load_store_unit.sv:237]
+INFO: [Synth 8-226] default block is never used [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_load_store_unit.sv:237]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_load_store_unit.sv:276]
+INFO: [Synth 8-226] default block is never used [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_load_store_unit.sv:276]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_load_store_unit.sv:315]
+INFO: [Synth 8-226] default block is never used [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_load_store_unit.sv:315]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_load_store_unit.sv:349]
+INFO: [Synth 8-6155] done synthesizing module 'cve2_load_store_unit' (0#1) [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_load_store_unit.sv:18]
+INFO: [Synth 8-6157] synthesizing module 'cve2_wb' [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_wb.sv:16]
+INFO: [Synth 8-6155] done synthesizing module 'cve2_wb' (0#1) [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_wb.sv:16]
+INFO: [Synth 8-6157] synthesizing module 'cve2_register_file_ff' [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_register_file_ff.sv:14]
+	Parameter RV32E bound to: 1'b0 
+	Parameter DataWidth bound to: 32'b00000000000000000000000000100000 
+	Parameter WordZeroVal bound to: 0 - type: integer 
+	Parameter XInterface bound to: 1'b0 
+INFO: [Synth 8-6155] done synthesizing module 'cve2_register_file_ff' (0#1) [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_register_file_ff.sv:14]
+INFO: [Synth 8-6157] synthesizing module 'cve2_cs_registers' [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_cs_registers.sv:16]
+	Parameter DbgTriggerEn bound to: 1'b1 
+	Parameter DbgHwBreakNum bound to: 32'b00000000000000000000000000000001 
+	Parameter MHPMCounterNum bound to: 32'b00000000000000000000000000000000 
+	Parameter MHPMCounterWidth bound to: 32'b00000000000000000000000000101000 
+	Parameter PMPEnable bound to: 1'b0 
+	Parameter PMPGranularity bound to: 32'b00000000000000000000000000000000 
+	Parameter PMPNumRegions bound to: 32'b00000000000000000000000000000100 
+	Parameter RV32E bound to: 1'b0 
+	Parameter RV32M bound to: 2 - type: integer 
+	Parameter RV32B bound to: 0 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'cve2_csr' [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_csr.sv:12]
+	Parameter Width bound to: 32'b00000000000000000000000000000001 
+	Parameter ShadowCopy bound to: 1'b0 
+	Parameter ResetValue bound to: 1'b0 
+INFO: [Synth 8-6155] done synthesizing module 'cve2_csr' (0#1) [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_csr.sv:12]
+INFO: [Synth 8-6157] synthesizing module 'cve2_csr__parameterized0' [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_csr.sv:12]
+	Parameter Width bound to: 32'b00000000000000000000000000100000 
+	Parameter ShadowCopy bound to: 1'b0 
+	Parameter ResetValue bound to: 0 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cve2_csr__parameterized0' (0#1) [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_csr.sv:12]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_cs_registers.sv:272]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_cs_registers.sv:540]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_cs_registers.sv:645]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_cs_registers.sv:648]
+INFO: [Synth 8-294] found qualifier unique on case statement: implementing as parallel_case [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_cs_registers.sv:742]
+INFO: [Synth 8-226] default block is never used [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_cs_registers.sv:742]
+INFO: [Synth 8-6157] synthesizing module 'cve2_csr__parameterized1' [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_csr.sv:12]
+	Parameter Width bound to: 32'b00000000000000000000000000000110 
+	Parameter ResetValue bound to: 6'b001100 
+INFO: [Synth 8-6155] done synthesizing module 'cve2_csr__parameterized1' (0#1) [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_csr.sv:12]
+INFO: [Synth 8-6157] synthesizing module 'cve2_csr__parameterized2' [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_csr.sv:12]
+	Parameter Width bound to: 32'b00000000000000000000000000010011 
+	Parameter ShadowCopy bound to: 1'b0 
+	Parameter ResetValue bound to: 19'b0000000000000000000 
+INFO: [Synth 8-6155] done synthesizing module 'cve2_csr__parameterized2' (0#1) [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_csr.sv:12]
+INFO: [Synth 8-6157] synthesizing module 'cve2_csr__parameterized3' [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_csr.sv:12]
+	Parameter Width bound to: 32'b00000000000000000000000000000111 
+	Parameter ShadowCopy bound to: 1'b0 
+	Parameter ResetValue bound to: 7'b0000000 
+INFO: [Synth 8-6155] done synthesizing module 'cve2_csr__parameterized3' (0#1) [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_csr.sv:12]
+INFO: [Synth 8-6157] synthesizing module 'cve2_csr__parameterized4' [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_csr.sv:12]
+	Parameter Width bound to: 32'b00000000000000000000000000100000 
+	Parameter ResetValue bound to: 1 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'cve2_csr__parameterized4' (0#1) [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_csr.sv:12]
+INFO: [Synth 8-6157] synthesizing module 'cve2_csr__parameterized5' [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_csr.sv:12]
+	Parameter Width bound to: 32'b00000000000000000000000000100000 
+	Parameter ShadowCopy bound to: 1'b0 
+	Parameter ResetValue bound to: 32'b01000000000000000000000000000011 
+INFO: [Synth 8-6155] done synthesizing module 'cve2_csr__parameterized5' (0#1) [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_csr.sv:12]
+INFO: [Synth 8-6157] synthesizing module 'cve2_csr__parameterized6' [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_csr.sv:12]
+	Parameter Width bound to: 32'b00000000000000000000000000000011 
+	Parameter ShadowCopy bound to: 1'b0 
+	Parameter ResetValue bound to: 3'b111 
+INFO: [Synth 8-6155] done synthesizing module 'cve2_csr__parameterized6' (0#1) [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_csr.sv:12]
+INFO: [Synth 8-6157] synthesizing module 'cve2_counter' [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_counter.sv:6]
+	Parameter CounterWidth bound to: 32'sb00000000000000000000000001000000 
+INFO: [Synth 8-6155] done synthesizing module 'cve2_counter' (0#1) [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_counter.sv:6]
+INFO: [Synth 8-6157] synthesizing module 'cve2_counter__parameterized0' [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_counter.sv:6]
+	Parameter CounterWidth bound to: 32'sb00000000000000000000000001000000 
+	Parameter ProvideValUpd bound to: 1'b1 
+INFO: [Synth 8-6155] done synthesizing module 'cve2_counter__parameterized0' (0#1) [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_counter.sv:6]
+INFO: [Synth 8-6155] done synthesizing module 'cve2_cs_registers' (0#1) [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_cs_registers.sv:16]
+INFO: [Synth 8-6155] done synthesizing module 'cve2_core' (0#1) [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_core.sv:16]
+INFO: [Synth 8-6155] done synthesizing module 'cve2_top' (0#1) [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_top.sv:17]
+INFO: [Synth 8-6155] done synthesizing module 'cve2_fpga_top' (0#1) [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/fpga/cve2_fpga_top.sv:1]
+WARNING: [Synth 8-3936] Found unconnected internal register 'mhpmcounter_incr_reg' and it is trimmed from '32' to '3' bits. [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/cve2/rtl/cve2_cs_registers.sv:1191]
+WARNING: [Synth 8-7129] Port boot_addr_i[7] in module cve2_cs_registers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port boot_addr_i[6] in module cve2_cs_registers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port boot_addr_i[5] in module cve2_cs_registers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port boot_addr_i[4] in module cve2_cs_registers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port boot_addr_i[3] in module cve2_cs_registers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port boot_addr_i[2] in module cve2_cs_registers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port boot_addr_i[1] in module cve2_cs_registers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port boot_addr_i[0] in module cve2_cs_registers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instr_ret_compressed_i in module cve2_cs_registers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port iside_wait_i in module cve2_cs_registers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port jump_i in module cve2_cs_registers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port branch_i in module cve2_cs_registers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port branch_taken_i in module cve2_cs_registers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port mem_load_i in module cve2_cs_registers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port mem_store_i in module cve2_cs_registers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port dside_wait_i in module cve2_cs_registers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wfi_wait_i in module cve2_cs_registers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port div_wait_i in module cve2_cs_registers is either unconnected or has no load
+WARNING: [Synth 8-7129] Port test_en_i in module cve2_register_file_ff is either unconnected or has no load
+WARNING: [Synth 8-7129] Port raddr_c_i[4] in module cve2_register_file_ff is either unconnected or has no load
+WARNING: [Synth 8-7129] Port raddr_c_i[3] in module cve2_register_file_ff is either unconnected or has no load
+WARNING: [Synth 8-7129] Port raddr_c_i[2] in module cve2_register_file_ff is either unconnected or has no load
+WARNING: [Synth 8-7129] Port raddr_c_i[1] in module cve2_register_file_ff is either unconnected or has no load
+WARNING: [Synth 8-7129] Port raddr_c_i[0] in module cve2_register_file_ff is either unconnected or has no load
+WARNING: [Synth 8-7129] Port clk_i in module cve2_wb is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rst_ni in module cve2_wb is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[0][31] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[0][30] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[0][29] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[0][28] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[0][27] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[0][26] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[0][25] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[0][24] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[0][23] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[0][22] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[0][21] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[0][20] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[0][19] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[0][18] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[0][17] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[0][16] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[0][15] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[0][14] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[0][13] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[0][12] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[0][11] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[0][10] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[0][9] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[0][8] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[0][7] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[0][6] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[0][5] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[0][4] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[0][3] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[0][2] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[0][1] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[0][0] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[1][31] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[1][30] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[1][29] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[1][28] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[1][27] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[1][26] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[1][25] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[1][24] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[1][23] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[1][22] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[1][21] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[1][20] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[1][19] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[1][18] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[1][17] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[1][16] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[1][15] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[1][14] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[1][13] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[1][12] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[1][11] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[1][10] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[1][9] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[1][8] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[1][7] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[1][6] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[1][5] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[1][4] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[1][3] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[1][2] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[1][1] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[1][0] in module cve2_alu is either unconnected or has no load
+WARNING: [Synth 8-7129] Port mult_sel_i in module cve2_multdiv_fast is either unconnected or has no load
+WARNING: [Synth 8-7129] Port alu_adder_ext_i[33] in module cve2_multdiv_fast is either unconnected or has no load
+WARNING: [Synth 8-7129] Port alu_adder_ext_i[0] in module cve2_multdiv_fast is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[1][33] in module cve2_multdiv_fast is either unconnected or has no load
+WARNING: [Synth 8-7129] Port imd_val_q_i[1][32] in module cve2_multdiv_fast is either unconnected or has no load
+WARNING: [Synth 8-7129] Port irqs_i[irq_timer] in module cve2_controller is either unconnected or has no load
+WARNING: [Synth 8-7129] Port clk_i in module cve2_decoder is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rst_ni in module cve2_decoder is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instr_rdata_alu_i[24] in module cve2_decoder is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instr_rdata_alu_i[23] in module cve2_decoder is either unconnected or has no load
+INFO: [Common 17-14] Message 'Synth 8-7129' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 1928.926 ; gain = 529.711 ; free physical = 12237 ; free virtual = 14249
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 1946.738 ; gain = 547.523 ; free physical = 12236 ; free virtual = 14249
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 1946.738 ; gain = 547.523 ; free physical = 12236 ; free virtual = 14249
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00.08 ; elapsed = 00:00:00.08 . Memory (MB): peak = 1952.676 ; gain = 0.000 ; free physical = 12235 ; free virtual = 14247
+INFO: [Netlist 29-17] Analyzing 1 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/fpga/core.xdc]
+Finished Parsing XDC File [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/fpga/core.xdc]
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2093.488 ; gain = 0.000 ; free physical = 12229 ; free virtual = 14253
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 1 instances were transformed.
+  BUFGCE => BUFGCTRL: 1 instance 
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00.06 ; elapsed = 00:00:00.03 . Memory (MB): peak = 2093.488 ; gain = 0.000 ; free physical = 12229 ; free virtual = 14253
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:16 ; elapsed = 00:00:17 . Memory (MB): peak = 2093.488 ; gain = 694.273 ; free physical = 12276 ; free virtual = 14300
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7a35tcsg324-1
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:16 ; elapsed = 00:00:17 . Memory (MB): peak = 2101.492 ; gain = 702.277 ; free physical = 12276 ; free virtual = 14300
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:16 ; elapsed = 00:00:17 . Memory (MB): peak = 2101.492 ; gain = 702.277 ; free physical = 12276 ; free virtual = 14300
+---------------------------------------------------------------------------------
+INFO: [Synth 8-802] inferred FSM for state register 'gen_mult_fast.mult_state_q_reg' in module 'cve2_multdiv_fast'
+INFO: [Synth 8-802] inferred FSM for state register 'md_state_q_reg' in module 'cve2_multdiv_fast'
+INFO: [Synth 8-802] inferred FSM for state register 'ls_fsm_cs_reg' in module 'cve2_load_store_unit'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                 MD_IDLE |                              000 |                              000
+                MD_ABS_A |                              001 |                              001
+                MD_ABS_B |                              010 |                              010
+                 MD_COMP |                              011 |                              011
+                 MD_LAST |                              100 |                              100
+          MD_CHANGE_SIGN |                              101 |                              101
+               MD_FINISH |                              110 |                              110
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'md_state_q_reg' using encoding 'sequential' in module 'cve2_multdiv_fast'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                    ALBL |                               00 |                               00
+                    ALBH |                               01 |                               01
+                    AHBL |                               10 |                               10
+                    AHBH |                               11 |                               11
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'gen_mult_fast.mult_state_q_reg' using encoding 'sequential' in module 'cve2_multdiv_fast'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                    IDLE |                              000 |                              000
+            WAIT_GNT_MIS |                              001 |                              001
+         WAIT_RVALID_MIS |                              010 |                              010
+WAIT_RVALID_MIS_GNTS_DONE |                              011 |                              100
+                WAIT_GNT |                              100 |                              011
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'ls_fsm_cs_reg' using encoding 'sequential' in module 'cve2_load_store_unit'
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:19 ; elapsed = 00:00:20 . Memory (MB): peak = 2101.492 ; gain = 702.277 ; free physical = 12280 ; free virtual = 14305
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input   64 Bit       Adders := 2     
+	   2 Input   34 Bit       Adders := 1     
+	   2 Input   32 Bit       Adders := 2     
+	   2 Input    5 Bit       Adders := 2     
++---XORs : 
+	   2 Input     33 Bit         XORs := 1     
+	   2 Input     32 Bit         XORs := 1     
+	   2 Input      1 Bit         XORs := 4     
++---Registers : 
+	               64 Bit    Registers := 2     
+	               34 Bit    Registers := 2     
+	               32 Bit    Registers := 51    
+	               31 Bit    Registers := 1     
+	               24 Bit    Registers := 1     
+	               19 Bit    Registers := 1     
+	               16 Bit    Registers := 1     
+	                7 Bit    Registers := 2     
+	                6 Bit    Registers := 1     
+	                5 Bit    Registers := 1     
+	                4 Bit    Registers := 1     
+	                3 Bit    Registers := 3     
+	                2 Bit    Registers := 6     
+	                1 Bit    Registers := 32    
++---Muxes : 
+	   3 Input   64 Bit        Muxes := 2     
+	   2 Input   64 Bit        Muxes := 4     
+	   2 Input   34 Bit        Muxes := 9     
+	   7 Input   34 Bit        Muxes := 1     
+	   4 Input   34 Bit        Muxes := 2     
+	   2 Input   33 Bit        Muxes := 2     
+	   7 Input   33 Bit        Muxes := 2     
+	   3 Input   33 Bit        Muxes := 1     
+	   2 Input   32 Bit        Muxes := 44    
+	   3 Input   32 Bit        Muxes := 4     
+	   4 Input   32 Bit        Muxes := 11    
+	  11 Input   32 Bit        Muxes := 1     
+	   7 Input   32 Bit        Muxes := 2     
+	   4 Input   16 Bit        Muxes := 2     
+	   2 Input   12 Bit        Muxes := 2     
+	  11 Input    7 Bit        Muxes := 1     
+	   2 Input    7 Bit        Muxes := 4     
+	   5 Input    7 Bit        Muxes := 1     
+	   4 Input    7 Bit        Muxes := 1     
+	   8 Input    6 Bit        Muxes := 1     
+	   7 Input    5 Bit        Muxes := 1     
+	   2 Input    5 Bit        Muxes := 1     
+	   2 Input    4 Bit        Muxes := 7     
+	   3 Input    4 Bit        Muxes := 1     
+	   6 Input    4 Bit        Muxes := 1     
+	   7 Input    4 Bit        Muxes := 1     
+	   4 Input    4 Bit        Muxes := 1     
+	   2 Input    3 Bit        Muxes := 16    
+	   4 Input    3 Bit        Muxes := 4     
+	  11 Input    3 Bit        Muxes := 2     
+	   3 Input    3 Bit        Muxes := 1     
+	   7 Input    3 Bit        Muxes := 1     
+	   5 Input    3 Bit        Muxes := 1     
+	  32 Input    3 Bit        Muxes := 1     
+	   2 Input    2 Bit        Muxes := 23    
+	   4 Input    2 Bit        Muxes := 5     
+	  11 Input    2 Bit        Muxes := 1     
+	   2 Input    1 Bit        Muxes := 136   
+	   7 Input    1 Bit        Muxes := 15    
+	   5 Input    1 Bit        Muxes := 16    
+	   4 Input    1 Bit        Muxes := 17    
+	   3 Input    1 Bit        Muxes := 2     
+	   6 Input    1 Bit        Muxes := 1     
+	  11 Input    1 Bit        Muxes := 16    
+	   8 Input    1 Bit        Muxes := 1     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 90 (col length:60)
+BRAMs: 100 (col length: RAMB18 60 RAMB36 30)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
+DSP Report: Generating DSP mac_res_signed, operation Mode is: C+A*B.
+DSP Report: operator mac_res_signed is absorbed into DSP mac_res_signed.
+DSP Report: operator mac_res_signed0 is absorbed into DSP mac_res_signed.
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:01:52 ; elapsed = 00:01:54 . Memory (MB): peak = 2133.508 ; gain = 734.293 ; free physical = 12224 ; free virtual = 14252
+---------------------------------------------------------------------------------
+ Sort Area is  mac_res_signed_0 : 0 0 : 2365 2365 : Used 1 time 0
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+
+DSP: Preliminary Mapping Report (see note below. The ' indicates corresponding REG is set)
++------------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|Module Name       | DSP Mapping | A Size | B Size | C Size | D Size | P Size | AREG | BREG | CREG | DREG | ADREG | MREG | PREG | 
++------------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|cve2_multdiv_fast | C+A*B       | 17     | 17     | 34     | -      | 34     | 0    | 0    | 0    | -    | -     | 0    | 0    | 
++------------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+
+Note: The table above is a preliminary report that shows the DSPs inferred at the current stage of the synthesis flow. Some DSP may be reimplemented as non DSP primitives later in the synthesis flow. Multiple instantiated DSPs are reported only once.
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:02:01 ; elapsed = 00:02:02 . Memory (MB): peak = 2180.508 ; gain = 781.293 ; free physical = 12167 ; free virtual = 14203
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:02:28 ; elapsed = 00:02:30 . Memory (MB): peak = 2313.719 ; gain = 914.504 ; free physical = 12034 ; free virtual = 14069
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:02:36 ; elapsed = 00:02:38 . Memory (MB): peak = 2447.719 ; gain = 1048.504 ; free physical = 11900 ; free virtual = 13936
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:02:40 ; elapsed = 00:02:42 . Memory (MB): peak = 2456.625 ; gain = 1057.410 ; free physical = 11900 ; free virtual = 13936
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:02:40 ; elapsed = 00:02:42 . Memory (MB): peak = 2456.625 ; gain = 1057.410 ; free physical = 11900 ; free virtual = 13936
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:02:41 ; elapsed = 00:02:43 . Memory (MB): peak = 2456.625 ; gain = 1057.410 ; free physical = 11900 ; free virtual = 13936
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:02:41 ; elapsed = 00:02:43 . Memory (MB): peak = 2456.625 ; gain = 1057.410 ; free physical = 11900 ; free virtual = 13936
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:02:41 ; elapsed = 00:02:43 . Memory (MB): peak = 2456.625 ; gain = 1057.410 ; free physical = 11900 ; free virtual = 13936
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:02:41 ; elapsed = 00:02:43 . Memory (MB): peak = 2456.625 ; gain = 1057.410 ; free physical = 11900 ; free virtual = 13936
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+DSP Final Report (the ' indicates corresponding REG is set)
++------------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|Module Name       | DSP Mapping | A Size | B Size | C Size | D Size | P Size | AREG | BREG | CREG | DREG | ADREG | MREG | PREG | 
++------------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|cve2_multdiv_fast | C+A*B       | 30     | 18     | 48     | -      | 34     | 0    | 0    | 0    | -    | -     | 0    | 0    | 
++------------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+--------+------+
+|      |Cell    |Count |
++------+--------+------+
+|1     |BUFGCE  |     1|
+|2     |CARRY4  |    68|
+|3     |DSP48E1 |     1|
+|4     |LUT1    |     2|
+|5     |LUT2    |   171|
+|6     |LUT3    |   416|
+|7     |LUT4    |   443|
+|8     |LUT5    |   598|
+|9     |LUT6    |  1816|
+|10    |MUXF7   |   259|
+|11    |MUXF8   |     1|
+|12    |FDCE    |  1952|
+|13    |FDPE    |     9|
++------+--------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:02:41 ; elapsed = 00:02:43 . Memory (MB): peak = 2456.625 ; gain = 1057.410 ; free physical = 11900 ; free virtual = 13936
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 206 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:02:38 ; elapsed = 00:02:40 . Memory (MB): peak = 2456.625 ; gain = 910.660 ; free physical = 11893 ; free virtual = 13930
+Synthesis Optimization Complete : Time (s): cpu = 00:02:41 ; elapsed = 00:02:43 . Memory (MB): peak = 2456.633 ; gain = 1057.410 ; free physical = 11893 ; free virtual = 13930
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00.06 ; elapsed = 00:00:00.06 . Memory (MB): peak = 2456.633 ; gain = 0.000 ; free physical = 12061 ; free virtual = 14098
+INFO: [Netlist 29-17] Analyzing 330 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+Parsing XDC File [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/fpga/core.xdc]
+Finished Parsing XDC File [/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src/fpga/core.xdc]
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2480.637 ; gain = 0.000 ; free physical = 12061 ; free virtual = 14098
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 1 instances were transformed.
+  BUFGCE => BUFGCTRL: 1 instance 
+
+Synth Design complete | Checksum: aa48635d
+INFO: [Common 17-83] Releasing license: Synthesis
+234 Infos, 102 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:02:52 ; elapsed = 00:02:53 . Memory (MB): peak = 2480.637 ; gain = 1081.449 ; free physical = 12061 ; free virtual = 14098
+INFO: [Common 17-2834] synth_design peak Physical Memory [PSS] (MB): overall = 2101.923; main = 1947.113; forked = 325.991
+INFO: [Common 17-2834] synth_design peak Virtual Memory [VSS] (MB): overall = 3357.121; main = 2480.641; forked = 909.398
+# write_checkpoint -force [file join $out post_synth.dcp]
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+INFO: [Timing 38-480] Writing timing data to binary archive.
+Write ShapeDB Complete: Time (s): cpu = 00:00:00.03 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2544.652 ; gain = 0.000 ; free physical = 12015 ; free virtual = 14068
+INFO: [Common 17-1381] The checkpoint '/home/azureuser/cve2-custom-isa-extension/build/fpga/baseline/post_synth.dcp' has been generated.
+write_checkpoint: Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 2544.652 ; gain = 64.016 ; free physical = 12004 ; free virtual = 14058
+# report_utilization -hierarchical -file [file join $out utilization.rpt]
+# report_timing_summary -report_unconstrained -file [file join $out timing_summary.rpt]
+INFO: [Timing 38-91] UpdateTimingParams: Speed grade: -1, Delay Type: min_max.
+INFO: [Timing 38-191] Multithreading enabled for timing update using a maximum of 4 CPUs
+WARNING: [Timing 38-242] The property HD.CLK_SRC of clock port "clk_i" is not set. In out-of-context mode, this prevents timing estimation for clock delay/skew
+Resolution: Set the HD.CLK_SRC property of the out-of-context port to the location of the clock buffer instance in the top-level design
+# check_timing -verbose -file [file join $out check_timing.rpt]
+# report_clocks -file [file join $out clocks.rpt]
+# set metadata [open [file join $out run_info.txt] w]
+# puts $metadata "tool: [version -short]"
+# puts $metadata "part: $target_part"
+# puts $metadata "clock_period_ns: $clock_period_ns"
+# puts $metadata "scope: $variant core, out-of-context, post-synthesis estimates"
+# puts $metadata "source_root: $source_root"
+# puts $metadata "driver_copy: synth_driver.tcl"
+# if {![catch {exec git rev-parse HEAD} revision]} { puts $metadata "revision: $revision" }
+# if {![catch {exec git status --porcelain} changes]} { puts $metadata "working_tree_changes:\n$changes" }
+# if {$variant eq "baseline"} {
+#     set source_info [open [file join $source_root source_info.txt] r]
+#     puts $metadata "prepared_sources:\n[read $source_info]"
+#     close $source_info
+#     puts $metadata "source_hashes: source_manifest.json"
+# }
+# close $metadata
+# puts "Post-synthesis reports written to $out"
+Post-synthesis reports written to /home/azureuser/cve2-custom-isa-extension/build/fpga/baseline
+INFO: [Common 17-206] Exiting Vivado at Tue Nov 10 12:03:46 2026...

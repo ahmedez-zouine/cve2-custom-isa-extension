@@ -1,0 +1,17 @@
+tool: 2024.2
+part: xc7a35tcsg324-1
+clock_period_ns: 20.0
+scope: baseline core, out-of-context, post-synthesis estimates
+source_root: /home/azureuser/cve2-custom-isa-extension/build/fpga/baseline_src
+driver_copy: synth_driver.tcl
+revision: d02858e65c16b61822e5c2d42b1508c263d48057
+working_tree_changes:
+?? .Xil/
+?? vivado.jou
+?? vivado.log
+prepared_sources:
+rtl_revision: af1e7b4fcab772e1976f41f36b38ced25cb9f377
+flow_reference_revision: 81c378c5fe8ebbb9856cf47f808fde3b12b7eaab
+source_recipe: reference FPGA sources with three original RTL files
+
+source_hashes: source_manifest.json
