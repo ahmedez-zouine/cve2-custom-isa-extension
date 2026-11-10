@@ -285,6 +285,56 @@ The extended run's later rejected retry replaced its main launch log. Preserve
 any `vivado_*.backup.log` and `.jou` files alongside that retry log; identify the
 successful original log before citing it as evidence of implementation completion.
 
+## Audit timing context, checkpoints and missing logs
+
+The [timing-context decision](../output/fpga/implementation/timing_context.md)
+retains the measured OOC study with its explicit limits. Worst slack is the
+reported timing metric. The 20 ns experiment does not establish complete
+clock/interface closure or implemented Fmax.
+
+Before further analysis, run this on the Ubuntu host with the checkpoints:
+
+```sh
+python3 -B scripts/audit_fpga_context.py --out-dir output/fpga/context_audit/ubuntu
+cat output/fpga/context_audit/ubuntu/summary.txt
+```
+
+The standard-library script verifies the reviewed input hashes and reparses
+the archived reports. It checks the current synthesis DCP hashes against the
+recorded implementation metadata and fingerprints the routed DCPs. A missing
+file remains unverified; a mismatch causes a nonzero exit status. A routed
+fingerprint has no old routed hash to compare against, so its design identity
+still needs checking in Vivado before power analysis.
+
+The script also searches `vivado*.log` in the repository root, each variant's
+implementation build directory, and its archived report directory. It copies
+matching completed-run logs into `recovered_logs/` inside the audit output.
+Matching requires a standalone completion line for the recorded output
+directory, the tool and variant command, matching run times, and no error-level
+message. The known Ubuntu log times are interpreted as UTC. Files that do not
+match are listed with rejection reasons in `audit.json`.
+
+The audit leaves existing raw reports, logs, constraints and checkpoints intact.
+It does not launch Vivado, repair physical constraints or change a failing
+timing result. Review recovered candidates before adopting them into the main
+implementation archive or refreshing its manifests and figures.
+
+After reviewing the Ubuntu output, transfer only the audit bundle:
+
+```sh
+git add -- output/fpga/context_audit/ubuntu
+git commit -m "Archive Ubuntu timing context and checkpoint audit"
+git push origin Master
+```
+
+On a machine without the checkpoints, the default command writes an incomplete
+local audit under ignored `build/fpga/context_audit/`. Script checks can be run
+without Vivado:
+
+```sh
+python3 -B -m unittest discover -s scripts -p test_audit_fpga_context.py -v
+```
+
 References: AMD's [implementation command sequence](https://docs.amd.com/r/2024.2-English/ug835-vivado-tcl-commands/place_design),
 [opening a saved checkpoint](https://docs.amd.com/r/2024.2-English/ug835-vivado-tcl-commands/open_checkpoint),
 [routing status](https://docs.amd.com/r/2024.2-English/ug835-vivado-tcl-commands/report_route_status),

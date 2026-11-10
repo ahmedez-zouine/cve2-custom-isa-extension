@@ -346,11 +346,15 @@ establish implemented Fmax or physical timing closure.
 - [Paper figure generator and instructions](scripts/README-figures.md)
 - [Simulation result collector](scripts/collect_simulation_results.py)
 - [Routed FPGA evidence parser](scripts/summarize_fpga_implementation.py)
+- [Timing-context and checkpoint audit](scripts/audit_fpga_context.py)
 
 The provided testbench and core configuration are part of the assignment.
 The FPGA wrapper, constraints and original/extended synthesis and routed
 comparisons are available. Complete physical timing context, power evaluation
 and the technical report remain pending.
+The [timing-context decision](output/fpga/implementation/timing_context.md)
+defines the current OOC claims, with [audit commands](fpga/README.md#audit-timing-context-checkpoints-and-missing-logs)
+for the checkpoints and missing launch log on the Ubuntu host.
 
 ## 7. Set up on an Apple Silicon Mac
 
