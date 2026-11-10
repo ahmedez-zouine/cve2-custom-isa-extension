@@ -337,9 +337,11 @@ python3 -B -m unittest discover -s scripts -p test_audit_fpga_context.py -v
 
 ## Estimate power from the audited routed checkpoints
 
-The imported [power archive review](../output/fpga/power/review.md) found
-unverified port activity overrides in the earlier runs. Their 83/100 mW
-totals remain provisional. Keep that archive and use the corrected flow below.
+The corrected run verified all 93 input activity values in both routed designs
+and estimated 86/101 mW total on-chip power at an assumed 50 MHz. The
+[technical handoff](../output/fpga/verified_results.md) records the conditions
+and results. The [earlier power archive review](../output/fpga/power/review.md)
+documents the port activity issue that led to the corrected flow.
 
 Power analysis is prepared in `fpga/power.tcl` and
 `scripts/run_fpga_power.py`. Run it on the Ubuntu Vivado host after the context
@@ -348,7 +350,7 @@ checkpoints:
 
 ```sh
 source ~/tools/Xilinx/Vivado/2024.2/settings64.sh
-python3 -B scripts/run_fpga_power.py --out-dir build/fpga/power_attempt3
+python3 -B scripts/run_fpga_power.py --out-dir build/fpga/power_reproduction
 ```
 
 The default command processes baseline, then extended. Use `--variant baseline`
@@ -357,7 +359,7 @@ or `--variant extended` to run just one. It reads
 requires the same reviewed implementation evidence. It refuses to overwrite
 an existing variant directory under `build/fpga/power/`. For a deliberate new
 attempt, preserve the old directory and select a fresh parent, for example
-`--out-dir build/fpga/power_attempt4`.
+`--out-dir build/fpga/power_reproduction_2`.
 
 The Tcl flow opens each routed checkpoint without synthesis, placement,
 routing or power optimization. It checks the tool, part, preserved core
@@ -420,10 +422,10 @@ accepted for the controlled comparison.
 After both runs finish, inspect the reports:
 
 ```sh
-sed -n '1,180p' build/fpga/power_attempt3/baseline/power.rpt
-sed -n '1,180p' build/fpga/power_attempt3/extended/power.rpt
-cat build/fpga/power_attempt3/baseline/operating_conditions.rpt
-cat build/fpga/power_attempt3/extended/operating_conditions.rpt
+sed -n '1,180p' build/fpga/power_reproduction/baseline/power.rpt
+sed -n '1,180p' build/fpga/power_reproduction/extended/power.rpt
+cat build/fpga/power_reproduction/baseline/operating_conditions.rpt
+cat build/fpga/power_reproduction/extended/operating_conditions.rpt
 ```
 
 Transfer the new text evidence and the Ubuntu audit for review, keeping DCP
@@ -431,21 +433,20 @@ files in `build/`:
 
 ```sh
 for variant in baseline extended; do
-  src="build/fpga/power_attempt3/$variant"
-  dst="output/fpga/power_attempt3/$variant"
+  src="build/fpga/power_reproduction/$variant"
+  dst="output/fpga/power_reproduction/$variant"
   mkdir -p "$dst"
   cp "$src"/*.rpt "$src"/*.txt "$src"/*.tsv "$src"/*.json "$src"/*.tcl "$src"/*.xdc \
     "$src"/*.log "$src"/*.jou "$dst/"
 done
-git add -- output/fpga/power_attempt3
+git add -- output/fpga/power_reproduction
 git diff --cached --stat
 git commit -m "Archive FPGA power retry with explicit input net activity readback"
 git push origin Master
 ```
 
-After export, run `python3 -B scripts/review_fpga_power.py --report-dir
-output/fpga/power_attempt3` as one command to review the new archive. The
-review deliberately retains earlier attempts.
+After export, review the new archive with
+`python3 -B scripts/review_fpga_power.py --report-dir output/fpga/power_reproduction`.
 
 References for power setup: AMD's [switching activity command](https://docs.amd.com/r/2024.2-English/ug835-vivado-tcl-commands/set_switching_activity),
 [operating conditions](https://docs.amd.com/r/2024.2-English/ug835-vivado-tcl-commands/set_operating_conditions),

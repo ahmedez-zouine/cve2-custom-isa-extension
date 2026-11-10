@@ -9,9 +9,10 @@ The [routed OOC comparison](output/fpga/implementation/comparison.md) reports
 2,987 LUTs for the original core and 4,205 with isqrt (+40.8%). The worst
 reported register setup slack changes from +0.058 ns to -29.556 ns at a
 50 MHz target. Both complete design reports fail timing, with incomplete
-external clock and interface context. The [power archive review](output/fpga/power/review.md)
-keeps the initial estimates provisional because the intended input activity
-overrides were not verified. A corrected power-only retry is prepared.
+external clock and interface context. The verified vectorless power run
+estimates 86 mW for the original core and 101 mW with isqrt at the assumed
+50 MHz clock. The comparison, integration results and reproduction commands
+are in the [technical handoff](output/fpga/verified_results.md).
 
 ## 1. Mathematical definition
 
@@ -293,7 +294,7 @@ and [figure manifest](output/pdf/fpga_figure_manifest.json) retain the values,
 source hashes and figure captions. These figures describe synthesis.
 The later [routed comparison](output/fpga/implementation/comparison.md) reviews
 the archived placement/routing results and distinguishes internal setup failure
-from incomplete interface timing. Implemented Fmax and power remain unestablished.
+from incomplete interface timing. The routed data report worst slack.
 The [implementation script](fpga/implement.tcl) and [FPGA guide](fpga/README.md#place-and-route-the-saved-synthesis-checkpoints)
 provide the run and review commands.
 
@@ -339,6 +340,7 @@ establish implemented Fmax or physical timing closure.
 - [Software baseline test](sw/sw_isqrt.c)
 - [Hardware instruction test](sw/hw_isqrt.c)
 - [Boundary, zero-register and illegal-encoding tests](sw/isqrt_corners.c)
+- [Square transitions and instruction integration test](sw/isqrt_integration.c)
 - [Instruction encoding and C reference](sw/lib/isqrt.h)
 - [Processor fetch stage](cve2/rtl/cve2_if_stage.sv)
 - [Processor ID/EX stage](cve2/rtl/cve2_id_stage.sv)
@@ -352,8 +354,7 @@ establish implemented Fmax or physical timing closure.
 
 The provided testbench and core configuration are part of the assignment.
 The FPGA wrapper, constraints and original/extended synthesis and routed
-comparisons are available. Complete physical timing context, power evaluation
-and the technical report remain pending.
+comparisons are available with the checked vectorless power estimates.
 The [timing-context decision](output/fpga/implementation/timing_context.md)
 defines the current OOC claims, with [audit commands](fpga/README.md#audit-timing-context-checkpoints-and-missing-logs)
 for the checkpoints and missing launch log on the Ubuntu host.
@@ -412,6 +413,10 @@ make run TEST=isqrt_corners RISCV=riscv64-elf-
 This test deliberately triggers four illegal-instruction exceptions. The
 controller messages are expected; the final summary must be
 `isqrt_corners: PASS (43 checks)` and `[tb] PASS (exit code 0)`.
+
+Run the independent arithmetic and instruction dependency checks with
+`make run TEST=isqrt_integration RISCV=riscv64-elf-`. The expected summary is
+`isqrt_integration: PASS (200705 checks)`.
 
 The Makefile uses the prefix `riscv64-unknown-elf-` by default; the
 explicit `RISCV=riscv64-elf-` selects Homebrew's compiler on this Mac. Build

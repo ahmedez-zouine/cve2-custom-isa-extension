@@ -1,0 +1,176 @@
+#-----------------------------------------------------------
+# Vivado v2024.2 (64-bit)
+# SW Build 5239630 on Fri Nov 08 22:34:34 MST 2024
+# IP Build 5239520 on Sun Nov 10 16:12:51 MST 2024
+# SharedData Build 5239561 on Fri Nov 08 14:39:27 MST 2024
+# Start of session at: Tue Nov 10 22:10:39 2026
+# Process ID         : 9656
+# Current directory  : /home/azureuser/cve2-custom-isa-extension/build/fpga/power_attempt4/extended
+# Command line       : vivado -mode batch -source /home/azureuser/cve2-custom-isa-extension/build/fpga/power_attempt4/extended/power_driver.tcl -log /home/azureuser/cve2-custom-isa-extension/build/fpga/power_attempt4/extended/vivado.log -journal /home/azureuser/cve2-custom-isa-extension/build/fpga/power_attempt4/extended/vivado.jou -tclargs /home/azureuser/cve2-custom-isa-extension/build/fpga/implementation/extended/post_route.dcp /home/azureuser/cve2-custom-isa-extension/build/fpga/power_attempt4/extended
+# Log file           : /home/azureuser/cve2-custom-isa-extension/build/fpga/power_attempt4/extended/vivado.log
+# Journal file       : /home/azureuser/cve2-custom-isa-extension/build/fpga/power_attempt4/extended/vivado.jou
+# Running On         : Goodman
+# Platform           : Ubuntu
+# Operating System   : Ubuntu 24.04.5 LTS
+# Processor Detail   : Intel(R) Xeon(R) Platinum 8272CL CPU @ 2.60GHz
+# CPU Frequency      : 2988.899 MHz
+# CPU Physical cores : 2
+# CPU Logical cores  : 4
+# Host memory        : 16707 MB
+# Swap memory        : 0 MB
+# Total Virtual      : 16707 MB
+# Available Virtual  : 16103 MB
+#-----------------------------------------------------------
+source /home/azureuser/cve2-custom-isa-extension/build/fpga/power_attempt4/extended/power_driver.tcl
+# proc checked_input_activity {port probability rate} {
+#     set nets [get_nets -quiet -of_objects $port]
+#     if {[llength $nets] != 1} { error "Expected one connected net for input $port; got $nets" }
+#     set_switching_activity -signal_rate $rate -static_probability $probability $nets
+#     set activity [report_switching_activity -signal_rate -static_probability -return_string $nets]
+#     if {![regexp {static probability\s*=\s*([0-9.eE+-]+)\s*\(([AC])\)} $activity -> actual_probability probability_source] ||
+#         ![regexp {signal rate\s*=\s*([0-9.eE+-]+)\s*\(([AC])\)} $activity -> actual_rate rate_source]} {
+#         error "Input $port lacks explicit net activity readback: $activity"
+#     }
+#     if {abs($actual_probability - $probability) > 0.000001 || abs($actual_rate - $rate) > 0.000001} {
+#         error "Input $port activity readback differs from requested probability=$probability rate=$rate: $activity"
+#     }
+#     return [list [lindex $nets 0] $activity]
+# }
+# if {$argc != 2} { error "Usage: -tclargs CHECKPOINT OUTPUT_DIRECTORY" }
+# set checkpoint [file normalize [lindex $argv 0]]
+# set out [file normalize [lindex $argv 1]]
+# if {[version -short] ne "2024.2"} { error "This comparison requires Vivado 2024.2" }
+# if {![file isfile $checkpoint] || ![file isdirectory $out]} {
+#     error "Use scripts/run_fpga_power.py to prepare and verify the inputs"
+# }
+# if {[file exists [file join $out power.rpt]]} { error "Refusing to overwrite an existing power report" }
+# open_checkpoint $checkpoint
+Command: open_checkpoint /home/azureuser/cve2-custom-isa-extension/build/fpga/implementation/extended/post_route.dcp
+
+Starting open_checkpoint Task
+
+Time (s): cpu = 00:00:00.05 ; elapsed = 00:00:00.06 . Memory (MB): peak = 1364.098 ; gain = 0.000 ; free physical = 12646 ; free virtual = 15042
+INFO: [Device 21-403] Loading part xc7a35tcsg324-1
+Netlist sorting complete. Time (s): cpu = 00:00:00.04 ; elapsed = 00:00:00.05 . Memory (MB): peak = 1411.688 ; gain = 0.000 ; free physical = 12620 ; free virtual = 15016
+INFO: [Netlist 29-17] Analyzing 500 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-479] Netlist was created with Vivado 2024.2
+INFO: [Project 1-570] Preparing netlist for logic optimization
+Read ShapeDB Complete: Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 1481.469 ; gain = 1.000 ; free physical = 12525 ; free virtual = 14921
+INFO: [Timing 38-478] Restoring timing data from binary archive.
+INFO: [Timing 38-479] Binary timing data restore complete.
+INFO: [Project 1-856] Restoring constraints from binary archive.
+INFO: [Constraints 18-5170] The checkpoint was created with non-default parameter values which do not match the current Vivado settings.  Mismatching parameters are:
+  general.maxThreads
+INFO: [Project 1-853] Binary constraint restore complete.
+INFO: [Designutils 20-5722] Start Reading Physical Databases.
+Reading placement.
+Read Netlist Cache: Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2047.922 ; gain = 0.000 ; free physical = 12043 ; free virtual = 14439
+Reading placer database...
+Read Device Cache: Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 2047.922 ; gain = 0.000 ; free physical = 12043 ; free virtual = 14439
+Read PlaceDB: Time (s): cpu = 00:00:00.29 ; elapsed = 00:00:00.29 . Memory (MB): peak = 2047.922 ; gain = 0.000 ; free physical = 12031 ; free virtual = 14428
+Read PulsedLatchDB: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2047.922 ; gain = 0.000 ; free physical = 12031 ; free virtual = 14428
+Reading routing.
+Read RouteStorage: Time (s): cpu = 00:00:00.23 ; elapsed = 00:00:00.08 . Memory (MB): peak = 2047.922 ; gain = 0.000 ; free physical = 12031 ; free virtual = 14428
+Read Physdb Files: Time (s): cpu = 00:00:00.55 ; elapsed = 00:00:00.41 . Memory (MB): peak = 2047.922 ; gain = 0.000 ; free physical = 12031 ; free virtual = 14428
+Restored from archive | CPU: 0.610000 secs | Memory: 9.228462 MB |
+Finished XDEF File Restore: Time (s): cpu = 00:00:00.6 ; elapsed = 00:00:00.47 . Memory (MB): peak = 2047.922 ; gain = 5.938 ; free physical = 12031 ; free virtual = 14428
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2047.922 ; gain = 0.000 ; free physical = 12031 ; free virtual = 14428
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+INFO: [Project 1-604] Checkpoint was created with Vivado v2024.2 (64-bit) build 5239630
+open_checkpoint: Time (s): cpu = 00:00:13 ; elapsed = 00:00:14 . Memory (MB): peak = 2047.922 ; gain = 683.824 ; free physical = 12031 ; free virtual = 14428
+# set checkpoint_part [get_property PART [current_project]]
+# set session_design [current_design]
+# puts "Opened checkpoint: part=$checkpoint_part; session_design=$session_design"
+Opened checkpoint: part=xc7a35tcsg324-1; session_design=checkpoint_post_route
+# if {$checkpoint_part ne "xc7a35tcsg324-1"} {
+#     error "Unexpected checkpoint part: expected xc7a35tcsg324-1, got $checkpoint_part"
+# }
+# foreach {cell_name ref_name} {u_core cve2_top u_core/u_cve2_core cve2_core} {
+#     set cell [get_cells -quiet $cell_name]
+#     if {[llength $cell] != 1} { error "Expected one preserved core instance: $cell_name" }
+#     set actual_ref [get_property REF_NAME $cell]
+#     if {$actual_ref ne $ref_name} {
+#         error "Unexpected module at $cell_name: expected $ref_name, got $actual_ref"
+#     }
+# }
+# set core_clock [get_clocks -quiet core_clk]
+# if {[llength $core_clock] != 1 || [get_property PERIOD $core_clock] != 20.0} {
+#     error "Expected the recorded core_clk period of 20 ns"
+# }
+# set_param general.maxThreads 4
+# set identity [open [file join $out checkpoint_identity.txt] w]
+# puts $identity "session_design: $session_design"
+# puts $identity "part: $checkpoint_part"
+# puts $identity "u_core_ref_name: [get_property REF_NAME [get_cells u_core]]"
+# puts $identity "u_cve2_core_ref_name: [get_property REF_NAME [get_cells u_core/u_cve2_core]]"
+# puts $identity "clock_period_ns: [get_property PERIOD $core_clock]"
+# close $identity
+# report_utilization -hierarchical -file [file join $out reopened_utilization.rpt]
+# report_route_status -file [file join $out reopened_route_status.rpt]
+# report_timing_summary -report_unconstrained -file [file join $out reopened_timing_summary.rpt]
+INFO: [Timing 38-91] UpdateTimingParams: Speed grade: -1, Delay Type: min_max.
+INFO: [Timing 38-191] Multithreading enabled for timing update using a maximum of 4 CPUs
+WARNING: [Timing 38-242] The property HD.CLK_SRC of clock port "clk_i" is not set. In out-of-context mode, this prevents timing estimation for clock delay/skew
+Resolution: Set the HD.CLK_SRC property of the out-of-context port to the location of the clock buffer instance in the top-level design
+# report_clocks -file [file join $out clocks.rpt]
+# reset_operating_conditions
+# set_operating_conditions -process typical -grade commercial -junction_temp 25
+# reset_switching_activity [get_nets -hierarchical]
+# set_switching_activity -default_toggle_rate 12.5
+# set_switching_activity -default_static_probability 0.5
+# set inputs [get_ports -filter {DIRECTION == IN && NAME != clk_i}]
+# if {[llength $inputs] != 93} { error "Expected the wrapper's 93 non-clock input bits" }
+# set bindings [open [file join $out input_bindings.tsv] w]
+# puts $bindings "port\tnet\tstatic_probability\tsignal_rate_mtr_s"
+# set activity_file [open [file join $out input_activity.rpt] w]
+# set input_nets {}
+# set counts [dict create high 0 low 0 dynamic 0]
+# foreach port $inputs {
+#     set name [get_property NAME $port]
+#     if {$name in {rst_ni fetch_enable_i}} {
+#         set probability 1.0
+#         set rate 0.0
+#         dict incr counts high
+#     } elseif {[string match irq_* $name] || $name in {debug_req_i instr_err_i data_err_i}} {
+#         set probability 0.0
+#         set rate 0.0
+#         dict incr counts low
+#     } else {
+#         set probability 0.5
+#         set rate 6.25
+#         dict incr counts dynamic
+#     }
+#     lassign [checked_input_activity $port $probability $rate] net activity
+#     lappend input_nets $net
+#     puts $bindings "$name\t[get_property NAME $net]\t$probability\t$rate"
+#     puts $activity_file [string trim $activity]
+# }
+# close $bindings
+# close $activity_file
+# if {[dict get $counts high] != 2 || [dict get $counts low] != 23 || [dict get $counts dynamic] != 68} {
+#     error "Unexpected input activity groups: $counts"
+# }
+# puts "Explicit activity readback passed for 93 connected non-clock input bits"
+Explicit activity readback passed for 93 connected non-clock input bits
+# report_operating_conditions -all -file [file join $out operating_conditions.rpt]
+# report_power -advisory -hier all -hierarchical_depth 4 -l 100 \
+#     -file [file join $out power.rpt]
+Command: report_power -advisory -hier all -hierarchical_depth 4 -l 100 -file /home/azureuser/cve2-custom-isa-extension/build/fpga/power_attempt4/extended/power.rpt
+Running Vector-less Activity Propagation...
+
+Finished Running Vector-less Activity Propagation
+0 Infos, 0 Warnings, 0 Critical Warnings and 0 Errors encountered.
+report_power completed successfully
+# report_switching_activity -signal_rate -static_probability \
+#     -file [file join $out input_activity_after.rpt] [lsort -unique $input_nets]
+# report_switching_activity -signal_rate -static_probability -type register -all \
+#     -file [file join $out register_activity.rpt]
+# report_switching_activity -signal_rate -static_probability -type lut -all \
+#     -file [file join $out lut_activity.rpt]
+# write_xdc [file join $out power_constraints.xdc]
+# puts "Power reports generated for review in $out"
+Power reports generated for review in /home/azureuser/cve2-custom-isa-extension/build/fpga/power_attempt4/extended
+INFO: [Common 17-206] Exiting Vivado at Tue Nov 10 22:11:03 2026...

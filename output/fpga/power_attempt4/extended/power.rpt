@@ -1,0 +1,481 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version     : Vivado v.2024.2 (lin64) Build 5239630 Fri Nov 08 22:34:34 MST 2024
+| Date             : Tue Nov 10 22:11:03 2026
+| Host             : Goodman running 64-bit Ubuntu 24.04.5 LTS
+| Command          : report_power -advisory -hier all -hierarchical_depth 4 -l 100 -file /home/azureuser/cve2-custom-isa-extension/build/fpga/power_attempt4/extended/power.rpt
+| Design           : cve2_fpga_top
+| Device           : xc7a35tcsg324-1
+| Design State     : routed
+| Grade            : commercial
+| Process          : typical
+| Characterization : Production
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Power Report
+
+Table of Contents
+-----------------
+1. Summary
+1.1 On-Chip Components
+1.2 Power Supply Summary
+1.3 Confidence Level
+2. Settings
+2.1 Environment
+2.2 Clock Constraints
+3. Detailed Reports
+3.1 By Hierarchy
+3.2 By Clock Domain
+3.3 By Resource Type
+3.3.1 Signals
+3.3.2 Slice Logic
+3.3.3 DSPs
+4. Advisory
+
+1. Summary
+----------
+
++--------------------------+--------------+
+| Total On-Chip Power (W)  | 0.101        |
+| Design Power Budget (W)  | Unspecified* |
+| Power Budget Margin (W)  | NA           |
+| Dynamic (W)              | 0.032        |
+| Device Static (W)        | 0.068        |
+| Effective TJA (C/W)      | 4.8          |
+| Max Ambient (C)          | 84.5         |
+| Junction Temperature (C) | 25.0         |
+| Confidence Level         | Medium       |
+| Setting File             | ---          |
+| Simulation Activity File | ---          |
+| Design Nets Matched      | NA           |
++--------------------------+--------------+
+* Specify Design Power Budget using, set_operating_conditions -design_power_budget <value in Watts>
+
+
+1.1 On-Chip Components
+----------------------
+
++----------------+-----------+----------+-----------+-----------------+
+| On-Chip        | Power (W) | Used     | Available | Utilization (%) |
++----------------+-----------+----------+-----------+-----------------+
+| Clocks         |     0.003 |        3 |       --- |             --- |
+| Slice Logic    |     0.012 |     7278 |       --- |             --- |
+|   LUT as Logic |     0.012 |     4205 |     20800 |           20.22 |
+|   CARRY4       |    <0.001 |      240 |      8150 |            2.94 |
+|   Register     |    <0.001 |     1965 |     41600 |            4.72 |
+|   F7/F8 Muxes  |    <0.001 |      259 |     32600 |            0.79 |
+|   Others       |     0.000 |       22 |       --- |             --- |
+| Signals        |     0.017 |     5880 |       --- |             --- |
+| DSPs           |    <0.001 |        1 |        90 |            1.11 |
+| Static Power   |     0.068 |          |           |                 |
+| Total          |     0.101 |          |           |                 |
++----------------+-----------+----------+-----------+-----------------+
+
+
+1.2 Power Supply Summary
+------------------------
+
++-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
+| Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) | Powerup (A) | Budget (A)  | Margin (A) |
++-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
+| Vccint    |       1.000 |     0.042 |       0.032 |      0.009 |       NA    | Unspecified | NA         |
+| Vccaux    |       1.800 |     0.013 |       0.000 |      0.013 |       NA    | Unspecified | NA         |
+| Vcco33    |       3.300 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
+| Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
+| Vcco18    |       1.800 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
+| Vcco15    |       1.500 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
+| Vcco135   |       1.350 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
+| Vcco12    |       1.200 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
+| Vccaux_io |       1.800 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
+| Vccbram   |       1.000 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
+| MGTAVcc   |       1.000 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
+| MGTAVtt   |       1.200 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
+| Vccadc    |       1.800 |     0.020 |       0.000 |      0.020 |       NA    | Unspecified | NA         |
++-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
+
+
+1.3 Confidence Level
+--------------------
+
++-----------------------------+------------+------------------------------------------------+------------------------------------------------------------------------------------------------------------+
+| User Input Data             | Confidence | Details                                        | Action                                                                                                     |
++-----------------------------+------------+------------------------------------------------+------------------------------------------------------------------------------------------------------------+
+| Design implementation state | High       | Design is routed                               |                                                                                                            |
+| Clock nodes activity        | High       | User specified more than 95% of clocks         |                                                                                                            |
+| I/O nodes activity          | High       | User specified more than 95% of inputs         |                                                                                                            |
+| Internal nodes activity     | Medium     | User specified less than 25% of internal nodes | Provide missing internal nodes activity with simulation results or by editing the "By Resource Type" views |
+| Device models               | High       | Device models are Production                   |                                                                                                            |
+|                             |            |                                                |                                                                                                            |
+| Overall confidence level    | Medium     |                                                |                                                                                                            |
++-----------------------------+------------+------------------------------------------------+------------------------------------------------------------------------------------------------------------+
+
+
+2. Settings
+-----------
+
+2.1 Environment
+---------------
+
++-----------------------+--------------------------+
+| Ambient Temp (C)      | 24.5                     |
+| ThetaJA (C/W)         | 4.8                      |
+| Airflow (LFM)         | 250                      |
+| Heat Sink             | medium (Medium Profile)  |
+| ThetaSA (C/W)         | 4.6                      |
+| Board Selection       | medium (10"x10")         |
+| # of Board Layers     | 12to15 (12 to 15 Layers) |
+| Board Temperature (C) | 25.0                     |
++-----------------------+--------------------------+
+
+
+2.2 Clock Constraints
+---------------------
+
++----------+--------+-----------------+
+| Clock    | Domain | Constraint (ns) |
++----------+--------+-----------------+
+| core_clk | clk_i  |            20.0 |
++----------+--------+-----------------+
+
+
+3. Detailed Reports
+-------------------
+
+3.1 By Hierarchy
+----------------
+
++-----------------------+-----------+---------+-----------+----------+------------+---------+-----------+-------+---------+
+| Name                  | Power (W) | Clock # | Clock (W) | Signal # | Signal (W) | Logic # | Logic (W) | Dsp # | Dsp (W) |
++-----------------------+-----------+---------+-----------+----------+------------+---------+-----------+-------+---------+
+| cve2_fpga_top         |     0.032 |       3 |     0.003 |     5880 |      0.017 |    7278 |     0.012 |     1 |  <0.001 |
+|   u_core              |     0.032 |       3 |     0.003 |     5877 |      0.017 |    7273 |     0.012 |     1 |  <0.001 |
+|     u_cve2_core       |     0.032 |       3 |     0.003 |     5873 |      0.017 |    7263 |     0.012 |     1 |  <0.001 |
+|       ex_block_i      |     0.002 |       3 |    <0.001 |      493 |      0.001 |     509 |    <0.001 |     1 |  <0.001 |
+|       id_stage_i      |     0.001 |       3 |    <0.001 |      342 |     <0.001 |     519 |    <0.001 |     0 |   0.000 |
+|       if_stage_i      |     0.024 |       3 |    <0.001 |     2723 |      0.014 |    3477 |     0.010 |     0 |   0.000 |
+|       register_file_i |     0.003 |       3 |     0.001 |     1382 |     <0.001 |    1926 |    <0.001 |     0 |   0.000 |
++-----------------------+-----------+---------+-----------+----------+------------+---------+-----------+-------+---------+
+
+
+3.2 By Clock Domain
+-------------------
+
++-------------------------------------------+-----------+-----------------+--------+-------------------------+--------------------+------------+----------+-------------+--------+
+| Name                                      | Power (W) | Frequency (MHz) | Buffer | Clock Buffer Enable (%) | Enable Signal      | Bel Fanout | Sites    | Fanout/Site | Type   |
++-------------------------------------------+-----------+-----------------+--------+-------------------------+--------------------+------------+----------+-------------+--------+
+| clk_i                                     |     0.003 |           50.00 | N/A    |                     N/A | N/A                |       1966 |     1003 |        1.96 | N/A    |
+|   clk_i                                   |    <0.001 |           50.00 | N/A    |                     N/A | N/A                |          5 |        1 |        5.00 | N/A    |
+|   u_core/core_clock_gate_i/CLK            |     0.003 |           50.00 | BUFG   |                   99.96 | u_core/clock_en__1 |       1961 |     1002 |        1.96 | N/A    |
+|   u_core/core_clock_gate_i/u_clock_buffer |    <0.001 |           50.00 | BUFG   |                   99.96 | u_core/clock_en__1 |       1961 |     1002 |        1.96 | Global |
++-------------------------------------------+-----------+-----------------+--------+-------------------------+--------------------+------------+----------+-------------+--------+
+
+
+3.3 By Resource Type
+--------------------
+
+3.3.1 Signals
+-------------
+
++--------------------------------------------------------------------------------------------------------------+-----------+---------------------+----------+----------+--------------+----------+------------+
+| Name                                                                                                         | Power (W) | Signal Rate (Mtr/s) | % High   | Fanout   | Slice Fanout | Clock    | Logic Type |
++--------------------------------------------------------------------------------------------------------------+-----------+---------------------+----------+----------+--------------+----------+------------+
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q_reg[31][10]_i_17_n_0                                   |    <0.001 |               22.92 |    42.00 |      171 |           78 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q_reg[31][12]_i_14_n_0                                   |    <0.001 |               18.17 |    25.36 |      180 |           80 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/ex_block_i/alu_i/isqrt_comb.sq_root1[1]                                        |    <0.001 |               16.28 |    27.35 |      193 |           85 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q_reg[31][11]_i_16_n_0                                   |    <0.001 |               20.89 |    32.00 |      145 |           75 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q_reg[31][9]_i_16_n_0                                    |    <0.001 |               22.78 |    55.03 |      139 |           68 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q_reg[31][13]_i_15_n_0                                   |    <0.001 |               17.63 |    25.21 |      145 |           72 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q_reg[31][8]_i_12_n_0                                    |    <0.001 |               19.69 |    66.05 |      157 |           68 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[24]_0[1]                                                  |    <0.001 |                8.69 |    42.92 |      262 |          128 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q_reg[31][7]_i_17_n_0                                    |    <0.001 |               17.85 |    71.60 |      137 |           64 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q_reg[31][6]_i_14_n_0                                    |    <0.001 |               16.52 |    73.74 |      153 |           64 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[24]_0[0]                                                  |    <0.001 |                8.14 |    38.83 |      262 |          129 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[24]_0[5]                                                  |    <0.001 |                7.79 |    35.30 |      267 |          133 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q_reg[31][5]_i_21_n_0                                    |    <0.001 |               16.35 |    74.48 |      134 |           60 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q_reg[31][4]_i_16_n_0                                    |    <0.001 |               16.01 |    74.82 |      142 |           60 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q_reg[31][3]_i_14_n_0                                    |    <0.001 |               16.08 |    74.89 |      127 |           49 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[24]_0[2]                                                  |    <0.001 |                7.83 |    35.44 |      134 |          129 | core_clk | N/A        |
+| u_core/u_cve2_core/ex_block_i/gen_multdiv_fast.multdiv_i/O[1]                                                |    <0.001 |               24.84 |    49.30 |       47 |           27 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[24]_0[7]                                                  |    <0.001 |                8.26 |    38.99 |      140 |          135 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/ex_block_i/alu_i/shift_amt_reg0[2]                                             |    <0.001 |               32.48 |    51.33 |       39 |           22 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/prefetch_buffer_i/fifo_i/E[0]                                                  |    <0.001 |               15.92 |    47.69 |       87 |           51 | core_clk | FF LUT     |
+| u_core/u_cve2_core/if_stage_i/ex_block_i/alu_i/shift_amt_reg0[3]                                             |    <0.001 |               35.44 |    55.11 |       45 |           25 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][31]_i_20_n_0                                       |    <0.001 |               26.20 |    39.82 |       64 |           31 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][31]_i_13_n_0                                       |    <0.001 |               27.31 |    45.54 |       48 |           29 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q_reg[31][2]_i_16_n_0                                    |    <0.001 |               15.95 |    74.94 |       99 |           39 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[21]_rep_0                                                 |    <0.001 |                7.99 |    36.33 |      140 |           74 | core_clk | N/A        |
+| u_core/u_cve2_core/id_stage_i/is_greater_equal                                                               |    <0.001 |               24.69 |    51.00 |       63 |           48 | core_clk | N/A        |
+| u_core/u_cve2_core/ex_block_i/gen_multdiv_fast.multdiv_i/O[0]                                                |    <0.001 |               24.93 |    49.75 |       46 |           26 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/ex_block_i/alu_i/p_0_in__0[2]                                                  |    <0.001 |               20.97 |    38.91 |       22 |           22 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/alu_operand_b_ex[3]                                                            |    <0.001 |               19.33 |    35.73 |       45 |           28 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[24]_0[6]                                                  |    <0.001 |                7.99 |    36.33 |      129 |           62 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/alu_operand_b_ex[4]                                                            |    <0.001 |               18.24 |    31.72 |       41 |           25 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/ex_block_i/alu_i/shift_amt_reg0[4]                                             |    <0.001 |               33.87 |    59.05 |       34 |           17 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/addr_last_q_reg[30][30]                                                        |    <0.001 |               13.43 |    21.87 |       40 |           30 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/alu_operand_a_ex[31]                                                           |    <0.001 |               13.39 |    21.80 |       41 |           29 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/ex_block_i/alu_i/isqrt_comb.sq_rem233_out[12]                                  |    <0.001 |               35.79 |    50.05 |       11 |            9 | core_clk | N/A        |
+| u_core/u_cve2_core/id_stage_i/controller_i/ctrl_fsm_cs_reg[3]_2                                              |    <0.001 |               11.39 |    12.04 |      107 |           35 | core_clk | N/A        |
+| u_core/u_cve2_core/id_stage_i/controller_i/ctrl_fsm_cs_reg[3]_1[0]                                           |    <0.001 |               21.40 |    24.73 |       42 |           22 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/ex_block_i/alu_i/isqrt_comb.sq_rem215_out__0[13]                               |    <0.001 |               44.16 |    35.13 |        8 |            6 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/prefetch_buffer_i/fifo_i/g_fifo_regs[0].rdata_q_reg[0][14]_0                   |    <0.001 |                9.24 |    50.00 |       65 |           38 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[24]_0[8]                                                  |    <0.001 |                8.42 |    41.01 |       42 |           39 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/ex_block_i/alu_i/shift_amt_reg0[1]                                             |    <0.001 |               23.12 |    31.85 |       34 |           16 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[24]_0[3]                                                  |    <0.001 |                8.39 |    43.50 |       38 |           35 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/ex_block_i/alu_i/isqrt_comb.sq_rem218_out__0[12]                               |    <0.001 |               47.36 |    49.05 |        7 |            6 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/ex_block_i/alu_i/isqrt_comb.sq_rem233_out[8]                                   |    <0.001 |               35.25 |    51.09 |        9 |            7 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/ex_block_i/alu_i/isqrt_comb.sq_rem227_out[5]                                   |    <0.001 |               33.83 |    51.18 |       12 |           10 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/ex_block_i/alu_i/isqrt_comb.sq_rem215_out__0[9]                                |    <0.001 |               44.72 |    45.85 |        8 |            7 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[24]_0[9]                                                  |    <0.001 |                8.17 |    37.29 |       45 |           41 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/prefetch_buffer_i/fifo_i/g_fifo_regs[0].rdata_q_reg[0][13]_0                   |    <0.001 |                9.62 |    50.00 |       64 |           35 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/ex_block_i/alu_i/isqrt_comb.sq_rem233_out[13]                                  |    <0.001 |               35.79 |    49.99 |        8 |            7 | core_clk | N/A        |
+| u_core/u_cve2_core/id_stage_i/controller_i/instr_addr_o[31]_INST_0_i_14_n_0                                  |    <0.001 |               17.77 |    17.34 |       30 |           26 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/ex_block_i/alu_i/isqrt_comb.sq_rem224_out[8]                                   |    <0.001 |               37.56 |    50.66 |        9 |            7 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/ex_block_i/alu_i/isqrt_comb.sq_rem230_out[12]                                  |    <0.001 |               36.12 |    50.05 |       10 |            8 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/adder_in_b00                                                                   |    <0.001 |               29.74 |    44.35 |       33 |            9 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/prefetch_buffer_i/fifo_i/g_fifo_regs[0].rdata_q_reg[0][12]_0                   |    <0.001 |                9.61 |    50.00 |       46 |           32 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/wdata_a_i[2]                                                                   |    <0.001 |                5.25 |     9.42 |       31 |           31 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/ex_block_i/alu_i/isqrt_comb.sq_rem218_out__0[20]                               |    <0.001 |               33.20 |    27.12 |        7 |            6 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/ex_block_i/alu_i/isqrt_comb.sq_rem224_out__0[24]                               |    <0.001 |               30.17 |    43.81 |        7 |            6 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/ex_block_i/alu_i/isqrt_comb.sq_rem215_out__0[12]                               |    <0.001 |               50.96 |    46.20 |        6 |            5 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][31]_i_84_n_0                                       |    <0.001 |               14.58 |    22.02 |       36 |           20 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/alu_operand_b_ex[0]                                                            |    <0.001 |               10.37 |    19.17 |       58 |           26 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/ex_block_i/alu_i/isqrt_comb.sq_rem224_out__0[12]                               |    <0.001 |               38.50 |    49.91 |        7 |            6 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/prefetch_buffer_i/fifo_i/g_fifo_regs[0].rdata_q_reg[0][15]_0                   |    <0.001 |                9.57 |    50.00 |       52 |           30 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/ex_block_i/alu_i/isqrt_comb.sq_rem221_out__0[13]                               |    <0.001 |               41.67 |    48.84 |        6 |            6 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/wdata_a_i[8]                                                                   |    <0.001 |                5.19 |     9.21 |       31 |           31 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/ex_block_i/alu_i/isqrt_comb.sq_rem29_out__0[9]                                 |    <0.001 |               36.85 |    33.42 |        7 |            6 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/ex_block_i/alu_i/isqrt_comb.sq_rem218_out[8]_repN                              |    <0.001 |               43.48 |    49.11 |        7 |            6 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/ex_block_i/alu_i/isqrt_comb.sq_rem236_out[12]                                  |    <0.001 |               35.71 |    50.07 |        8 |            6 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[12]_13                                                    |    <0.001 |               13.68 |    21.77 |       13 |           13 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/ex_block_i/alu_i/isqrt_comb.sq_rem29_out[4]                                    |    <0.001 |               37.25 |    43.65 |        7 |            7 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[24]_0[4]                                                  |    <0.001 |                7.19 |    30.99 |       38 |           35 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/addr_last_q_reg[30][18]                                                        |    <0.001 |               13.61 |    21.86 |       16 |           12 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/ex_block_i/alu_i/isqrt_comb.sq_rem227_out__0[13]                               |    <0.001 |               36.72 |    49.93 |        7 |            7 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/ex_block_i/alu_i/isqrt_comb.sq_rem230_out[9]                                   |    <0.001 |               35.95 |    49.99 |        9 |            7 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q_reg[31][11]_i_86_n_6                                   |    <0.001 |               24.52 |    47.43 |        9 |            7 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/ex_block_i/alu_i/isqrt_comb.sq_rem212_out__0[8]                                |    <0.001 |               47.53 |    47.35 |        7 |            6 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q_reg[31][4]_i_60_n_6                                    |    <0.001 |               25.00 |    50.00 |        8 |            8 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/ex_block_i/alu_i/isqrt_comb.sq_rem221_out__0[17]                               |    <0.001 |               38.79 |    43.66 |        7 |            6 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/ex_block_i/alu_i/isqrt_comb.sq_rem218_out__0[25]                               |    <0.001 |               33.37 |    32.99 |        7 |            6 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q_reg[31][8]_i_78_n_4                                    |    <0.001 |               24.99 |    50.22 |        8 |            8 | core_clk | N/A        |
+| u_core/u_cve2_core/ex_block_i/gen_multdiv_fast.multdiv_i/gen_intermediate_val_reg[0].imd_val_q_reg[0][22][3] |    <0.001 |               24.80 |    49.14 |        8 |            8 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/mie_d[irq_software]                                                            |    <0.001 |               13.43 |    23.06 |       14 |           14 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/ex_block_i/alu_i/isqrt_comb.sq_rem227_out__0[17]                               |    <0.001 |               33.29 |    49.63 |        7 |            7 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q_reg[31][7]_i_56_n_4                                    |    <0.001 |               24.06 |    41.90 |        8 |            7 | core_clk | N/A        |
+| u_core/u_cve2_core/load_store_unit_i/lsu_addr_incr_req                                                       |    <0.001 |                6.54 |    39.54 |       59 |           45 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/ex_block_i/alu_i/isqrt_comb.sq_rem1                                            |    <0.001 |               17.42 |    74.83 |       36 |           13 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/ex_block_i/alu_i/isqrt_comb.sq_rem233_out__0[17]                               |    <0.001 |               35.81 |    49.98 |        6 |            5 | core_clk | N/A        |
+| u_core/u_cve2_core/ex_block_i/gen_multdiv_fast.multdiv_i/gen_intermediate_val_reg[0].imd_val_q_reg[0][14][2] |    <0.001 |               24.73 |    48.89 |        8 |            8 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/ex_block_i/alu_i/isqrt_comb.sq_rem212_out[6]                                   |    <0.001 |               43.73 |    46.08 |        4 |            4 | core_clk | N/A        |
+| u_core/u_cve2_core/ex_block_i/gen_multdiv_fast.multdiv_i/gen_intermediate_val_reg[0].imd_val_q_reg[0][18][3] |    <0.001 |               24.82 |    49.38 |        8 |            8 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/ex_block_i/alu_i/isqrt_comb.sq_rem230_out__0[21]                               |    <0.001 |               28.86 |    49.73 |        7 |            6 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/prefetch_buffer_i/fifo_i/g_fifo_regs[0].rdata_q_reg[0][1]_0                    |    <0.001 |                9.31 |    50.00 |       35 |           24 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[12]_14                                                    |    <0.001 |               13.71 |    21.77 |       13 |           13 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/ex_block_i/alu_i/isqrt_comb.sq_rem215_out[4]                                   |    <0.001 |               33.68 |    50.85 |        7 |            6 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q_reg[31][6]_i_56_n_6                                    |    <0.001 |               24.99 |    49.97 |        8 |            8 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[12]_22                                                    |    <0.001 |               13.57 |    21.82 |       13 |           13 | core_clk | N/A        |
+| u_core/u_cve2_core/ex_block_i/gen_multdiv_fast.multdiv_i/gen_intermediate_val_reg[0].imd_val_q_reg[0][22][1] |    <0.001 |               24.83 |    49.25 |        8 |            8 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/ex_block_i/alu_i/isqrt_comb.sq_rem218_out__0[21]                               |    <0.001 |               34.85 |    33.69 |        7 |            6 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q_reg[31][6]_i_82_n_4                                    |    <0.001 |               25.00 |    50.00 |        9 |            7 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/ex_block_i/alu_i/isqrt_comb.sq_rem215_out__0[8]                                |    <0.001 |               47.32 |    47.81 |        4 |            4 | core_clk | N/A        |
+| u_core/u_cve2_core/if_stage_i/instr_rdata_id[5]                                                              |    <0.001 |                8.74 |    48.45 |       51 |           29 | core_clk | N/A        |
++--------------------------------------------------------------------------------------------------------------+-----------+---------------------+----------+----------+--------------+----------+------------+
+
+
+3.3.2 Slice Logic
+-----------------
+
++-------------------------------------------------------------------------+-----------+------+-------------+------------+---------------------+----------+
+| Name                                                                    | Power (W) | Type | Clock (MHz) | Clock Name | Signal Rate (Mtr/s) | % High   |
++-------------------------------------------------------------------------+-----------+------+-------------+------------+---------------------+----------+
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][8]_i_48       |    <0.001 | LUT  |         N/A | Async      |               47.19 |    26.53 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][8]_i_42       |    <0.001 | LUT  |         N/A | Async      |               47.99 |    65.44 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][8]_i_46       |    <0.001 | LUT  |         N/A | Async      |               47.99 |    34.56 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][7]_i_58_comp  |    <0.001 | LUT  |         N/A | Async      |               48.59 |    65.44 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][7]_i_35       |    <0.001 | LUT  |         N/A | Async      |               42.33 |    31.22 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][8]_i_44_comp  |    <0.001 | LUT  |         N/A | Async      |               44.73 |    73.45 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][7]_i_50       |    <0.001 | LUT  |         N/A | Async      |               39.99 |    25.74 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][9]_i_46       |    <0.001 | LUT  |         N/A | Async      |               43.26 |    71.27 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][9]_i_50       |    <0.001 | LUT  |         N/A | Async      |               43.26 |    28.73 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][9]_i_45       |    <0.001 | LUT  |         N/A | Async      |               56.37 |    62.33 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][9]_i_49       |    <0.001 | LUT  |         N/A | Async      |               56.37 |    37.67 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][9]_i_69       |    <0.001 | LUT  |         N/A | Async      |               60.31 |    26.11 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][6]_i_89       |    <0.001 | LUT  |         N/A | Async      |               41.76 |    55.41 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][31]_i_27      |    <0.001 | LUT  |         N/A | Async      |               49.31 |    21.58 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][9]_i_51       |    <0.001 | LUT  |         N/A | Async      |               48.94 |    28.26 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][4]_i_79       |    <0.001 | LUT  |         N/A | Async      |               57.75 |    25.20 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][6]_i_28       |    <0.001 | LUT  |         N/A | Async      |               36.04 |    74.24 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][7]_i_95       |    <0.001 | LUT  |         N/A | Async      |               64.45 |    50.20 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][6]_i_50       |    <0.001 | LUT  |         N/A | Async      |               42.16 |    25.13 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][7]_i_82       |    <0.001 | LUT  |         N/A | Async      |               45.63 |    58.09 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][8]_i_30       |    <0.001 | LUT  |         N/A | Async      |               51.66 |    49.93 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][8]_i_77       |    <0.001 | LUT  |         N/A | Async      |               46.06 |    45.79 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][8]_i_47       |    <0.001 | LUT  |         N/A | Async      |               49.13 |    27.62 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][7]_i_49       |    <0.001 | LUT  |         N/A | Async      |               34.49 |    26.53 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][5]_i_93       |    <0.001 | LUT  |         N/A | Async      |               61.01 |    50.21 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][8]_i_73       |    <0.001 | LUT  |         N/A | Async      |               57.82 |    25.55 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][3]_i_90       |    <0.001 | LUT  |         N/A | Async      |               46.56 |    42.57 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][5]_i_63       |    <0.001 | LUT  |         N/A | Async      |               42.12 |    49.69 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][7]_i_45       |    <0.001 | LUT  |         N/A | Async      |               32.41 |    73.47 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][5]_i_77       |    <0.001 | LUT  |         N/A | Async      |               56.50 |    24.70 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][7]_i_47       |    <0.001 | LUT  |         N/A | Async      |               33.04 |    74.43 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][7]_i_51       |    <0.001 | LUT  |         N/A | Async      |               33.04 |    25.57 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][10]_i_53      |    <0.001 | LUT  |         N/A | Async      |               54.00 |    38.60 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][31]_i_28      |    <0.001 | LUT  |         N/A | Async      |               47.89 |    21.30 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][2]_i_92       |    <0.001 | LUT  |         N/A | Async      |               56.76 |    50.00 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][7]_i_76       |    <0.001 | LUT  |         N/A | Async      |               41.67 |    48.84 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][9]_i_44       |    <0.001 | LUT  |         N/A | Async      |               52.12 |    48.18 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][9]_i_48       |    <0.001 | LUT  |         N/A | Async      |               52.12 |    51.82 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][6]_i_92       |    <0.001 | LUT  |         N/A | Async      |               41.67 |    51.16 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][8]_i_77_comp  |    <0.001 | LUT  |         N/A | Async      |               49.12 |    71.27 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][10]_i_78      |    <0.001 | LUT  |         N/A | Async      |               49.97 |    29.58 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][0]_i_125      |    <0.001 | LUT  |         N/A | Async      |               53.29 |    50.00 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][3]_i_89       |    <0.001 | LUT  |         N/A | Async      |               53.96 |    50.04 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][1]_i_107      |    <0.001 | LUT  |         N/A | Async      |               53.34 |    49.97 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][6]_i_103      |    <0.001 | LUT  |         N/A | Async      |               56.27 |    49.95 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][9]_i_66_comp  |    <0.001 | LUT  |         N/A | Async      |               48.95 |    44.98 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][3]_i_9        |    <0.001 | LUT  |         N/A | Async      |               33.81 |    12.25 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][4]_i_61       |    <0.001 | LUT  |         N/A | Async      |               38.50 |    49.91 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][10]_i_75      |    <0.001 | LUT  |         N/A | Async      |               45.88 |    58.16 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][0]_i_139      |    <0.001 | LUT  |         N/A | Async      |               58.10 |    50.01 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][0]_i_115_comp |    <0.001 | LUT  |         N/A | Async      |               52.93 |    26.09 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][7]_i_58       |    <0.001 | LUT  |         N/A | Async      |               38.79 |    43.66 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][28]_i_13      |    <0.001 | LUT  |         N/A | Async      |               42.99 |    18.84 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][4]_i_50       |    <0.001 | LUT  |         N/A | Async      |               36.17 |    25.01 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][6]_i_58       |    <0.001 | LUT  |         N/A | Async      |               35.72 |    48.65 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][5]_i_59_comp  |    <0.001 | LUT  |         N/A | Async      |               32.05 |    71.89 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][5]_i_52       |    <0.001 | LUT  |         N/A | Async      |               36.74 |    74.97 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][4]_i_46       |    <0.001 | LUT  |         N/A | Async      |               36.17 |    74.99 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][10]_i_54      |    <0.001 | LUT  |         N/A | Async      |               49.85 |    29.62 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][6]_i_75       |    <0.001 | LUT  |         N/A | Async      |               55.80 |    24.59 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][2]_i_46       |    <0.001 | LUT  |         N/A | Async      |               35.94 |    65.28 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][29]_i_14      |    <0.001 | LUT  |         N/A | Async      |               46.19 |    20.73 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][3]_i_103      |    <0.001 | LUT  |         N/A | Async      |               43.14 |    65.50 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][3]_i_71       |    <0.001 | LUT  |         N/A | Async      |               55.48 |    25.78 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][1]_i_49       |    <0.001 | LUT  |         N/A | Async      |               57.39 |    24.97 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][2]_i_50       |    <0.001 | LUT  |         N/A | Async      |               37.97 |    25.00 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][4]_i_30       |    <0.001 | LUT  |         N/A | Async      |               34.92 |    75.00 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][2]_i_105      |    <0.001 | LUT  |         N/A | Async      |               58.17 |    49.82 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][2]_i_95       |    <0.001 | LUT  |         N/A | Async      |               57.09 |    49.99 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][6]_i_27       |    <0.001 | LUT  |         N/A | Async      |               32.05 |    71.89 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][6]_i_31       |    <0.001 | LUT  |         N/A | Async      |               32.05 |    28.11 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][6]_i_49       |    <0.001 | LUT  |         N/A | Async      |               38.62 |    25.18 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][0]_i_21       |    <0.001 | LUT  |         N/A | Async      |               26.69 |    23.65 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][1]_i_47       |    <0.001 | LUT  |         N/A | Async      |               54.28 |    25.00 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][6]_i_93       |    <0.001 | LUT  |         N/A | Async      |               47.36 |    50.95 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][0]_i_75       |    <0.001 | LUT  |         N/A | Async      |               55.87 |    24.99 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][7]_i_96       |    <0.001 | LUT  |         N/A | Async      |               56.58 |    51.25 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][2]_i_34       |    <0.001 | LUT  |         N/A | Async      |               35.75 |    25.00 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][9]_i_47       |    <0.001 | LUT  |         N/A | Async      |               46.17 |    71.74 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][1]_i_110      |    <0.001 | LUT  |         N/A | Async      |               58.45 |    49.98 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][7]_i_57       |    <0.001 | LUT  |         N/A | Async      |               50.96 |    46.20 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][0]_i_74       |    <0.001 | LUT  |         N/A | Async      |               52.84 |    25.00 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][7]_i_88       |    <0.001 | LUT  |         N/A | Async      |               47.86 |    50.73 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][8]_i_24_comp  |    <0.001 | LUT  |         N/A | Async      |               43.50 |    51.37 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][7]_i_71       |    <0.001 | LUT  |         N/A | Async      |               55.60 |    24.71 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][5]_i_100      |    <0.001 | LUT  |         N/A | Async      |               55.19 |    49.67 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][8]_i_90       |    <0.001 | LUT  |         N/A | Async      |               44.16 |    64.87 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][10]_i_49_comp |    <0.001 | LUT  |         N/A | Async      |               46.76 |    61.38 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][0]_i_34       |    <0.001 | LUT  |         N/A | Async      |               38.73 |    21.41 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][0]_i_76_comp  |    <0.001 | LUT  |         N/A | Async      |               50.67 |    25.01 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][5]_i_57       |    <0.001 | LUT  |         N/A | Async      |               55.16 |    24.97 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][5]_i_49_comp  |    <0.001 | LUT  |         N/A | Async      |               39.95 |    59.52 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][10]_i_48      |    <0.001 | LUT  |         N/A | Async      |               52.39 |    47.28 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][1]_i_26       |    <0.001 | LUT  |         N/A | Async      |               35.48 |    75.00 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][2]_i_53       |    <0.001 | LUT  |         N/A | Async      |               58.04 |    25.05 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][6]_i_57       |    <0.001 | LUT  |         N/A | Async      |               47.36 |    49.05 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][0]_i_113      |    <0.001 | LUT  |         N/A | Async      |               54.55 |    50.00 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][5]_i_41       |    <0.001 | LUT  |         N/A | Async      |               34.41 |    25.21 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][0]_i_107_comp |    <0.001 | LUT  |         N/A | Async      |               44.65 |    54.43 |
+| u_core/u_cve2_core/if_stage_i/g_rf_flops[31].rf_reg_q[31][1]_i_45_comp  |    <0.001 | LUT  |         N/A | Async      |               44.66 |    46.95 |
++-------------------------------------------------------------------------+-----------+------+-------------+------------+---------------------+----------+
+
+
+3.3.3 DSPs
+----------
+
++-------------------------------------------------------------------------+-----------+---------------+------------+------------+------------+-----------------+-------------+
+| Name                                                                    | Power (W) | Clock A (MHz) | Clock Name | MULT Used? | MREG Used? | Pre-Adder Used? | Signal Rate |
++-------------------------------------------------------------------------+-----------+---------------+------------+------------+------------+-----------------+-------------+
+| u_core/u_cve2_core/ex_block_i/gen_multdiv_fast.multdiv_i/mac_res_signed |    <0.001 |           N/A | N/A        | Yes        | No         | No              |       19.57 |
++-------------------------------------------------------------------------+-----------+---------------+------------+------------+------------+-----------------+-------------+
+
+
+4. Advisory
+-----------
+
++------------------+--------+--------+--------------+-------------+--------------------+-----------------+-----------------------------------------------------------------------------+
+| Confidence Level | Status | Fanout | Signal Type  | Polarity    | Static Probability | Toggle Rate (%) | Net                                                                         |
++------------------+--------+--------+--------------+-------------+--------------------+-----------------+-----------------------------------------------------------------------------+
+| Low              |        |     41 |              | Active High |               0.02 |             3.6 | u_core/u_cve2_core/id_stage_i/controller_i/debug_mode_q_reg_0               |
+| Low              |        |     34 |              | Active High |               0.00 |             0.0 | u_core/u_cve2_core/if_stage_i/imd_val_we_ex[0]                              |
+| Low              |        |     33 |              | Active High |               0.01 |             1.0 | u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[7]_2[0]                  |
+| Low              |        |     33 |              | Active High |               0.02 |             1.7 | u_core/u_cve2_core/if_stage_i/prefetch_buffer_i/fifo_i/entry_en_2           |
+| Low              |        |     32 |              | Active High |               0.00 |             0.0 | u_core/u_cve2_core/ex_block_i/gen_multdiv_fast.multdiv_i/op_numerator_q     |
+| Low              |        |     32 |              | Active High |               0.00 |             0.0 | u_core/u_cve2_core/ex_block_i/gen_multdiv_fast.multdiv_i/op_quotient_q      |
+| Low              |        |     32 |              | Active High |               0.02 |             3.6 | u_core/u_cve2_core/if_stage_i/debug_mode_q_reg[0]                           |
+| Low              |        |     32 |              | Active High |               0.00 |             0.0 | u_core/u_cve2_core/if_stage_i/debug_mode_q_reg_0[0]                         |
+| Low              |        |     32 |              | Active High |               0.00 |             0.0 | u_core/u_cve2_core/if_stage_i/imd_val_we_ex[1]                              |
+| Low              |        |     32 |              | Active High |               0.00 |             0.6 | u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[10]_0[0]                 |
+| Low              |        |     32 |              | Active High |               0.00 |             0.6 | u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[11]_0[0]                 |
+| Low              |        |     32 |              | Active High |               0.01 |             0.9 | u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[11]_1[0]                 |
+| Low              |        |     32 |              | Active High |               0.01 |             0.9 | u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[11]_2[0]                 |
+| Low              |        |     32 |              | Active High |               0.01 |             0.7 | u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[11]_3[0]                 |
+| Low              |        |     32 |              | Active High |               0.01 |             0.7 | u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[11]_4[0]                 |
+| Low              |        |     32 |              | Active High |               0.00 |             0.5 | u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[11]_5[0]                 |
+| Low              |        |     32 |              | Active High |               0.01 |             0.7 | u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[7]_0[0]                  |
+| Low              |        |     32 |              | Active High |               0.01 |             0.8 | u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[7]_1[0]                  |
+| Low              |        |     32 |              | Active High |               0.01 |             0.8 | u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[7]_3[0]                  |
+| Low              |        |     32 |              | Active High |               0.00 |             0.7 | u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[7]_4[0]                  |
+| Low              |        |     32 |              | Active High |               0.01 |             0.9 | u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[7]_5[0]                  |
+| Low              |        |     32 |              | Active High |               0.01 |             0.7 | u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[7]_6[0]                  |
+| Low              |        |     32 |              | Active High |               0.01 |             1.1 | u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[7]_7[0]                  |
+| Low              |        |     32 |              | Active High |               0.01 |             0.8 | u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[7]_8[0]                  |
+| Low              |        |     32 |              | Active High |               0.01 |             1.2 | u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[7]_9[0]                  |
+| Low              |        |     32 |              | Active High |               0.00 |             0.6 | u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[8]_0[0]                  |
+| Low              |        |     32 |              | Active High |               0.01 |             1.0 | u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[8]_1[0]                  |
+| Low              |        |     32 |              | Active High |               0.01 |             0.7 | u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[8]_2[0]                  |
+| Low              |        |     32 |              | Active High |               0.01 |             1.1 | u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[8]_3[0]                  |
+| Low              |        |     32 |              | Active High |               0.01 |             1.3 | u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[8]_4[0]                  |
+| Low              |        |     32 |              | Active High |               0.01 |             0.9 | u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[8]_5[0]                  |
+| Low              |        |     32 |              | Active High |               0.00 |             0.6 | u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[8]_6[0]                  |
+| Low              |        |     32 |              | Active High |               0.00 |             0.7 | u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[8]_7[0]                  |
+| Low              |        |     32 |              | Active High |               0.01 |             0.8 | u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[8]_8[0]                  |
+| Low              |        |     32 |              | Active High |               0.00 |             0.5 | u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[9]_0[0]                  |
+| Low              |        |     32 |              | Active High |               0.01 |             0.8 | u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[9]_1[0]                  |
+| Low              |        |     32 |              | Active High |               0.01 |             0.9 | u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[9]_2[0]                  |
+| Low              |        |     32 |              | Active High |               0.00 |             0.7 | u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[9]_3[0]                  |
+| Low              |        |     32 |              | Active High |               0.00 |             0.5 | u_core/u_cve2_core/if_stage_i/instr_rdata_id_o_reg[9]_4[0]                  |
+| Low              |        |     32 |              | Active High |               0.00 |             0.4 | u_core/u_cve2_core/if_stage_i/mcountinhibit_q_reg[2][0]                     |
+| Low              |        |     32 |              | Active High |               0.00 |             0.4 | u_core/u_cve2_core/if_stage_i/mcountinhibit_q_reg[2][1]                     |
+| Low              |        |     32 |              | Active High |               0.00 |             0.0 | u_core/u_cve2_core/if_stage_i/rdata_q[31]_i_3__1_1[0]                       |
+| Low              |        |     32 |              | Active High |               0.00 |             0.0 | u_core/u_cve2_core/if_stage_i/rdata_q[31]_i_3__4_0[0]                       |
+| Low              |        |     32 |              | Active High |               0.00 |             0.0 | u_core/u_cve2_core/if_stage_i/rdata_q[31]_i_4__1_0[0]                       |
+| Low              |        |     31 |              | Active High |               0.02 |             3.6 | u_core/u_cve2_core/if_stage_i/nmi_mode_q_reg_0[0]                           |
+| Low              |        |     31 |              | Active High |               0.00 |             0.0 | u_core/u_cve2_core/if_stage_i/rdata_q[31]_i_5__3_0[0]                       |
+| Low              |        |     19 |              | Active High |               0.00 |             0.0 | u_core/u_cve2_core/if_stage_i/rdata_q[18]_i_7_0[0]                          |
+| Low              |        |      9 |              | Active High |               0.00 |             0.0 | u_core/u_cve2_core/id_stage_i/controller_i/rdata_q[15]_i_4__0[0]            |
+| Low              |        |      8 |              | Active High |               0.00 |             0.0 | u_core/u_cve2_core/if_stage_i/div_en_ex                                     |
+| Low              |        |      7 |              | Active High |               0.02 |             3.6 | u_core/u_cve2_core/if_stage_i/nmi_mode_q_reg[0]                             |
+| Low              |        |      4 |              | Active High |               0.02 |             3.6 | u_core/u_cve2_core/id_stage_i/controller_i/debug_mode_q_reg_2[0]            |
+| Medium           |        |     84 |              | Active High |               0.48 |            25.5 | u_core/u_cve2_core/if_stage_i/prefetch_buffer_i/fifo_i/E[0]                 |
+| Medium           |        |     33 |              | Active High |               0.12 |            11.2 | u_core/u_cve2_core/if_stage_i/prefetch_buffer_i/fifo_i/entry_en_0           |
+| Medium           |        |     33 |              | Active High |               0.12 |            11.2 | u_core/u_cve2_core/if_stage_i/prefetch_buffer_i/fifo_i/entry_en_1           |
+| Medium           |        |     32 |              | Active High |               0.50 |             0.0 | u_core/u_cve2_core/if_stage_i/mcountinhibit_q_reg[0][0]                     |
+| Medium           |        |     32 |              | Active High |               0.50 |             0.0 | u_core/u_cve2_core/if_stage_i/mcountinhibit_q_reg[0][1]                     |
+| Medium           |        |     32 |              | Active High |               0.22 |            11.5 | u_core/u_cve2_core/load_store_unit_i/addr_update                            |
+| Medium           |        |     31 |              | Active High |               0.54 |            30.4 | u_core/u_cve2_core/id_stage_i/controller_i/E[0]                             |
+| Medium           |        |     30 |              | Active High |               0.21 |            15.2 | u_core/u_cve2_core/if_stage_i/prefetch_buffer_i/fifo_i/instr_gnt_i_0[0]     |
+| Medium           |        |     30 |              | Active High |               0.48 |            29.7 | u_core/u_cve2_core/if_stage_i/prefetch_buffer_i/fifo_i/valid_req_q_reg_0[0] |
+| Medium           |        |     24 |              | Active High |               0.09 |            16.3 | u_core/u_cve2_core/if_stage_i/rdata_q[31]_i_7__0_0[0]                       |
+| Medium           |        |     24 |              | Active High |               0.18 |             9.3 | u_core/u_cve2_core/load_store_unit_i/rdata_update                           |
+| Medium           |        |      6 |              | Active High |               0.08 |             4.8 | u_core/u_cve2_core/load_store_unit_i/ctrl_update                            |
+| Medium           |        |      4 |              | Active High |               0.87 |            24.2 | u_core/u_cve2_core/id_stage_i/controller_i/ctrl_fsm_ns                      |
+| High             |        |   1963 | Clear/Preset | Active High |               0.00 |             0.0 | u_core/u_cve2_core/register_file_i/rst_sync_q_reg[1]                        |
+| High             |        |      2 | Clear        | Active High |               0.00 |             0.0 | rst_sync_q[1]_i_1_n_0                                                       |
++------------------+--------+--------+--------------+-------------+--------------------+-----------------+-----------------------------------------------------------------------------+
+* High:  No action required.  Calculated activity values are consistent with signal type and polarity.
+** Medium:  Switching activity should be reviewed and corrected if necessary.  Calculated activity values may be inconsistent with signal type and polarity which can result in inaccurate power analysis.
+*** Low: Switching activity must be reviewed and corrected to prevent incorrect power analysis. Calculated activity values are inappropriate for the signal type and polarity.
+
+
