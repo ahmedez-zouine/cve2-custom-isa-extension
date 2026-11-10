@@ -5,7 +5,7 @@ Build the Zensical site in this repository. Publish the generated pages on GitHu
 - [x] Agree on the five pages and record the files below.
 - [x] Write the pages, add the project figures and check the local build.
 - [x] Add the GitHub Pages workflow.
-- [ ] Confirm the published site opens on GitHub Pages.
+- [x] Confirm the published site opens on GitHub Pages.
 
 ## Files
 
@@ -24,5 +24,7 @@ Build the Zensical site in this repository. Publish the generated pages on GitHu
 Use the technical handoff and checked reports as the source for numerical claims. Keep each step in its own commit and push it to `Master` before starting the next one.
 
 ## Publish
+
+The site is live at [CVE2 isqrt](https://ahmedez-zouine.github.io/cve2-custom-isa-extension/).
 
 In the repository's **Settings → Pages**, select **GitHub Actions** as the source. Run the **Documentation** workflow on `Master` for the first deployment. Later pushes that change the documentation or its build files trigger the same workflow.
