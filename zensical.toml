@@ -13,7 +13,7 @@ nav = [
   { "Arithmetic" = "arithmetic.md" },
   { "Verification" = "verification.md" },
   { "FPGA results" = "results.md" },
-  { "Reproduce" = "reproduce.md" },
+  { "Installation" = "reproduce.md" },
 ]
 
 [project.theme]

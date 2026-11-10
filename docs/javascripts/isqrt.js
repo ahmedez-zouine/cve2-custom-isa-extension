@@ -46,8 +46,12 @@ if (form) {
     const steps = squareRootSteps(number);
     const rows = steps.map(({ step, pair, prefix, shiftedRemainder, trial, bit, root, remainder }) => {
       const row = document.createElement("tr");
+      const rowHeading = document.createElement("th");
+      rowHeading.scope = "row";
+      rowHeading.textContent = step;
+      row.append(rowHeading);
+
       const values = [
-        step,
         pair.toString(2).padStart(2, "0"),
         format.format(prefix),
         format.format(shiftedRemainder),
