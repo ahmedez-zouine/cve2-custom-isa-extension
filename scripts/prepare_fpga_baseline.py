@@ -32,6 +32,22 @@ def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def extract_sources(stream, destination):
+    """Extract only directories and regular files, including on older Python."""
+    for member in stream:
+        path = destination / member.name
+        if path.resolve() != destination.resolve() and destination.resolve() not in path.resolve().parents:
+            raise ValueError(f"Archive path escapes snapshot: {member.name}")
+        if member.isdir():
+            path.mkdir(parents=True, exist_ok=True)
+        elif member.isfile():
+            path.parent.mkdir(parents=True, exist_ok=True)
+            with stream.extractfile(member) as source, path.open("wb") as target:
+                target.write(source.read())
+        else:
+            raise ValueError(f"Unsupported archive entry: {member.name}")
+
+
 def verify_snapshot(directory, manifest, source_info):
     saved = json.loads((directory / "source_manifest.json").read_text())
     if saved != manifest or (directory / "source_info.txt").read_text() != source_info:
@@ -60,7 +76,7 @@ def main():
         snapshot.mkdir()
         archive = git("archive", "--format=tar", reference, *SOURCE_DIRS)
         with tarfile.open(fileobj=io.BytesIO(archive)) as stream:
-            stream.extractall(snapshot, filter="data")
+            extract_sources(stream, snapshot)
         for name in REPLACEMENTS:
             original = git("show", f"{baseline}:{name}")
             if b"ALU_ISQRT" in original or b"OPCODE_CUSTOM_0" in original:
