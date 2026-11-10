@@ -5,8 +5,7 @@ Start with the simulator to run the instruction tests. The FPGA flow also requir
 
 ## Install the simulation tools
 
-### 1. Install the toolchain
-{ .project-step }
+### 1. Install the toolchain { .project-step }
 
 **macOS with Homebrew.** Install Apple’s command-line tools if needed, then install Verilator and the RISC-V compiler.
 
@@ -28,8 +27,7 @@ export RISCV=riscv64-unknown-elf-
 
 In GitHub Codespaces, the repository’s dev container installs the Ubuntu tools. Set `RISCV=riscv64-unknown-elf-` in the terminal.
 
-### 2. Check the tool versions
-{ .project-step }
+### 2. Check the tool versions { .project-step }
 
 ```sh
 verilator --version
@@ -40,8 +38,7 @@ make --version
 
 The compiler builds the RV32IMC test programs. Verilator builds the host simulator, which runs those programs against the CVE2 RTL.
 
-### 3. Clone the repository
-{ .project-step }
+### 3. Clone the repository { .project-step }
 
 Keep the Git history. The FPGA baseline script reads recorded source revisions from it.
 
@@ -52,8 +49,7 @@ cd cve2-custom-isa-extension
 
 ## Run the simulation checks
 
-### 1. Run the supplied tests
-{ .project-step }
+### 1. Run the supplied tests { .project-step }
 
 ```sh
 make test RISCV="$RISCV"
@@ -61,8 +57,7 @@ make test RISCV="$RISCV"
 
 Look for `sw_isqrt: PASS` and `hw_isqrt: PASS (2007 checks)`.
 
-### 2. Run the corner and integration checks
-{ .project-step }
+### 2. Run the corner and integration checks { .project-step }
 
 ```sh
 make run TEST=isqrt_corners RISCV="$RISCV"
@@ -71,8 +66,7 @@ make run TEST=isqrt_integration RISCV="$RISCV"
 
 The expected summaries are `isqrt_corners: PASS (43 checks)` and `isqrt_integration: PASS (200705 checks)`. The corner test deliberately triggers four illegal-instruction exceptions and checks recovery. See [verification](verification.md) for the test sequence and the expected writeback.
 
-### 3. Inspect the generated files
-{ .project-step }
+### 3. Inspect the generated files { .project-step }
 
 | File under `build/` | What to inspect |
 | --- | --- |
@@ -83,8 +77,7 @@ The expected summaries are `isqrt_corners: PASS (43 checks)` and `isqrt_integrat
 
 ## FPGA
 
-### 1. Synthesize both variants
-{ .project-step }
+### 1. Synthesize both variants { .project-step }
 
 Load Vivado 2024.2 in your shell. Replace the example installation directory with your own. The two runs use `xc7a35tcsg324-1` and the project’s 20 ns constraint.
 
@@ -101,7 +94,6 @@ for variant in baseline extended; do
 done
 ```
 
-### 2. Route the checkpoints and review the reports
-{ .project-step }
+### 2. Route the checkpoints and review the reports { .project-step }
 
 Run placement and routing on the two synthesis checkpoints. Check the route status, then compare setup and hold slack. The recorded power flow uses the routed checkpoints and the matching checkpoint audit. [FPGA build guide](https://github.com/ahmedez-zouine/cve2-custom-isa-extension/blob/10f4bd0/fpga/README.md#place-and-route-the-saved-synthesis-checkpoints) · [Archived results and review commands](https://github.com/ahmedez-zouine/cve2-custom-isa-extension/blob/10f4bd0/output/fpga/verified_results.md#3-reproduce-the-checks)

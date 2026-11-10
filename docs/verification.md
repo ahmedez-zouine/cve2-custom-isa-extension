@@ -12,18 +12,15 @@ The tests run C programs on the Verilated CVE2 core using the supplied testbench
 | `isqrt_corners` | 43 | Boundary values, zero registers, illegal encodings and recovery |
 | `isqrt_integration` | 200,705 | Square boundaries, full-width inputs and instruction dependencies |
 
-### 1. Compare the software and hardware results
-{ .project-step }
+### 1. Compare the software and hardware results { .project-step }
 
 The supplied tests check known inputs with the software reference and run randomized operands through the hardware instruction. The hardware test also covers an in-place write and consecutive dependent roots.
 
-### 2. Check boundaries and exception recovery
-{ .project-step }
+### 2. Check boundaries and exception recovery { .project-step }
 
 The corner tests exercise zero, the largest unsigned input, zero-register behavior, and illegal encodings. The integration test then checks the values immediately below, at and above each of the 65,535 positive square boundaries, as well as zero and `UINT32_MAX`.
 
-### 3. Check the arithmetic and instruction dependencies
-{ .project-step }
+### 3. Check the arithmetic and instruction dependencies { .project-step }
 
 For another 4,096 full-width inputs, the integration test checks **root² ≤ input < (root + 1)²** with 64-bit products. The upper square can reach 2³², so it needs more than 32 bits. A dependency check runs a load into `isqrt`, stores the result, then exercises multiply, unsigned divide and compressed addition.
 
