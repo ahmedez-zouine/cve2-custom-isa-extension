@@ -27,7 +27,7 @@ Both designs miss overall setup and hold at the 20 ns target. The extended core'
 
 ## Estimated power
 
-![Grouped bars showing original and extended total, dynamic and device-static power estimates](assets/power.png)
+[![Grouped bars showing original and extended total, dynamic and device-static power estimates](assets/power.svg)](assets/power.svg)
 
 | Estimate | Original core | With isqrt |
 | --- | ---: | ---: |

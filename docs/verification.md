@@ -13,7 +13,7 @@ The integration test covers the values immediately below, at and above each of t
 
 ## Writeback in simulation
 
-![Simulation waveform showing input 20, result 4 and writeback to x11 on the next edge](assets/writeback.png)
+[![Simulation waveform showing input 20, result 4 and writeback to x11 on the next edge](assets/writeback.svg)](assets/writeback.svg)
 
 In this trace, `isqrt x11, x11` reads 20 and writes 4 to `x11` at the next simulated clock edge. The timing plot shows the RTL execution interval. The [routed timing reports](results.md#routed-timing) show the physical delay and slack for the FPGA target.
 

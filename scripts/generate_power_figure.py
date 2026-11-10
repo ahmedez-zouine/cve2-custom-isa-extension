@@ -61,6 +61,7 @@ def main():
     fig.savefig(args.out_dir / f"{name}.pdf",
                 metadata={"Title": "Estimated on-chip power", "CreationDate": None, "ModDate": None})
     fig.savefig(args.out_dir / f"{name}.png", dpi=400)
+    fig.savefig(args.out_dir / f"{name}.svg", metadata={"Title": "Estimated on-chip power", "Date": None})
     plt.close(fig)
 
 

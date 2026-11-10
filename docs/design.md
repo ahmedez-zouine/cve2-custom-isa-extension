@@ -15,9 +15,15 @@
 
 The decoder accepts the instruction only when `funct7`, `rs2` and `funct3` all encode zero. The ordinary illegal-instruction path handles the other custom-0 encodings. The existing register file handles `rd = rs1` and `rd = x0`.
 
+For example, the GNU assembler emits `0x0005858b` for `isqrt x11, x11` with this directive:
+
+```asm
+.insn r 0x0b, 0, 0, x11, x11, x0
+```
+
 ## Pipeline integration
 
-![CVE2 instruction flow from fetch through the decoder and ALU to register writeback](assets/pipeline.png)
+[![CVE2 instruction flow from fetch through the decoder and ALU to register writeback](assets/pipeline.svg)](assets/pipeline.svg)
 
 The decoder reads `rs1`, selects `ALU_ISQRT` and enables the normal register write. The ALU computes the result from operand A. The result mux sends it to the existing writeback path.
 
@@ -29,8 +35,6 @@ The decoder reads `rs1`, selects `ALU_ISQRT` and enables the normal register wri
 
 ## Square-root datapath
 
-Each of the 16 restoring steps consumes two input bits, starting with the most significant pair. It shifts that pair into the remainder and compares the result with `4 × root + 1`. When the subtraction fits, the step subtracts the trial value and appends a one to the root. Otherwise it appends a zero.
+Each step consumes two input bits and produces one root bit. The [arithmetic walkthrough](arithmetic.md) derives the trial value, traces input 20 through the recurrence, and lets you test other inputs.
 
-![The restoring square-root recurrence and the final three steps for input 20](assets/recurrence.png)
-
-The current RTL unrolls the steps into combinational logic. A multicycle design could reuse one step for 16 iterations, with extra control and writeback cycles. That would trade instruction latency for less duplicated arithmetic and a shorter combinational path.
+The RTL unrolls the 16 steps into combinational logic. Each step depends on the previous step’s root and remainder, so the dependencies form a long path to writeback. A multicycle design could reuse one step for 16 iterations, trading extra instruction cycles and control logic for a shorter combinational path.

@@ -6,19 +6,21 @@ repo_url = "https://github.com/ahmedez-zouine/cve2-custom-isa-extension"
 repo_name = "cve2-custom-isa-extension"
 strict = true
 extra_css = ["stylesheets/project.css"]
+extra_javascript = ["javascripts/isqrt.js"]
 nav = [
   { "Overview" = "index.md" },
   { "Design" = "design.md" },
+  { "Arithmetic" = "arithmetic.md" },
   { "Verification" = "verification.md" },
   { "FPGA results" = "results.md" },
   { "Reproduce" = "reproduce.md" },
 ]
 
 [project.theme]
-features = ["navigation.tabs", "navigation.top", "content.code.copy"]
+features = ["navigation.tabs", "navigation.top", "navigation.footer", "content.code.copy"]
 
 [project.theme.font]
-text = "Inter"
+text = "Source Sans 3"
 code = "IBM Plex Mono"
 
 [[project.theme.palette]]
