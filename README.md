@@ -5,7 +5,9 @@ This project adds an unsigned integer square-root instruction to CVE2, a compact
 the instruction in simulation, and measure its implementation cost on an FPGA.
 
 The [FPGA build guide](fpga/README.md) describes the Vivado synthesis preparation.
-FPGA area and timing results are still pending.
+The first [FPGA synthesis review](output/fpga/extended/review.md) reports 4,178 LUTs,
+1,962 flip-flops and one DSP. Estimated timing fails the 50 MHz target;
+baseline comparison and implemented timing remain pending.
 
 ## 1. Mathematical definition
 
@@ -257,10 +259,10 @@ one square-root instruction.
 - [Paper figure generator and instructions](scripts/README-figures.md)
 - [Simulation result collector](scripts/collect_simulation_results.py)
 
-The provided testbench and core configuration are part of the assignment and
-should remain unchanged. FPGA wrapper, constraints, synthesis results, and the
-technical report are later project work; do not claim FPGA measurements until
-the tools have actually run.
+The provided testbench and core configuration are part of the assignment.
+The FPGA wrapper, constraints and first synthesis reports are now available.
+The original-core comparison, placement and routing, power evaluation and
+technical report remain pending.
 
 ## 7. Set up on an Apple Silicon Mac
 

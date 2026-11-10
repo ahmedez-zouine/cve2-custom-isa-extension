@@ -2,7 +2,8 @@
 
 This directory prepares an out-of-context (OOC) synthesis of the extended core
 using Vivado and a Xilinx 7-series part. Select the actual part supported by your
-installation. No FPGA part has been prescribed or measured for this project yet.
+installation. The first extended-core synthesis used `xc7a35tcsg324-1`;
+this is the selected comparison target, not a prescribed physical board.
 
 The wrapper uses the simulation's RV32IMC configuration: fast multiplier,
 FF register file, zero optional HPM counters, and CV-X-IF disabled. Its live
@@ -17,6 +18,11 @@ The simulation source list and core RTL are unchanged.
 The script reclassifies `Synth 8-11067` as INFO: package parameters act as local
 constants. The messages remain in the log. This changes reporting only; it
 does not edit the upstream package RTL or suppress other warning IDs.
+
+The [reviewed synthesis reports](../output/fpga/extended/review.md) show 4,178 LUTs,
+1,962 FFs, one DSP and no BRAM. Estimated setup slack is -30.800 ns at a
+20 ns clock target. The critical path traverses the combinational isqrt unit.
+These results establish neither 50 MHz timing closure nor implemented Fmax.
 
 ## Run on a machine with Vivado
 
