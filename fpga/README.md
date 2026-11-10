@@ -239,7 +239,31 @@ if the new slack is positive. These scripts do not calculate an implemented
 Fmax, generate a board bitstream or estimate power. Power needs its own stated
 activity and operating conditions.
 
-After reviewing both runs, archive their text evidence separately from synthesis:
+### OOC boundary routing warnings
+
+`Route 35-198` means a module port has no `HD.PARTPIN_LOCS` interconnect
+location. In this module-analysis flow, its interface net is not partially
+routed to a defined boundary. Timing paths starting or ending at that port
+are therefore incomplete. The same warning can appear once for each bus bit.
+The router's fully routed-net count excludes these unmodeled boundary routes;
+zero routing errors does not establish complete interface routing.
+
+Review `register_setup_paths.rpt` separately from the overall timing summary.
+Register-to-register paths provide evidence about the internal datapath, while
+the missing external clock context still limits their clock timing analysis.
+Inspect path endpoints before attributing any worst slack to the isqrt unit.
+Use a reviewed enclosing system, or physically defined OOC interface and clock
+constraints, for complete timing evaluation. Boundary locations should follow
+that integration context and match between the baseline and extended runs.
+
+The separate `Constraints 18-8777` message says required files for tile splitting
+are unavailable. Its cause has not been established from the reported warning
+excerpt; preserve the surrounding log and identify the emitting command before
+accepting or dismissing its effect.
+
+Export both completed runs for review, keeping their text evidence separate
+from synthesis. The [implementation archive guide](../output/fpga/implementation/README.md)
+describes the known log history and review requirements.
 
 ```sh
 for variant in extended baseline; do
@@ -247,7 +271,7 @@ for variant in extended baseline; do
   dst="output/fpga/implementation/$variant"
   mkdir -p "$dst"
   cp "$src"/*.rpt "$src"/*.txt "$src"/*.tcl "$src"/*.xdc \
-    "$src"/*.log "$src/vivado.jou" "$dst/"
+    "$src"/*.log "$src"/*.jou "$dst/"
   if [ -f "$src/synthesis_source_manifest.json" ]; then
     cp "$src/synthesis_source_manifest.json" "$dst/"
   fi
@@ -257,11 +281,15 @@ done
 This export preserves existing synthesis evidence and leaves the DCP files in
 `build/`. The current figure generator reads the archived synthesis pair; routed
 results must be reviewed and integrated explicitly before plotting them.
+The extended run's later rejected retry replaced its main launch log. Preserve
+any `vivado_*.backup.log` and `.jou` files alongside that retry log; identify the
+successful original log before citing it as evidence of implementation completion.
 
 References: AMD's [implementation command sequence](https://docs.amd.com/r/2024.2-English/ug835-vivado-tcl-commands/place_design),
 [opening a saved checkpoint](https://docs.amd.com/r/2024.2-English/ug835-vivado-tcl-commands/open_checkpoint),
 [routing status](https://docs.amd.com/r/2024.2-English/ug835-vivado-tcl-commands/report_route_status),
 [OOC context constraints](https://docs.amd.com/r/en-US/ug905-vivado-hierarchical-design/Out-of-Context-Design-Constraints),
+[interface routing and partition-pin locations](https://docs.amd.com/r/en-US/ug905-vivado-hierarchical-design/Context-Constraints),
 [BUFGCE primitive](https://docs.amd.com/r/en-US/ug953-vivado-7series-libraries/BUFGCE),
 [OOC synthesis command](https://docs.amd.com/r/2023.1-English/ug835-vivado-tcl-commands/synth_design),
 and [timing summary](https://docs.amd.com/r/en-US/ug906-vivado-design-analysis/Report-Timing-Summary).
