@@ -82,6 +82,60 @@ board design defining the external clock-buffer location yet. Clock delay/skew
 estimation is limited until that integration context is defined; do not silence
 the warning with an arbitrary site or interpret this run as timing sign-off.
 
+## Prepare and synthesize the original-core baseline
+
+From the main checkout, using Python 3.12 or later:
+
+```sh
+python3 scripts/prepare_fpga_baseline.py
+mkdir -p build/fpga/baseline
+vivado -mode batch -source fpga/synth.tcl \
+  -log build/fpga/baseline/vivado.log \
+  -journal build/fpga/baseline/vivado.jou \
+  -tclargs xc7a35tcsg324-1 baseline
+```
+
+The helper reads the reference revision from the saved extended-run
+[`run_info.txt`](../output/fpga/extended/run_info.txt). It exports that revision's
+FPGA sources and headers into `build/fpga/baseline_src/`, then restores only
+`cve2_pkg.sv`, `cve2_decoder.sv` and `cve2_alu.sv` from the original import
+`af1e7b4fcab772e1976f41f36b38ced25cb9f377`. Git history confirms those are the
+only changes under `cve2/` between the original and measured revisions. The
+wrapper, clock gate, source list, headers and constraints match the measured run.
+
+This is an isolated source snapshot; it has no separate Git branch or `.git`
+directory. The main checkout's RTL is unchanged. The helper records file
+SHA-256 hashes in `source_manifest.json`, reuses an identical existing snapshot,
+and refuses to replace one with changed or missing files. Keep the full Git
+history available: both recorded revisions must exist locally.
+
+The optional second Tcl argument is `extended` (default) or `baseline`.
+Baseline mode verifies the prepared sources before synthesis and writes only
+to `build/fpga/baseline/`. It also copies the source manifest, source identity
+and synthesis driver into that report directory. In the baseline metadata,
+`revision` identifies the controlling checkout; `rtl_revision` and
+`flow_reference_revision` identify the prepared sources and matching flow.
+
+Use Vivado **2024.2** and the **same part and 20 ns target** as the existing
+extended result. Both runs retain the same OOC clock-context limitation until
+implementation. Baseline timing and resource differences are not known before
+the run completes. Do not change the clock period or enable optional counters
+to improve just one side of the comparison.
+
+After reviewing the new run, export its text evidence for GitHub:
+
+```sh
+mkdir -p output/fpga/baseline
+cp build/fpga/baseline/*.rpt build/fpga/baseline/run_info.txt \
+  build/fpga/baseline/source_info.txt build/fpga/baseline/source_manifest.json \
+  build/fpga/baseline/synth_driver.tcl build/fpga/baseline/vivado.log \
+  output/fpga/baseline/
+```
+
+Keep the checkpoint and prepared RTL under the ignored `build/` directory.
+The report export is for a successful run; retain the log and inspect errors
+first if synthesis or report generation fails.
+
 References: AMD's [BUFGCE primitive](https://docs.amd.com/r/en-US/ug953-vivado-7series-libraries/BUFGCE),
 [OOC synthesis command](https://docs.amd.com/r/2023.1-English/ug835-vivado-tcl-commands/synth_design),
 and [timing summary](https://docs.amd.com/r/en-US/ug906-vivado-design-analysis/Report-Timing-Summary).
