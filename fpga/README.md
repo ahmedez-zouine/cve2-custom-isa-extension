@@ -14,6 +14,10 @@ The FPGA source list replaces the simulation clock gate with `BUFGCE`. Vivado
 provides this primitive. The testbench and tracing modules are excluded.
 The simulation source list and core RTL are unchanged.
 
+The script reclassifies `Synth 8-11067` as INFO: package parameters act as local
+constants. The messages remain in the log. This changes reporting only; it
+does not edit the upstream package RTL or suppress other warning IDs.
+
 ## Run on a machine with Vivado
 
 Vivado is a separately licensed AMD tool and is not included in this repository,

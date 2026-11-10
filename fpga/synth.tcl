@@ -10,6 +10,8 @@ cd $root
 set out [file join $root build fpga extended]
 file mkdir $out
 create_project -in_memory -part $target_part
+# Package constants are implicitly local; keep this notice visible as INFO.
+set_msg_config -id {Synth 8-11067} -new_severity INFO
 set_property target_language Verilog [current_project]
 set_property verilog_define {SYNTHESIS} [current_fileset]
 
