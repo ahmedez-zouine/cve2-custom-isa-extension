@@ -4,7 +4,8 @@ Build the Zensical site in this repository. Publish the generated pages on GitHu
 
 - [x] Agree on the five pages and record the files below.
 - [x] Write the pages, add the project figures and check the local build.
-- [ ] Add the GitHub Pages workflow and check the published site.
+- [x] Add the GitHub Pages workflow.
+- [ ] Confirm the published site opens on GitHub Pages.
 
 ## Files
 
@@ -21,3 +22,7 @@ Build the Zensical site in this repository. Publish the generated pages on GitHu
 | `.github/workflows/docs.yml` | GitHub Pages build and deployment |
 
 Use the technical handoff and checked reports as the source for numerical claims. Keep each step in its own commit and push it to `Master` before starting the next one.
+
+## Publish
+
+In the repository's **Settings → Pages**, select **GitHub Actions** as the source. Run the **Documentation** workflow on `Master` for the first deployment. Later pushes that change the documentation or its build files trigger the same workflow.
