@@ -45,6 +45,8 @@ The target period in `core.xdc` is 20 ns, corresponding to 50 MHz. The XDC assum
 synchronous external bus logic with maximum input/output delays of 20% of
 the period and minimum delays of zero. These are comparison assumptions,
 not board timing specifications. Check the clock and unconstrained-path reports.
+The `get_ports -filter` query excludes clock and asynchronous reset from bus
+input delays; `remove_from_collection` is not supported in Vivado XDC.
 
 Reports appear in `build/fpga/extended/`:
 
@@ -58,9 +60,17 @@ Reports appear in `build/fpga/extended/`:
 | `run_info.txt` | Tool, part, period, Git revision and working tree state |
 
 Each run replaces these reports. Archive a run before starting another.
+The first reported Vivado run completed synthesis but rejected the input-delay
+selection in an earlier XDC revision. Its timing reports are incomplete and
+must be regenerated with the corrected constraints.
 Timing here uses estimated routing. Placement and routing, a matching baseline
 run, and a power estimate with stated activity are later steps. This flow does
 not generate a board bitstream or establish FPGA frequency or power results.
+
+Vivado may warn that `HD.CLK_SRC` is unset for `clk_i`. There is no enclosing
+board design defining the external clock-buffer location yet. Clock delay/skew
+estimation is limited until that integration context is defined; do not silence
+the warning with an arbitrary site or interpret this run as timing sign-off.
 
 References: AMD's [BUFGCE primitive](https://docs.amd.com/r/en-US/ug953-vivado-7series-libraries/BUFGCE),
 [OOC synthesis command](https://docs.amd.com/r/2023.1-English/ug835-vivado-tcl-commands/synth_design),

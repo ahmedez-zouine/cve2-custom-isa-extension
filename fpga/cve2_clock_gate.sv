@@ -5,7 +5,9 @@ module cve2_clock_gate (
   output logic clk_o
 );
   // Use the FPGA clock network for the core's clock enable.
-  BUFGCE u_clock_buffer (
+  BUFGCE #(
+    .SIM_DEVICE ("7SERIES")
+  ) u_clock_buffer (
     .I  (clk_i),
     .CE (en_i | scan_cg_en_i),
     .O  (clk_o)
