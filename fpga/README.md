@@ -356,7 +356,8 @@ attempt, preserve the old directory and select a fresh parent, for example
 `--out-dir build/fpga/power_attempt2`.
 
 The Tcl flow opens each routed checkpoint without synthesis, placement,
-routing or power optimization. It checks tool/part/top/clock identity and saves
+routing or power optimization. It checks the tool, part, preserved core
+hierarchy and clock, records the session design name, and saves
 fresh resource, route and timing reports. The Python runner compares these
 with the reviewed implementation pair; a mismatch marks the attempt failed
 and preserves its files. Matching metrics strengthen the current checkpoint
@@ -389,6 +390,12 @@ complete processor board. Device static power is not attributable solely to
 the custom unit. No energy-per-instruction or workload power claim follows
 from this model.
 
+The session design name returned by `current_design` is not required to equal
+the RTL module name. `checkpoint_identity.txt` records that name and the
+checked `u_core` / `u_cve2_core` module references. Reopened report names may
+use the original RTL top or the recorded session name; resource counts,
+device, routing and timing comparisons still have to match.
+
 Each new directory contains `power.rpt` (with confidence and advisories),
 operating conditions, input/register/LUT activity, clocks, power constraints,
 the reopened reports, driver/audit copies, Vivado log/journal and
@@ -414,7 +421,7 @@ for variant in baseline extended; do
   src="build/fpga/power/$variant"
   dst="output/fpga/power/$variant"
   mkdir -p "$dst"
-  cp "$src"/*.rpt "$src"/*.json "$src"/*.tcl "$src"/*.xdc \
+  cp "$src"/*.rpt "$src"/*.txt "$src"/*.json "$src"/*.tcl "$src"/*.xdc \
     "$src"/*.log "$src"/*.jou "$dst/"
 done
 git add -- output/fpga/context_audit/ubuntu output/fpga/power

@@ -8,13 +8,33 @@ if {![file isfile $checkpoint] || ![file isdirectory $out]} {
 }
 if {[file exists [file join $out power.rpt]]} { error "Refusing to overwrite an existing power report" }
 open_checkpoint $checkpoint
-if {[get_property PART [current_project]] ne "xc7a35tcsg324-1" ||
-    [current_design] ne "cve2_fpga_top"} { error "Unexpected checkpoint part or top" }
+set checkpoint_part [get_property PART [current_project]]
+set session_design [current_design]
+puts "Opened checkpoint: part=$checkpoint_part; session_design=$session_design"
+if {$checkpoint_part ne "xc7a35tcsg324-1"} {
+    error "Unexpected checkpoint part: expected xc7a35tcsg324-1, got $checkpoint_part"
+}
+# A reopened checkpoint's session name need not be its RTL top-module name.
+foreach {cell_name ref_name} {u_core cve2_top u_core/u_cve2_core cve2_core} {
+    set cell [get_cells -quiet $cell_name]
+    if {[llength $cell] != 1} { error "Expected one preserved core instance: $cell_name" }
+    set actual_ref [get_property REF_NAME $cell]
+    if {$actual_ref ne $ref_name} {
+        error "Unexpected module at $cell_name: expected $ref_name, got $actual_ref"
+    }
+}
 set core_clock [get_clocks -quiet core_clk]
 if {[llength $core_clock] != 1 || [get_property PERIOD $core_clock] != 20.0} {
     error "Expected the recorded core_clk period of 20 ns"
 }
 set_param general.maxThreads 4
+set identity [open [file join $out checkpoint_identity.txt] w]
+puts $identity "session_design: $session_design"
+puts $identity "part: $checkpoint_part"
+puts $identity "u_core_ref_name: [get_property REF_NAME [get_cells u_core]]"
+puts $identity "u_cve2_core_ref_name: [get_property REF_NAME [get_cells u_core/u_cve2_core]]"
+puts $identity "clock_period_ns: [get_property PERIOD $core_clock]"
+close $identity
 
 # Save the reopened design's metrics before applying power-only assumptions.
 report_utilization -hierarchical -file [file join $out reopened_utilization.rpt]

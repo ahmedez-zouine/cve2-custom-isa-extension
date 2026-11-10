@@ -11,7 +11,7 @@ import shutil
 import subprocess
 
 from audit_fpga_context import digest, reviewed_data
-from summarize_fpga_implementation import ROOT, VARIANTS, header, require, resources, timing
+from summarize_fpga_implementation import ROOT, VARIANTS, fields, header, require, resources, timing
 
 REVIEW = ROOT / "output/fpga/implementation"
 ASSUMPTIONS = {
@@ -65,20 +65,37 @@ def routing(text):
 
 
 def verify_reopened(directory, expected):
+    identity = fields((directory / "checkpoint_identity.txt").read_text())
+    require(identity["part"] == expected["identity"]["part"], "Reopened part mismatch")
+    require(identity["u_core_ref_name"] == "cve2_top" and identity["u_cve2_core_ref_name"] == "cve2_core",
+            "Reopened core hierarchy mismatch")
+    require(float(identity["clock_period_ns"]) == 20.0, "Reopened clock mismatch")
+    session_design = identity["session_design"]
+    require(bool(session_design), "Missing reopened design name")
     texts = {name: (directory / ("reopened_" + name)).read_text()
              for name in ("utilization.rpt", "route_status.rpt", "timing_summary.rpt")}
+    report_designs = set()
     for name in ("utilization.rpt", "timing_summary.rpt"):
-        require(header(texts[name], "Design") == "cve2_fpga_top", "Reopened top mismatch")
+        report_design = header(texts[name], "Design")
+        require(report_design in ("cve2_fpga_top", session_design), "Reopened report design differs from session identity")
+        report_designs.add(report_design)
         require(header(texts[name], "Design State") in ("Routed", "Fully Routed"), "Checkpoint is not routed")
         require("v.2024.2 " in header(texts[name], "Tool Version") and
                 "Build 5239630" in header(texts[name], "Tool Version"), "Vivado build differs from the recorded pair")
-    require(resources(texts["utilization.rpt"]) == expected["resources"], "Reopened resource counts differ")
+        require(header(texts[name], "Device").replace("-", "") in ("7a35tcsg324", "xc7a35tcsg3241") and
+                header(texts[name], "Speed File").split()[0] == "-1", "Reopened report device mismatch")
+    require(len(report_designs) == 1, "Reopened reports name different designs")
+    # Normalize only a session-named top row; the archived parser keeps its strict RTL-top check.
+    utilization = re.sub(r"^\| " + re.escape(session_design) + r"(?=\s+\|\s*\(top\)\s*\|)",
+                         "| cve2_fpga_top", texts["utilization.rpt"], flags=re.MULTILINE)
+    require(resources(utilization) == expected["resources"], "Reopened resource counts differ")
     require(routing(texts["route_status.rpt"]) == expected["routing"], "Reopened routing counts differ")
     observed = timing(texts["timing_summary.rpt"])
     for key, value in expected["timing"].items():
         tolerance = 0 if key.endswith("endpoints") else 0.002
         require(abs(observed[key] - value) <= tolerance, "Reopened timing differs: " + key)
-    return {"resources": "matched", "routing": "matched", "timing": "matched within 0.002 ns rounding tolerance"}
+    return {"session_design": session_design, "core_hierarchy": "matched", "resources": "matched",
+            "routing": "matched", "timing": "matched within 0.002 ns rounding tolerance"}
 
 
 def save_json(path, value):
@@ -113,7 +130,7 @@ def run_variant(variant, checkpoint, audit_path, out, expected, vivado):
         require("\nPower reports generated for review in " + str(out) in log, "Power completion line missing")
         receipt["reopened_report_crosscheck"] = verify_reopened(out, expected)
         require(digest(checkpoint) == receipt["checkpoint_sha256"], "Input checkpoint changed during analysis")
-        for name in ("power.rpt", "operating_conditions.rpt", "input_activity.rpt", "register_activity.rpt",
+        for name in ("checkpoint_identity.txt", "power.rpt", "operating_conditions.rpt", "input_activity.rpt", "register_activity.rpt",
                      "lut_activity.rpt", "clocks.rpt", "power_constraints.xdc"):
             require((out / name).is_file() and (out / name).stat().st_size > 0, "Missing power evidence: " + name)
         receipt["status"] = "reports_generated_pending_power_review"

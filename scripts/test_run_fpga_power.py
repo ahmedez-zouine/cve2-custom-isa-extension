@@ -4,6 +4,7 @@ import copy
 import json
 from pathlib import Path
 import shutil
+import subprocess
 import tempfile
 import unittest
 
@@ -56,6 +57,7 @@ class PowerInputTests(unittest.TestCase):
         directory.mkdir()
         for name in ("utilization.rpt", "route_status.rpt", "timing_summary.rpt"):
             shutil.copyfile(REVIEW / "baseline" / name, directory / ("reopened_" + name))
+        self.write_identity(directory, "cve2_fpga_top")
         data = json.loads((REVIEW / "implementation_results.json").read_text())
         self.assertEqual(verify_reopened(directory, data["runs"]["baseline"])["resources"], "matched")
         with self.assertRaisesRegex(ValueError, "resource counts differ"):
@@ -64,6 +66,70 @@ class PowerInputTests(unittest.TestCase):
         wrong_timing["timing"]["wns_ns"] += 0.1
         with self.assertRaisesRegex(ValueError, "timing differs"):
             verify_reopened(directory, wrong_timing)
+
+    @staticmethod
+    def write_identity(directory, session_design):
+        (directory / "checkpoint_identity.txt").write_text(
+            "session_design: " + session_design + "\npart: xc7a35tcsg324-1\n"
+            "u_core_ref_name: cve2_top\nu_cve2_core_ref_name: cve2_core\nclock_period_ns: 20.0\n")
+
+    def test_reopened_session_alias_preserves_metric_checks(self):
+        directory = self.root / "renamed_reports"
+        directory.mkdir()
+        for name in ("utilization.rpt", "route_status.rpt", "timing_summary.rpt"):
+            text = (REVIEW / "baseline" / name).read_text().replace("cve2_fpga_top", "post_route")
+            (directory / ("reopened_" + name)).write_text(text)
+        self.write_identity(directory, "post_route")
+        data = json.loads((REVIEW / "implementation_results.json").read_text())
+        self.assertEqual(verify_reopened(directory, data["runs"]["baseline"])["session_design"], "post_route")
+        with self.assertRaisesRegex(ValueError, "resource counts differ"):
+            verify_reopened(directory, data["runs"]["extended"])
+        self.write_identity(directory, "other_session")
+        with self.assertRaisesRegex(ValueError, "differs from session identity"):
+            verify_reopened(directory, data["runs"]["baseline"])
+
+    @unittest.skipUnless(shutil.which("tclsh"), "Tcl interpreter unavailable")
+    def test_tcl_identity_guard_uses_hierarchy_and_part_not_session_name(self):
+        checkpoint = self.root / "build/fpga/implementation/baseline/post_route.dcp"
+        # Stop at the first report: this exercises the guard, not vendor power analysis.
+        harness = r'''
+set argc 2
+set argv [list [lindex $argv 1] [lindex $argv 2]]
+set test_part $::env(TEST_PART)
+set test_ref $::env(TEST_REF)
+proc version {args} { return "2024.2" }
+proc open_checkpoint {args} {}
+proc current_project {} { return "checkpoint_project" }
+proc current_design {} { return "post_route" }
+proc get_cells {args} { return [lindex $args end] }
+proc get_clocks {args} { return "core_clk" }
+proc get_property {name object} {
+    switch $name {
+        PART { return $::test_part }
+        REF_NAME {
+            if {$object eq "u_core"} { return $::test_ref }
+            return "cve2_core"
+        }
+        PERIOD { return 20.0 }
+        default { error "Unexpected stub property" }
+    }
+}
+proc set_param {args} {}
+proc report_utilization {args} { error "TEST_ONLY_IDENTITY_GUARD_PASSED" }
+if {[catch {source $::env(POWER_DRIVER)} result]} { puts $result; exit 0 }
+error "Harness failed to stop"
+'''
+        harness_path = self.root / "guard.tcl"
+        harness_path.write_text(harness)
+        import os
+        environment = dict(os.environ, POWER_DRIVER=str(ROOT / "fpga/power.tcl"))
+        for part, ref, message in (("xc7a35tcsg324-1", "cve2_top", "TEST_ONLY_IDENTITY_GUARD_PASSED"),
+                                   ("wrong-part", "cve2_top", "Unexpected checkpoint part:"),
+                                   ("xc7a35tcsg324-1", "wrong_core", "Unexpected module at u_core:")):
+            environment.update(TEST_PART=part, TEST_REF=ref)
+            result = subprocess.run([shutil.which("tclsh"), str(harness_path), "unused", str(checkpoint), str(self.root)],
+                                    env=environment, text=True, capture_output=True, check=True)
+            self.assertIn(message, result.stdout)
 
 
 if __name__ == "__main__":
