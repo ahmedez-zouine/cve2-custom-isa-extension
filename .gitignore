@@ -4,3 +4,4 @@ vivado/
 /.Xil/
 /vivado*.log
 /vivado*.jou
+/cmds.sh
