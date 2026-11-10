@@ -187,7 +187,7 @@ def main():
     result_path.write_text(json.dumps(result, indent=2) + "\n")
     csv_path = args.reports / "implementation_metrics.csv"
     with csv_path.open("w", newline="") as stream:
-        writer = csv.writer(stream)
+        writer = csv.writer(stream, lineterminator="\n")
         writer.writerow(["variant", "metric", "value", "unit"])
         for variant, run in result["runs"].items():
             for section in ("resources", "timing", "routing"):

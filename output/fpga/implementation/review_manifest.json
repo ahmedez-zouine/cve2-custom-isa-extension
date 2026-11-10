@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "generator": "scripts/summarize_fpga_implementation.py",
-  "generator_sha256": "bc5d1180ca50939fb3de1fe884cece57621da1b58732809d448faa74d32ace9b",
+  "generator_sha256": "52ec19abb4fcc07853b9c4efc84935290a8520810c5be27ca4c3bce36a17920b",
   "source_file_sha256": {
     "baseline/check_timing.rpt": "088725b1abb71865cfdfdea42474aa7f244f1df132ce2a1ed555e31c112b7ca6",
     "baseline/clock_utilization.rpt": "5e0e54f1b6485d17bc61dd9709f8a7fc6b0d233f6d4b1642a18ffa74a528e081",
@@ -58,6 +58,6 @@
   },
   "artifact_sha256": {
     "implementation_results.json": "568f5358d0936ffd06a19cd6fde2c817b012e3e3f5969a205dcdaab0449514a2",
-    "implementation_metrics.csv": "1e6e45e974d602d5540a4e5f4a2f1e93106f681b6340d2ed009508225c5e74fd"
+    "implementation_metrics.csv": "30cd9fb3ed4fa2f2e1c15af90738a0dc211350f9817c317ff205289e69d168a0"
   }
 }
