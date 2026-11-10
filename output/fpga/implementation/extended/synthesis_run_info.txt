@@ -1,0 +1,7 @@
+tool: 2024.2
+part: xc7a35tcsg324-1
+clock_period_ns: 20.0
+scope: extended core, out-of-context, post-synthesis estimates
+revision: 81c378c5fe8ebbb9856cf47f808fde3b12b7eaab
+working_tree_changes:
+?? .Xil/

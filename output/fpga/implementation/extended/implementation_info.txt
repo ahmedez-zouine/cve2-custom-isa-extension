@@ -1,0 +1,20 @@
+status: started
+started_utc: 2026-11-10T17:38:18Z
+tool: 2024.2
+variant: extended
+part: xc7a35tcsg324-1
+clock_period_ns: 20.0
+scope: OOC module analysis with routed internal nets
+checkpoint: /home/azureuser/cve2-custom-isa-extension/build/fpga/extended/post_synth.dcp
+checkpoint_sha256: e21e31474a8e29f4cb1d565069e0a9f778ef80b658e20eee0a375facd7c9dbad
+constraints: inherited from synthesis checkpoint
+flow: opt_design; place_design; phys_opt_design; route_design (Default directives)
+max_threads: 4
+limitation: external clock context and board interfaces are not defined; review HD.CLK_SRC and all timing/DRC reports
+driver_revision: 91bf174a345bc0ee3d59cc8fce93a09c6c306e2c
+working_tree_changes:
+
+hd_clk_src: 
+finished_utc: 2026-11-10T17:41:49Z
+status: reports_generated
+review: inspect route_status.rpt, timing_summary.rpt, check_timing.rpt, methodology.rpt and drc.rpt before accepting results

@@ -1,0 +1,23 @@
+status: started
+started_utc: 2026-11-10T17:49:37Z
+tool: 2024.2
+variant: baseline
+part: xc7a35tcsg324-1
+clock_period_ns: 20.0
+scope: OOC module analysis with routed internal nets
+checkpoint: /home/azureuser/cve2-custom-isa-extension/build/fpga/baseline/post_synth.dcp
+checkpoint_sha256: 0fc7b5fc1ae8879a3f76cf5f3f793f7e5e7c1b347ac9db770ae04893a3ed65fd
+synthesis_log_source: /home/azureuser/cve2-custom-isa-extension/output/fpga/baseline/vivado.log
+synthesis_log_recovered_from_archive: 1
+constraints: inherited from synthesis checkpoint
+flow: opt_design; place_design; phys_opt_design; route_design (Default directives)
+max_threads: 4
+limitation: external clock context and board interfaces are not defined; review HD.CLK_SRC and all timing/DRC reports
+driver_revision: 8683f7c047d7d88654a94819ddac72ec62c92a1e
+working_tree_changes:
+?? clockInfo.txt
+?? tight_setup_hold_pins.txt
+hd_clk_src: 
+finished_utc: 2026-11-10T17:51:28Z
+status: reports_generated
+review: inspect route_status.rpt, timing_summary.rpt, check_timing.rpt, methodology.rpt and drc.rpt before accepting results
