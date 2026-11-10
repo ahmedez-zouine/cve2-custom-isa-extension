@@ -1,15 +1,31 @@
 # Verification
 
-The tests run C programs on the Verilated CVE2 core using the supplied testbench. The hardware helper emits the instruction with the assembler's `.insn` directive.
+The tests run C programs on the Verilated CVE2 core using the supplied testbench. The hardware helper emits the instruction with the assembler’s `.insn` directive. [Install the tools and run the checks](reproduce.md#run-the-simulation-checks).
+{ .project-lead }
 
-| Test | Passing checks | Coverage |
+## Test sequence
+
+| Program | Passing checks | What it verifies |
 | --- | ---: | --- |
 | `sw_isqrt` | 5 | Software reference cases |
 | `hw_isqrt` | 2,007 | Known and randomized values, in-place execution, dependent roots |
 | `isqrt_corners` | 43 | Boundary values, zero registers, illegal encodings and recovery |
 | `isqrt_integration` | 200,705 | Square boundaries, full-width inputs and instruction dependencies |
 
-The integration test covers the values immediately below, at and above each of the 65,535 positive square boundaries, as well as zero and `UINT32_MAX`. It checks another 4,096 inputs with the independent inequality `root² ≤ input < (root + 1)²` using 64-bit products. Its dependency test runs a load into `isqrt`, stores the result, then checks multiply, unsigned divide and compressed addition.
+### 1. Compare the software and hardware results
+{ .project-step }
+
+The supplied tests check known inputs with the software reference and run randomized operands through the hardware instruction. The hardware test also covers an in-place write and consecutive dependent roots.
+
+### 2. Check boundaries and exception recovery
+{ .project-step }
+
+The corner tests exercise zero, the largest unsigned input, zero-register behavior, and illegal encodings. The integration test then checks the values immediately below, at and above each of the 65,535 positive square boundaries, as well as zero and `UINT32_MAX`.
+
+### 3. Check the arithmetic and instruction dependencies
+{ .project-step }
+
+For another 4,096 full-width inputs, the integration test checks **root² ≤ input < (root + 1)²** with 64-bit products. The upper square can reach 2³², so it needs more than 32 bits. A dependency check runs a load into `isqrt`, stores the result, then exercises multiply, unsigned divide and compressed addition.
 
 ## Writeback in simulation
 
