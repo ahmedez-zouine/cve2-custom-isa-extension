@@ -192,12 +192,14 @@ vivado -mode batch -source fpga/implement.tcl \
 
 The earlier baseline run wrote its successful log to the repository root; its
 `build/fpga/baseline/vivado.log` may still describe the failed preparation.
-If the script rejects that log, compare `build/fpga/baseline/run_info.txt` with
-`output/fpga/baseline/run_info.txt`. If they identify the same saved run, preserve
-the stale build log and copy the reviewed successful
-`output/fpga/baseline/vivado.log` into its place before launching implementation.
-Do not substitute an unrelated run's log or regenerate the baseline with changed
-settings to work around a provenance error.
+When the build log lacks a synthesis completion line, the script checks
+`output/fpga/baseline/` for the archived successful log. It uses that log only
+when the archived and build `run_info.txt` contents match (ignoring surrounding
+whitespace) and the archived log has a standalone synthesis completion line.
+Mismatched metadata or an unsuccessful archive stops the run. The selected log
+path is recorded in `implementation_info.txt`; the stale build log is preserved
+as `synthesis_rejected_build.log` in the implementation directory. The build
+inputs remain intact. The same rule applies to either variant.
 
 An existing `implementation_info.txt` causes the script to stop before changing
 the design. Preserve and rename that variant's implementation directory before
@@ -220,6 +222,7 @@ The implementation reports live in `build/fpga/implementation/<variant>/`:
 | `implemented_constraints.xdc` | Constraints exported from the implemented design |
 | `implementation_info.txt` | Start/end state, input DCP hash, tool, settings and limitations |
 | `synthesis_run_info.txt`, `synthesis_vivado.log` | Provenance of the input synthesis run |
+| `synthesis_rejected_build.log` | Stale build log, retained when archive recovery is used |
 | `post_place.dcp`, `post_route.dcp` | Checkpoints for inspection in Vivado |
 
 `status: reports_generated` means all script commands finished. Review routing
@@ -244,7 +247,7 @@ for variant in extended baseline; do
   dst="output/fpga/implementation/$variant"
   mkdir -p "$dst"
   cp "$src"/*.rpt "$src"/*.txt "$src"/*.tcl "$src"/*.xdc \
-    "$src/vivado.log" "$src/vivado.jou" "$dst/"
+    "$src"/*.log "$src/vivado.jou" "$dst/"
   if [ -f "$src/synthesis_source_manifest.json" ]; then
     cp "$src/synthesis_source_manifest.json" "$dst/"
   fi

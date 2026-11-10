@@ -37,11 +37,33 @@ if {[dict get $identity part] ne "xc7a35tcsg324-1" ||
     [dict get $identity clock_period_ns] != 20.0} {
     error "This comparison requires xc7a35tcsg324-1 and the saved 20 ns clock target"
 }
-set stream [open [file join $input_dir vivado.log] r]
+set synthesis_log_path [file join $input_dir vivado.log]
+set recovered_log 0
+set stream [open $synthesis_log_path r]
 set synthesis_log [read $stream]
 close $stream
-if {[string first "synth_design completed successfully" $synthesis_log] < 0} {
-    error "The synthesis log does not record a successful synth_design. Check the log's location and date."
+if {![regexp -line {^synth_design completed successfully[ \t]*$} $synthesis_log]} {
+    set archive_dir [file join $root output fpga $variant]
+    foreach name {run_info.txt vivado.log} {
+        if {![file isfile [file join $archive_dir $name]]} {
+            error "The build log does not record a successful synth_design, and matching archived evidence is missing: $name"
+        }
+    }
+    set stream [open [file join $archive_dir run_info.txt] r]
+    set archived_info [read $stream]
+    close $stream
+    if {[string trim $archived_info] ne [string trim $source_info]} {
+        error "Archived synthesis metadata differs from the checkpoint's run_info.txt; refusing to substitute its log"
+    }
+    set synthesis_log_path [file join $archive_dir vivado.log]
+    set stream [open $synthesis_log_path r]
+    set synthesis_log [read $stream]
+    close $stream
+    if {![regexp -line {^synth_design completed successfully[ \t]*$} $synthesis_log]} {
+        error "Neither build nor matching archived log records a successful synth_design"
+    }
+    set recovered_log 1
+    puts "Using archived successful synthesis log with matching run metadata: $synthesis_log_path"
 }
 set tool_version [version -short]
 if {$tool_version ne "2024.2" || $tool_version ne [dict get $identity tool]} {
@@ -55,7 +77,10 @@ print(hashlib.sha256(pathlib.Path(sys.argv[1]).read_bytes()).hexdigest())
 file mkdir $out
 file copy $driver [file join $out implementation_driver.tcl]
 file copy [file join $input_dir run_info.txt] [file join $out synthesis_run_info.txt]
-file copy [file join $input_dir vivado.log] [file join $out synthesis_vivado.log]
+file copy $synthesis_log_path [file join $out synthesis_vivado.log]
+if {$recovered_log} {
+    file copy [file join $input_dir vivado.log] [file join $out synthesis_rejected_build.log]
+}
 foreach name {source_manifest.json source_info.txt synth_driver.tcl} {
     if {[file isfile [file join $input_dir $name]]} {
         file copy [file join $input_dir $name] [file join $out synthesis_$name]
@@ -71,6 +96,8 @@ puts $metadata "clock_period_ns: 20.0"
 puts $metadata "scope: OOC module analysis with routed internal nets"
 puts $metadata "checkpoint: $checkpoint"
 puts $metadata "checkpoint_sha256: $checkpoint_hash"
+puts $metadata "synthesis_log_source: $synthesis_log_path"
+puts $metadata "synthesis_log_recovered_from_archive: $recovered_log"
 puts $metadata "constraints: inherited from synthesis checkpoint"
 puts $metadata "flow: opt_design; place_design; phys_opt_design; route_design (Default directives)"
 puts $metadata "max_threads: 4"
