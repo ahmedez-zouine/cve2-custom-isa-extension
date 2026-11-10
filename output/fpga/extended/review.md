@@ -2,7 +2,8 @@
 
 The extended core synthesizes successfully, but its post-synthesis timing
 estimate fails the 50 MHz target. The longest reported setup path traverses
-the combinational square-root datapath. No baseline or placed-and-routed
+the combinational square-root datapath. The subsequent baseline result is
+recorded in the [synthesis comparison](../comparison.md). No placed-and-routed
 result is available yet.
 
 ## Run identity
@@ -117,10 +118,9 @@ Source: [check_timing.rpt](check_timing.rpt) and [clocks.rpt](clocks.rpt).
 
 ## Next step
 
-Preserve this result, then synthesize the original core with the same wrapper,
-configuration, tool, part, constraints and synthesis options. That comparison
-will establish incremental resource cost and baseline timing. Do not compare
-these estimates against an unrelated configuration or a routed result.
+The original core has since been synthesized with matching sources, wrapper,
+configuration, tool, part, constraints and synthesis options. See the
+[comparison](../comparison.md) for incremental resource cost and baseline timing.
 
 Then define the clock integration context and perform placement and routing
 to assess implemented timing and hold closure. If the target still fails,

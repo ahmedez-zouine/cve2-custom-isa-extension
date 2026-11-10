@@ -1,3 +1,6 @@
 build/
 /tmp/
 vivado/
+/.Xil/
+/vivado*.log
+/vivado*.jou

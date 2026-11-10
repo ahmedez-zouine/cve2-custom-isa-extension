@@ -19,10 +19,12 @@ The script reclassifies `Synth 8-11067` as INFO: package parameters act as local
 constants. The messages remain in the log. This changes reporting only; it
 does not edit the upstream package RTL or suppress other warning IDs.
 
-The [reviewed synthesis reports](../output/fpga/extended/review.md) show 4,178 LUTs,
-1,962 FFs, one DSP and no BRAM. Estimated setup slack is -30.800 ns at a
-20 ns clock target. The critical path traverses the combinational isqrt unit.
-These results establish neither 50 MHz timing closure nor implemented Fmax.
+The [synthesis comparison](../output/fpga/comparison.md) shows 3,034 LUTs before
+the extension and 4,178 after it (+37.7%). FFs change from 1,961 to 1,962;
+both runs use one DSP and no BRAM. Estimated setup slack changes from +2.994 ns
+to -30.800 ns at a 20 ns clock target. The extended critical path traverses the
+combinational isqrt unit. Both runs have hold violations. These results establish
+neither full timing closure nor implemented Fmax.
 
 ## Run on a machine with Vivado
 
@@ -48,7 +50,11 @@ Then, from the repository root:
 
 ```sh
 # Example part only; replace it with your selected 7-series part.
-vivado -mode batch -source fpga/synth.tcl -tclargs xc7a35tcsg324-1
+mkdir -p build/fpga/extended
+vivado -mode batch -source fpga/synth.tcl \
+  -log build/fpga/extended/vivado.log \
+  -journal build/fpga/extended/vivado.jou \
+  -tclargs xc7a35tcsg324-1
 ```
 
 The target period in `core.xdc` is 20 ns, corresponding to 50 MHz. The XDC assumes
@@ -73,9 +79,9 @@ Each run replaces these reports. Archive a run before starting another.
 The first reported Vivado run completed synthesis but rejected the input-delay
 selection in an earlier XDC revision. Its timing reports are incomplete and
 must be regenerated with the corrected constraints.
-Timing here uses estimated routing. Placement and routing, a matching baseline
-run, and a power estimate with stated activity are later steps. This flow does
-not generate a board bitstream or establish FPGA frequency or power results.
+Timing here uses estimated routing. Placement and routing and a power estimate
+with stated activity are later steps. This flow does not generate a board
+bitstream or establish FPGA frequency or power results.
 
 Vivado may warn that `HD.CLK_SRC` is unset for `clk_i`. There is no enclosing
 board design defining the external clock-buffer location yet. Clock delay/skew
@@ -84,7 +90,7 @@ the warning with an arbitrary site or interpret this run as timing sign-off.
 
 ## Prepare and synthesize the original-core baseline
 
-From the main checkout, using Python 3.12 or later:
+From the main checkout, using Python 3:
 
 ```sh
 python3 scripts/prepare_fpga_baseline.py
@@ -118,9 +124,9 @@ and synthesis driver into that report directory. In the baseline metadata,
 
 Use Vivado **2024.2** and the **same part and 20 ns target** as the existing
 extended result. Both runs retain the same OOC clock-context limitation until
-implementation. Baseline timing and resource differences are not known before
-the run completes. Do not change the clock period or enable optional counters
-to improve just one side of the comparison.
+implementation. The [saved comparison](../output/fpga/comparison.md) records
+the completed baseline run. Do not change the clock period or enable optional
+counters to improve just one side of the comparison.
 
 After reviewing the new run, export its text evidence for GitHub:
 
@@ -135,6 +141,12 @@ cp build/fpga/baseline/*.rpt build/fpga/baseline/run_info.txt \
 Keep the checkpoint and prepared RTL under the ignored `build/` directory.
 The report export is for a successful run; retain the log and inspect errors
 first if synthesis or report generation fails.
+
+Check the log's command, date and completion message before exporting it.
+If a run omitted `-log`, its log is `vivado.log` in the working directory;
+the file under `build/fpga/baseline/` may still belong to an earlier run.
+Vivado's `.Xil/` cache and root logs are ignored. The selected evidence in
+`output/fpga/` remains tracked.
 
 References: AMD's [BUFGCE primitive](https://docs.amd.com/r/en-US/ug953-vivado-7series-libraries/BUFGCE),
 [OOC synthesis command](https://docs.amd.com/r/2023.1-English/ug835-vivado-tcl-commands/synth_design),
