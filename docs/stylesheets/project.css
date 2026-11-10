@@ -1,0 +1,215 @@
+[data-md-color-scheme="default"] {
+  --project-ink: #18313f;
+  --project-muted: #526572;
+  --project-accent: #7a263a;
+  --project-rule: #dce3e6;
+  --project-paper: #f6f8f9;
+  --md-primary-fg-color: var(--project-ink);
+  --md-accent-fg-color: var(--project-accent);
+  --md-typeset-a-color: #285f7d;
+}
+
+.md-tabs__link {
+  font-size: 0.78rem;
+}
+
+.md-content__inner {
+  max-width: 48rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+
+.md-typeset {
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.md-typeset h1,
+.md-typeset h2 {
+  color: var(--project-ink);
+  font-weight: 600;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.md-typeset h1 {
+  font-size: clamp(1.7rem, 3.2vw, 2.5rem);
+  letter-spacing: -0.025em;
+  margin-bottom: 1.2rem;
+}
+
+.md-typeset h2 {
+  font-size: 1.45rem;
+  margin-top: 2rem;
+  margin-bottom: 0.6rem;
+}
+
+.md-typeset p {
+  max-width: 72ch;
+}
+
+.md-typeset .project-lead {
+  color: var(--project-muted);
+  font-size: 1.05rem;
+  max-width: 64ch;
+}
+
+.md-typeset .md-button {
+  border-radius: 0.3rem;
+  font-size: 0.8rem;
+  margin: 0 0.3rem 0.3rem 0;
+}
+
+.md-typeset .md-button--primary {
+  background: var(--project-accent);
+  border-color: var(--project-accent);
+  color: #fff;
+}
+
+.md-typeset .md-button--primary:hover,
+.md-typeset .md-button--primary:focus-visible {
+  background: #632031;
+  border-color: #632031;
+  color: #fff;
+}
+
+.md-typeset :focus-visible {
+  outline: 2px solid var(--md-typeset-a-color);
+  outline-offset: 3px;
+}
+
+.md-typeset .project-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 1.4rem 0;
+  padding: 1rem;
+  background: var(--project-paper);
+  border-block: 1px solid var(--project-rule);
+}
+
+.md-typeset .project-metrics dt {
+  color: var(--project-muted);
+  font-size: 0.78rem;
+}
+
+.md-typeset .project-metrics dd {
+  color: var(--project-ink);
+  font-size: clamp(1.15rem, 2.8vw, 1.65rem);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  margin: 0;
+}
+
+.md-typeset a:has(> img[src*="assets/"]) {
+  display: block;
+  margin-block: 1rem;
+}
+
+.md-typeset img[src*="assets/"] {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--project-rule);
+  border-radius: 0.3rem;
+}
+
+.md-typeset .project-equations {
+  margin-block: 1rem;
+  padding: 0.6rem 1rem;
+  background: var(--project-paper);
+  border-inline-start: 3px solid var(--project-accent);
+  color: var(--project-ink);
+  font-family: var(--md-code-font-family);
+  font-size: clamp(0.72rem, 2.5vw, 0.9rem);
+}
+
+.md-typeset .project-equations p {
+  margin: 0.2rem 0;
+}
+
+.md-typeset .isqrt-explorer {
+  margin-block: 1rem;
+  padding: 1rem;
+  background: var(--project-paper);
+  border: 1px solid var(--project-rule);
+  border-radius: 0.4rem;
+}
+
+.md-typeset .isqrt-explorer label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.isqrt-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 0.4rem;
+}
+
+.md-typeset .isqrt-controls input {
+  width: min(12rem, 100%);
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--project-muted);
+  border-radius: 0.3rem;
+  background: #fff;
+  color: var(--project-ink);
+  font-family: var(--md-code-font-family);
+}
+
+.md-typeset .isqrt-controls button {
+  margin: 0;
+  cursor: pointer;
+}
+
+.md-typeset .isqrt-explorer output {
+  display: block;
+  margin-top: 0.8rem;
+  color: var(--project-ink);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.md-typeset .isqrt-explorer details {
+  margin-bottom: 0;
+  border-color: var(--project-rule);
+  box-shadow: none;
+}
+
+.md-typeset .isqrt-explorer summary {
+  padding: 0.4rem 0.6rem;
+  color: var(--project-ink);
+  background: #fff;
+}
+
+.md-typeset .isqrt-explorer summary::before {
+  display: none;
+}
+
+.isqrt-scroll {
+  overflow-x: auto;
+}
+
+.md-typeset .isqrt-scroll table {
+  width: 100%;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.md-typeset .isqrt-scroll :is(th, td) {
+  padding: 0.4rem 0.6rem;
+  text-align: right;
+}
+
+@media (max-width: 36rem) {
+  .md-content__inner {
+    padding-inline: 0;
+  }
+
+  .md-typeset .project-metrics {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+}
