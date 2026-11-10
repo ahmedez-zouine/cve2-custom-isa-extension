@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "generator_sha256": "1475ba32292773d15da5d6e8bf8590309d56e6e5ef85009fff59d63574b440cb",
+  "style_sha256": "909b42374e77af72a0be8f263a88ef69f381c374679742c4dd9510190a92babe",
+  "matplotlib": "3.11.2",
+  "width_inches": 7.16,
+  "implementation_review_manifest_sha256": "d5276e89eaa5f981542941d24e5d129d6e447d6e74e3fa5552e965879b5d8a84",
+  "implementation_data_sha256": "568f5358d0936ffd06a19cd6fde2c817b012e3e3f5969a205dcdaab0449514a2",
+  "synthesis_parser_sha256": "69186e91f0277813fe387754be317c409bd7a2434bbeaa7c4e4a857cb2fcaa5f",
+  "synthesis_sources": {
+    "baseline/run_info.txt": {
+      "path": "output/fpga/baseline/run_info.txt",
+      "sha256": "6dfd0b0cd1ffe1302b15a76782dc498715fb9f4e854d404cc35b6cca74eba5a5"
+    },
+    "baseline/utilization.rpt": {
+      "path": "output/fpga/baseline/utilization.rpt",
+      "sha256": "f735182b7f78bf244dc59491c6bb221b41bf351f7f49db8b6325e91a72a84400"
+    },
+    "baseline/timing_summary.rpt": {
+      "path": "output/fpga/baseline/timing_summary.rpt",
+      "sha256": "d23e37dc7955775beba03f62af1eded5a5d1464f3bff865e7ff9d74c112e8d1c"
+    },
+    "baseline/clocks.rpt": {
+      "path": "output/fpga/baseline/clocks.rpt",
+      "sha256": "74db113814a5f63d03a4fe7331d8a3024c50daa7807d47cb982243c4f13887ce"
+    },
+    "baseline/check_timing.rpt": {
+      "path": "output/fpga/baseline/check_timing.rpt",
+      "sha256": "8e22df915725c3efcbe21d2669afb03698a3657a397a2841c8e7a41e0172ac09"
+    },
+    "baseline/vivado.log": {
+      "path": "output/fpga/baseline/vivado.log",
+      "sha256": "007dfd9bdfb3820d39dd87ececed5c056b3d053af3eaf73f3edce1c1acef7c84"
+    },
+    "extended/run_info.txt": {
+      "path": "output/fpga/extended/run_info.txt",
+      "sha256": "5695a6c980943ccebaa4b8c3bebc442d5a522576f2a50f146039cbbc60b920b7"
+    },
+    "extended/utilization.rpt": {
+      "path": "output/fpga/extended/utilization.rpt",
+      "sha256": "88acf81b5b0b48fb00d4f0e4e6a3d6303ebc2892b8e6cb75b0929bc9c886844f"
+    },
+    "extended/timing_summary.rpt": {
+      "path": "output/fpga/extended/timing_summary.rpt",
+      "sha256": "e539b3ff3af0fc40303403e9da477c6ad9ef12528f1a8cd0416adba875fd858b"
+    },
+    "extended/clocks.rpt": {
+      "path": "output/fpga/extended/clocks.rpt",
+      "sha256": "3a2d08a00c59940ed6782102791ce81647a6c22eb5596565a8658b415c46d6f9"
+    },
+    "extended/check_timing.rpt": {
+      "path": "output/fpga/extended/check_timing.rpt",
+      "sha256": "30ec946f3585cb4ac9a504a2a927a9a8085be67e96a9762d4d64696a1dd32a85"
+    },
+    "extended/vivado.log": {
+      "path": "output/fpga/extended/vivado.log",
+      "sha256": "254c7fdc2d73870de38aaa33b00141ccd5b269a5f05ed6e0482c3be148b10cfa"
+    },
+    "baseline/source_manifest.json": {
+      "path": "output/fpga/baseline/source_manifest.json",
+      "sha256": "7663f260f98f0518b4adb871bdcc5d529fc421db5151da4d5f76a892acf12b59"
+    },
+    "baseline/source_info.txt": {
+      "path": "output/fpga/baseline/source_info.txt",
+      "sha256": "cf25da6c741be83b76c80bcf752b3555e8f7a2d600225e81db495d47c90af13f"
+    },
+    "baseline/synth_driver.tcl": {
+      "path": "output/fpga/baseline/synth_driver.tcl",
+      "sha256": "c8ddb66654f26b443ba7a1382821d129a3e3afdca4b14ee0de524ba9954e32a5"
+    }
+  },
+  "artifact_sha256": {
+    "fig09_routed_resources.pdf": "3e2656db01bd6144a17c241665d335ad6cd8b6374f2310ff0c7940f1fe1aaf0b",
+    "fig09_routed_resources.svg": "b520624e96b4a53e90d843faf74e74aa0e28d26a2bf1b20bc6d2438de7237752",
+    "fig09_routed_resources.png": "ad88184538f9520aed7d9934568a763822232320b7d631a53cfb166b2031fddf",
+    "fig09_routed_resources_pdf_preview.png": "8077089fa45bc5d33bb8a84e80fa36d29926854e7f44c1b2ee5acf24e6d5224b",
+    "fig10_routed_timing.pdf": "42198f0e9cdefe5b2689e645e767870b6d772af835d9c429ed43a308ffcb70db",
+    "fig10_routed_timing.svg": "7a74d4cef31fbab31fbfee9020ac072e30a71e8719ee4531ce566ee7191b8bad",
+    "fig10_routed_timing.png": "854dab94da27ae801f9306c3197e305dd8e990296b9f87b4fbde5212f7613b00",
+    "fig10_routed_timing_pdf_preview.png": "c914606a9c73d192a57783f3c8d67164eeacd0da105f0095292c08732bd1c071",
+    "fig11_routed_path_delay.pdf": "e8d4784398f3b81f6c07ec40717e5bec8391f799d25ca1887ddfe6eeaffb4836",
+    "fig11_routed_path_delay.svg": "24d54d4a92eb06e867f9959a49e4b5854da1a7a96762a9150303d04d8309f199",
+    "fig11_routed_path_delay.png": "17d5be414f01853c72b4a7ff561568558767999d5f5cf2aa3f369511045caad1",
+    "fig11_routed_path_delay_pdf_preview.png": "60ae98cd3475fa60d0b6196c16a77972bf212f62bcb9572cd60e659dae788069",
+    "fig12_fpga_stage_comparison.pdf": "01024793f0a1381cbde234a8c028366ca5a51c4e3dbbd9af460e8ce4f1abe881",
+    "fig12_fpga_stage_comparison.svg": "22831741dcb06838fb3bab0675e4d9b08be3bab0b9d4ad518033535c1f3c1459",
+    "fig12_fpga_stage_comparison.png": "952c0b27942da81c26897a2c0472dcc71eba66199cd0a07858248784b2aef9b7",
+    "fig12_fpga_stage_comparison_pdf_preview.png": "c31c051bbf09c80b5b3ca9a96efef94f09c1682eb614817c5f40eb2d64b4f5e0",
+    "include_routed_figures.tex": "1f6381b03d93fae2dc23ff60a4695969a9461eace28d13e46907ebdeb4169b31"
+  },
+  "captions": {
+    "fig09_routed_resources": "Whole-design resource utilization after out-of-context placement and routing. Counts and the relative LUT increase come from the top-level utilization rows and include the wrapper. Panel scales differ. The mapped FF difference includes implementation effects and does not imply an added RTL pipeline stage. Both designs use the existing multiplier DSP and no BRAM. These runs do not establish complete physical timing closure.",
+    "fig10_routed_timing": "Routed OOC slack heatmap at a 20 ns clock target. Overall setup, hold and pulse-width cells use the complete design timing summaries and show failing/total endpoints. The register-setup column shows the worst path from a separate register-to-register query; endpoint failure counts are not available for that filtered query. All cells share one signed nanosecond scale centered on zero. A nonnegative filtered register setup slack does not establish complete timing closure. External clock context and interface routing remain incomplete.",
+    "fig11_routed_path_delay": "Logic and routed interconnect contributions to each design's worst reported internal register setup path. Delay segments and totals are read from the reports. The extended path traverses isqrt_comb. The 20 ns reference is the clock period, not the exact available datapath budget; slack also includes register setup and clock terms. The paths have different endpoints. These delays cover complete selected paths and do not isolate the square-root block. External clock context remains incomplete.",
+    "fig12_fpga_stage_comparison": "Recorded synthesis and routed OOC results for the original and extended cores. Each line connects two saved flow stages, with direct numerical labels. The left panel shows whole-design Total LUTs; the right shows complete-design setup WNS. Connections indicate flow order, not a fitted trend, frequency sweep or repeated-run distribution. Critical endpoints can change between stages. Interface and external clock context remain incomplete. No implemented Fmax or power is claimed."
+  },
+  "limitations": [
+    "No complete clock or interface timing closure",
+    "extended completed-run launch log is absent from this archive",
+    "Recorded input DCP hashes cannot be independently checked without the DCP files",
+    "Constraints 18-8777 cause and effect remain unresolved",
+    "No implemented Fmax, power or board-operation result"
+  ],
+  "figure_kinds": {
+    "fig09_routed_resources": "Routed resource point plots",
+    "fig10_routed_timing": "Routed overall and filtered-path slack heatmap",
+    "fig11_routed_path_delay": "Worst internal path delay decomposition",
+    "fig12_fpga_stage_comparison": "Lines between recorded flow stages"
+  }
+}

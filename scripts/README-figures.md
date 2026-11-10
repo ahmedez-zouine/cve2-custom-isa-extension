@@ -2,7 +2,8 @@
 
 The simulation collector runs the actual simulator, and its generator creates
 four figures from checked outputs and the reviewed RTL structure. A separate
-FPGA generator adds four figures from the saved Vivado reports:
+FPGA generator adds four synthesis figures, and a routed generator adds four
+more from the reviewed implementation data:
 
 1. `fig01_pipeline`: instruction decoding, ALU integration and register writeback.
 2. `fig02_recurrence`: the 16 combinational stages and equations; its example is
@@ -19,6 +20,14 @@ FPGA generator adds four figures from the saved Vivado reports:
    saved configurations. There is no fitted line or parameter sweep.
 8. `fig08_experimental_setup`: modular schematic of matching synthesis inputs,
    separate runs, archived reports and checked figure generation.
+9. `fig09_routed_resources`: original/extended Total LUT and FF point plots
+   after routing, with the percentage change computed from the reported counts.
+10. `fig10_routed_timing`: signed slack heatmap that distinguishes overall
+    setup from a separate register setup-path query, plus hold and pulse width.
+11. `fig11_routed_path_delay`: logic/interconnect decomposition of the worst
+    reported register setup path in each design.
+12. `fig12_fpga_stage_comparison`: line plots connecting the two saved flow
+    stages for whole-design LUTs and overall setup WNS.
 
 The shared `figure_style.py` uses navy for baseline/data paths, burgundy for the
 custom instruction, and green for writeback or positive slack. Marker shapes,
@@ -180,7 +189,8 @@ generator still requires fresh source-matching evidence before redrawing.
 
 Add `\usepackage{graphicx}` to the preamble. Copy the desired environments from
 `output/pdf/include_figures.tex` (simulation) or `include_fpga_figures.tex`
-(synthesis) into the manuscript. You can input either file if the document is
+(synthesis), or `include_routed_figures.tex` (routing) into the manuscript.
+You can input these files if the document is
 compiled from the repository root. Adjust paths when moving figures.
 
 The default environments use `figure`, suitable for a single-column report.
@@ -189,6 +199,45 @@ both columns. Do not shrink these detailed figures to one 3.5-inch column:
 their labels would become too small. Confirm label readability at the final
 printed size. The assignment's own page/layout requirements take precedence
 over a publication template.
+
+## Routed implementation figures
+
+The [routed gallery](../output/pdf/routed_figures.md) shows the four new figures.
+Reproduce them from the repository root:
+
+```sh
+tmp/figures_venv/bin/python -B scripts/generate_routed_figures.py --render-pdfs
+```
+
+The generator checks the implementation review manifest, all 46 raw-file
+hashes, generated data hashes and parser identity. It reparses the raw reports
+and requires the saved JSON to match. The synthesis inputs for the stage plot
+are checked through the existing synthesis loader, including source identity.
+Changed or stale evidence stops generation.
+
+The heatmap's four columns have nanosecond units and share one zero-centered
+scale. Only the overall timing checks have endpoint counts. The internal
+register query supplies its worst path and does not supply a total number of
+failing endpoints. The path decomposition uses whole selected paths with
+different endpoints; the 20 ns line is a period reference rather than the
+exact available datapath budget.
+
+The line plots join two measured flow stages per variant. They are not a
+frequency sweep or fitted trend. The routed input remains an exploratory OOC
+study with incomplete external clock and interface context, an unresolved tile
+warning, and a missing successful extended-run launch log. Those limitations
+remain in the data/figure manifests and comparison review. There is no power
+or implemented Fmax chart.
+
+Outputs include PDF, SVG, 600-dpi PNG, rendered PDF previews,
+`routed_figure_manifest.json` and `include_routed_figures.tex`. Font, palette,
+canvas width and shape conventions match the earlier figures. Run the figure
+checks with:
+
+```sh
+tmp/figures_venv/bin/python -B -m unittest discover \
+  -s scripts -p test_generate_routed_figures.py -v
+```
 
 ## Edit or regenerate
 

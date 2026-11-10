@@ -295,6 +295,33 @@ from incomplete interface timing. Implemented Fmax and power remain unestablishe
 The [implementation script](fpga/implement.tcl) and [FPGA guide](fpga/README.md#place-and-route-the-saved-synthesis-checkpoints)
 provide the run and review commands.
 
+### Routed OOC results
+
+The updated figures use the reviewed routed reports. Their resource counts
+and timing values are distinct from the synthesis figures above.
+
+<p align="center">
+  <img src="output/pdf/fig09_routed_resources.svg" width="800" alt="Routed utilization: 2987 to 4205 LUTs, a 40.8 percent increase">
+</p>
+<p align="center">
+  <em>After routing: +1,218 LUTs (+40.8%), with no extra DSP or BRAM.</em><br>
+  <a href="output/pdf/fig09_routed_resources.pdf">Download vector PDF</a>
+</p>
+
+<p align="center">
+  <img src="output/pdf/fig11_routed_path_delay.svg" width="800" alt="Worst internal register path delays split into logic and routing: 19.672 ns original and 49.387 ns with isqrt">
+</p>
+<p align="center">
+  <em>The extended internal path crosses isqrt_comb and misses the reported 20 ns setup target.</em><br>
+  <a href="output/pdf/fig11_routed_path_delay.pdf">Download vector PDF</a>
+</p>
+
+The [four-figure gallery](output/pdf/routed_figures.md) also includes a
+[timing heatmap](output/pdf/fig10_routed_timing.pdf) and
+[synthesis-to-routing line plots](output/pdf/fig12_fpga_stage_comparison.pdf).
+External clock and interface routing limitations remain; these plots do not
+establish implemented Fmax or physical timing closure.
+
 ## 6. Repository map
 
 - [Package: opcode and ALU operation types](cve2/rtl/cve2_pkg.sv)
@@ -436,9 +463,21 @@ This command reads `output/fpga/baseline/` and `output/fpga/extended/`; it does
 not run Vivado. It checks report identity, successful synthesis logs and source
 provenance before plotting. The separate
 [FPGA LaTeX environments](output/pdf/include_fpga_figures.tex) include captions
-and timing limitations. Both figure generators use the shared palette and
+and timing limitations. All figure generators use the shared palette and
 typography in `scripts/figure_style.py`. The waveform is a measured step-line
 plot; architecture and workflow diagrams are labelled structural schematics.
+
+To regenerate the four routed figures from the reviewed implementation data:
+
+```sh
+python scripts/generate_routed_figures.py --render-pdfs
+```
+
+This third generator verifies the review data and raw-file hashes, rechecks
+the archived reports, and uses the synthesis reports for the stage comparison.
+It exports a separate [manifest](output/pdf/routed_figure_manifest.json) and
+[LaTeX environments](output/pdf/include_routed_figures.tex). The current
+simulation and synthesis exports are preserved.
 
 ## 10. Use GitHub Codespaces
 
