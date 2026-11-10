@@ -5,6 +5,9 @@ and changes estimated setup slack from +2.994 ns to -30.800 ns at a 20 ns clock
 target. The original core passes the reported setup checks, but both designs
 have hold violations. Neither result establishes complete timing closure.
 
+The later [routed OOC review](implementation/comparison.md) now records
+placement/routing results. The tables below retain their post-synthesis scope.
+
 Figures generated directly from these reports are available as
 [resource point plots](../pdf/fig05_fpga_resources.pdf),
 [timing heatmap](../pdf/fig06_fpga_timing.pdf) and

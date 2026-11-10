@@ -4,6 +4,16 @@ This directory is the destination for the original and isqrt implementation
 reports from the Ubuntu Vivado host. Report files must be copied from the
 completed runs; terminal excerpts alone are insufficient for the final analysis.
 
+Both report sets are now archived. The [comparison review](comparison.md)
+distinguishes internal paths, interface paths and physical-context limitations.
+The [JSON](implementation_results.json), [CSV](implementation_metrics.csv) and
+[review manifest](review_manifest.json) retain the parsed numerical evidence
+and raw-file hashes. Reproduce them with:
+
+```sh
+python3 -B scripts/summarize_fpga_implementation.py
+```
+
 From the repository root on Ubuntu:
 
 ```sh
@@ -43,9 +53,9 @@ flow with negative slack remains a timing failure under its reported model.
   cause and significance remain unresolved; retain the complete log context.
 - The extended implementation completed before a subsequent retry was refused.
   That retry replaced its main `vivado.log` with the overwrite-protection
-  message. Preserve the retry log and available backup logs/journals under
-  their original names. Identify a successful original log from its actual
-  contents and run identity. If unavailable, record that absence explicitly.
+  message. No successful extended implementation launch-log backup is present
+  in the imported archive. The review records that gap; the retry log retains
+  its original contents and filename.
 - The baseline synthesis build log was stale. Its implementation driver can
   recover the archived successful synthesis log after matching the saved run
   metadata, and preserves the stale log as `synthesis_rejected_build.log`.

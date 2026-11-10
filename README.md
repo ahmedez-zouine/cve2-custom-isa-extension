@@ -4,12 +4,12 @@ This project adds an unsigned integer square-root instruction to CVE2, a compact
 32-bit RISC-V processor. The goal is to calculate a result in hardware, verify
 the instruction in simulation, and measure its implementation cost on an FPGA.
 
-The [FPGA build guide](fpga/README.md) describes synthesis and the prepared
-placement-and-routing flow for the saved Vivado checkpoints.
-The [FPGA synthesis comparison](output/fpga/comparison.md) reports 3,034 LUTs for
-the original core and 4,178 with isqrt, an increase of 37.7%. Estimated setup
-slack changes from +2.994 ns to -30.800 ns at 50 MHz. Both runs have hold
-violations; placement, routing and power evaluation remain pending.
+The [FPGA build guide](fpga/README.md) describes synthesis and placement/routing.
+The [routed OOC comparison](output/fpga/implementation/comparison.md) reports
+2,987 LUTs for the original core and 4,205 with isqrt (+40.8%). The worst
+reported register setup slack changes from +0.058 ns to -29.556 ns at a
+50 MHz target. Both complete design reports fail timing, with incomplete
+external clock and interface context. Power evaluation remains pending.
 
 ## 1. Mathematical definition
 
@@ -288,10 +288,12 @@ extended cores. Both use the same Artix-7 part, processor configuration and
 The [comparison review](output/fpga/comparison.md) explains the timing limits.
 The [parsed JSON](output/pdf/fpga_results.json), [CSV](output/pdf/fpga_metrics.csv)
 and [figure manifest](output/pdf/fpga_figure_manifest.json) retain the values,
-source hashes and figure captions. Placement, routing, implemented Fmax and
-power results remain pending. The [implementation script](fpga/implement.tcl)
-continues the saved synthesis checkpoints with the same default flow for both
-cores; its run and review commands are in the [FPGA guide](fpga/README.md#place-and-route-the-saved-synthesis-checkpoints).
+source hashes and figure captions. These figures describe synthesis.
+The later [routed comparison](output/fpga/implementation/comparison.md) reviews
+the archived placement/routing results and distinguishes internal setup failure
+from incomplete interface timing. Implemented Fmax and power remain unestablished.
+The [implementation script](fpga/implement.tcl) and [FPGA guide](fpga/README.md#place-and-route-the-saved-synthesis-checkpoints)
+provide the run and review commands.
 
 ## 6. Repository map
 
@@ -309,11 +311,12 @@ cores; its run and review commands are in the [FPGA guide](fpga/README.md#place-
 - [Simulation testbench](tb/tb_top.sv)
 - [Paper figure generator and instructions](scripts/README-figures.md)
 - [Simulation result collector](scripts/collect_simulation_results.py)
+- [Routed FPGA evidence parser](scripts/summarize_fpga_implementation.py)
 
 The provided testbench and core configuration are part of the assignment.
-The FPGA wrapper, constraints and original/extended synthesis comparison are
-now available. Placement and routing, power evaluation and the technical
-report remain pending.
+The FPGA wrapper, constraints and original/extended synthesis and routed
+comparisons are available. Complete physical timing context, power evaluation
+and the technical report remain pending.
 
 ## 7. Set up on an Apple Silicon Mac
 
