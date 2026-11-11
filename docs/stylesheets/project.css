@@ -174,7 +174,7 @@
   font-size: 0.85rem;
 }
 
-.md-typeset .highlight pre {
+.md-typeset:has(#the-core-rtl-loop) .highlight pre {
   padding: 1rem 1.1rem;
   border: 1px solid #29424f;
   border-radius: 0.45rem;
@@ -184,28 +184,28 @@
   line-height: 1.65;
 }
 
-.md-typeset .highlight pre code {
+.md-typeset:has(#the-core-rtl-loop) .highlight pre code {
   background: transparent;
   color: inherit;
 }
 
-.md-typeset .highlight pre code span {
+.md-typeset:has(#the-core-rtl-loop) .highlight pre code span {
   color: #e2ebee;
 }
 
-.md-typeset .highlight .k,
-.md-typeset .highlight .kt,
-.md-typeset .highlight .kc {
+.md-typeset:has(#the-core-rtl-loop) .highlight .k,
+.md-typeset:has(#the-core-rtl-loop) .highlight .kt,
+.md-typeset:has(#the-core-rtl-loop) .highlight .kc {
   color: #a9d4e4;
 }
 
-.md-typeset .highlight .mi,
-.md-typeset .highlight .mh {
+.md-typeset:has(#the-core-rtl-loop) .highlight .mi,
+.md-typeset:has(#the-core-rtl-loop) .highlight .mh {
   color: #f1c1cc;
 }
 
-.md-typeset .highlight .c1,
-.md-typeset .highlight .cm {
+.md-typeset:has(#the-core-rtl-loop) .highlight .c1,
+.md-typeset:has(#the-core-rtl-loop) .highlight .cm {
   color: #a7bdc7;
 }
 
