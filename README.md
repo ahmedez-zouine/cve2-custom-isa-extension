@@ -226,6 +226,15 @@ stage. The instruction should not need a new stall or coprocessor interface.
 
 ## 5. Current implementation status
 
+The [architecture trade-off discussion](docs/alternatives.md) compares the
+implemented combinational unit with a proposed iterative unit. It explains
+the expected area, timing and cycle trade-offs and the additional control
+needed for multicycle integration. Only the combinational unit is measured.
+
+A [fresh assignment and integration review](output/verification/submission_review/README.md)
+records a clean source build, all four passing programs, and the reproduced
+writeback waveform. Its manifest identifies the tested revision and artifacts.
+
 The custom opcode and ALU operation are defined in the package. The decoder
 checks all reserved fields, and the ALU now computes the root with 16 unrolled
 restoring steps. It returns the result through the existing writeback path.

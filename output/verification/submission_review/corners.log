@@ -1,0 +1,19 @@
+mkdir -p build
+riscv64-elf-gcc -march=rv32imc_zicsr -mabi=ilp32 -O2 -ffreestanding -mno-relax -nostdlib \
+	  -T sw/lib/link.ld -Wl,--no-warn-rwx-segments -Isw/lib \
+	  -o build/isqrt_corners.elf sw/lib/crt0.S sw/lib/lib.c sw/isqrt_corners.c
+riscv64-elf-objdump -d build/isqrt_corners.elf > build/isqrt_corners.dis
+riscv64-elf-objcopy -O binary build/isqrt_corners.elf build/isqrt_corners.bin
+od -An -v -tx4 build/isqrt_corners.bin > build/isqrt_corners.hex
+build/sim/Vtb_top +hex=build/isqrt_corners.hex \
+	  +cve2_tracer_file_base=build/isqrt_corners +waves=build/isqrt_corners.vcd
+[tb] writing waves to build/isqrt_corners.vcd (cycles 0 to 20000)
+TOP.tb_top.u_core.u_cve2_tracer.printbuffer_dumpline.unnamedblk1: Writing execution trace to build/isqrt_corners_00000000.log
+isqrt_corners: boundaries, x0 and expected illegal traps
+TOP.tb_top.u_core.u_cve2_top.u_cve2_core.id_stage_i.controller_i @ 9565: Hart 0 encountered illegal instruction at PC 0x00000972: 0x0203028b
+TOP.tb_top.u_core.u_cve2_top.u_cve2_core.id_stage_i.controller_i @ 12335: Hart 0 encountered illegal instruction at PC 0x00000a64: 0x0003128b
+TOP.tb_top.u_core.u_cve2_top.u_cve2_core.id_stage_i.controller_i @ 15115: Hart 0 encountered illegal instruction at PC 0x00000b56: 0x0073028b
+TOP.tb_top.u_core.u_cve2_top.u_cve2_core.id_stage_i.controller_i @ 17885: Hart 0 encountered illegal instruction at PC 0x00000c48: 0x0073000b
+isqrt_corners: PASS (43 checks)
+[tb] 2687 cycles
+[tb] PASS (exit code 0)

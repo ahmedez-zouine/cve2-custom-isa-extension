@@ -11,6 +11,7 @@ nav = [
   { "Overview" = "index.md" },
   { "Design" = "design.md" },
   { "Arithmetic" = "arithmetic.md" },
+  { "Trade-offs" = "alternatives.md" },
   { "Verification" = "verification.md" },
   { "FPGA results" = "results.md" },
   { "Installation" = "reproduce.md" },

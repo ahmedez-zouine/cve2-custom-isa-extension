@@ -48,6 +48,8 @@ The RTL unrolls all 16 steps into one combinational path. Every step depends on 
 
 [Inspect the routed timing and area](results.md) to see the cost of the unrolled implementation.
 
+[Compare the implemented unit with an iterative alternative](alternatives.md), including the extra control needed for a multicycle operation.
+
 ### The core RTL loop
 
 The ALU initializes `sq_x` to the operand and initializes the root and remainder to zero before this loop. On each pass, the loop brings in the next two operand bits, forms the threshold, then decides whether to subtract it and append a one to the root. Since the loop is combinational, synthesis builds all 16 dependent passes into the same instruction path.
