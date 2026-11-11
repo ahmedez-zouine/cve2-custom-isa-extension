@@ -28,6 +28,11 @@ Both implementations processed the same 256 inputs and produced checksum 10,996,
 
 The decoder accepts the custom-0 encoding when its function fields are legal. It selects the square-root ALU operation and reads the source register. The ALU consumes two operand bits per restoring step. Sixteen steps produce the 16-bit root, which then flows through the existing result mux and writeback logic. The [arithmetic guide](arithmetic.md) derives the recurrence, and [verification](verification.md) shows a register-to-register example.
 
+<figure class="project-core-figure">
+  <img src="assets/cve2-core-blockdiagram.svg" alt="Block diagram of the CVE2 core, including fetch, decode, register file, ALU, load-store unit, and memory interfaces">
+  <figcaption>Full-core context: ISQRT is implemented within the ALU and uses the existing register file and writeback path.</figcaption>
+</figure>
+
 ## FPGA area and timing { .project-section }
 
 The comparison uses the same Artix-7 `xc7a35tcsg324-1` device, Vivado 2024.2 and 20 ns target for both variants. The routed extended core **does not meet that target**. Its worst register setup slack is −29.556 ns. The implementation is out of context, so the reports lack complete board clock and interface constraints.
