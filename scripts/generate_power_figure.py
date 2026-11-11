@@ -25,35 +25,55 @@ def main():
     import matplotlib.pyplot as plt
 
     configure()
-    fig = plt.figure(figsize=(WIDTH, 3.4))
+    fig = plt.figure(figsize=(WIDTH, 3.5))
     fig.text(.5, .958, "Estimated on-chip power", ha="center", va="top",
              fontsize=13, fontweight="bold", color=INK)
-    fig.text(.5, .857, "Vivado 2024.2 | xc7a35tcsg324-1 | 50 MHz assumed | 25 °C junction",
-             ha="center", color=MUTED)
+    fig.text(.5, .86, "Vivado 2024.2  ·  xc7a35tcsg324-1  ·  50 MHz assumed  ·  25 °C junction",
+             ha="center", color=MUTED, fontsize=8)
 
-    ax = fig.add_axes([.115, .25, .84, .48])
-    metrics = ("total_w", "dynamic_w", "device_static_w")
-    max_power = max(run["estimated_power"]["total_w"] * 1000 for run in data["runs"].values())
-    for offset, key, label, color in ((-.18, "baseline", "Original core", DATA),
-                                       (.18, "extended", "With isqrt", CUSTOM)):
-        power = data["runs"][key]["estimated_power"]
-        values = [power[metric] * 1000 for metric in metrics]
-        bars = ax.bar([index + offset for index in range(len(metrics))], values,
-                      width=.31, color=color, label=label, zorder=3)
-        ax.bar_label(bars, fmt="%.0f", padding=4, color=color, fontweight="bold")
-    ax.set(xticks=range(len(metrics)), xticklabels=["Total", "Dynamic", "Device static"],
-           ylim=(0, max_power * 1.18), ylabel="Estimated power (mW)")
-    ax.tick_params(length=0, pad=6, colors=MUTED)
-    ax.grid(axis="y", color=GRID, linewidth=.8)
+    ax = fig.add_axes([.20, .25, .71, .53])
+    metrics = (
+        ("Total on-chip", "total_w"),
+        ("Dynamic", "dynamic_w"),
+        ("Device static", "device_static_w"),
+    )
+    row_positions = [2, 1, 0]
+    baseline = data["runs"]["baseline"]["estimated_power"]
+    extended = data["runs"]["extended"]["estimated_power"]
+    for (label, metric), row in zip(metrics, row_positions):
+        original_mw = baseline[metric] * 1000
+        isqrt_mw = extended[metric] * 1000
+        ax.hlines(row, original_mw, isqrt_mw, color=GRID, linewidth=2, zorder=1)
+        same_value = original_mw == isqrt_mw
+        baseline_row = row + (0.09 if same_value else 0)
+        extended_row = row - (0.09 if same_value else 0)
+        ax.scatter(original_mw, baseline_row, s=54, marker="o", color=DATA, zorder=3)
+        ax.scatter(isqrt_mw, extended_row, s=56, marker="D", color=CUSTOM, zorder=4)
+        ax.annotate(f"{original_mw:.0f}", (original_mw, baseline_row),
+                    xytext=(0, 9), textcoords="offset points", ha="center",
+                    color=DATA, fontsize=8, fontweight="bold")
+        ax.annotate(f"{isqrt_mw:.0f}", (isqrt_mw, extended_row),
+                    xytext=(0, -15 if same_value else 9), textcoords="offset points",
+                    ha="center", color=CUSTOM, fontsize=8, fontweight="bold")
+    ax.set(yticks=row_positions, yticklabels=[label for label, _ in metrics],
+           xticks=range(0, 121, 20), xlim=(0, 120), ylim=(-.55, 2.55),
+           xlabel="Estimated power (mW)")
+    ax.tick_params(length=0, pad=7, colors=MUTED)
+    ax.grid(axis="x", color=GRID, linewidth=.8)
     ax.set_axisbelow(True)
     for side in ("top", "left", "right"):
         ax.spines[side].set_visible(False)
-    handles, labels = ax.get_legend_handles_labels()
-    fig.legend(handles, labels, loc="center", bbox_to_anchor=(.5, .784),
+    from matplotlib.lines import Line2D
+
+    handles = (
+        Line2D([], [], marker="o", linestyle="none", color=DATA, label="Original core"),
+        Line2D([], [], marker="D", linestyle="none", color=CUSTOM, label="With isqrt"),
+    )
+    fig.legend(handles=handles, loc="upper center", bbox_to_anchor=(.5, .81),
                ncols=2, frameon=False)
-    fig.text(.5, .111, "Vectorless estimates with Medium confidence. Values round independently to 1 mW.",
+    fig.text(.5, .115, "Vectorless estimates · Medium confidence · independently rounded to 1 mW",
              ha="center", color=MUTED, fontsize=7.5)
-    fig.text(.5, .051, "Both routed designs miss timing at the assumed clock frequency.",
+    fig.text(.5, .061, "Both routed designs miss timing at the assumed clock frequency.",
              ha="center", color=MUTED, fontsize=7.5)
 
     args.out_dir.mkdir(parents=True, exist_ok=True)
