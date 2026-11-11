@@ -41,23 +41,21 @@ Call **T = 4r + b** the shifted remainder and **D = 4q + 1** the trial value. Wh
 Start with q = 0 and r = 0. The 32-bit representation of 20 ends in the pairs `01 01 00`. The first 13 pairs are zero and leave the root and remainder at zero.
 
 <div class="project-table-scroll" tabindex="0" role="region" aria-label="Worked calculation for 20">
-  <table class="project-data project-trace">
+  <table class="project-data project-trace project-worked">
     <thead>
       <tr>
         <th scope="col">Step</th>
         <th scope="col">Pair</th>
-        <th scope="col">Prefix</th>
-        <th scope="col">Shifted remainder</th>
-        <th scope="col">Trial</th>
-        <th scope="col">Root bit</th>
+        <th scope="col">T vs D</th>
+        <th scope="col">Bit</th>
         <th scope="col">Root</th>
         <th scope="col">Remainder</th>
       </tr>
     </thead>
     <tbody>
-      <tr><th scope="row">14</th><td><code>01</code></td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td></tr>
-      <tr><th scope="row">15</th><td><code>01</code></td><td>5</td><td>1</td><td>5</td><td>0</td><td>2</td><td>1</td></tr>
-      <tr><th scope="row">16</th><td><code>00</code></td><td>20</td><td>4</td><td>9</td><td>0</td><td>4</td><td>4</td></tr>
+      <tr><th scope="row">14</th><td><code>01</code></td><td>1 = 1</td><td>1</td><td>1</td><td>0</td></tr>
+      <tr><th scope="row">15</th><td><code>01</code></td><td>1 &lt; 5</td><td>0</td><td>2</td><td>1</td></tr>
+      <tr><th scope="row">16</th><td><code>00</code></td><td>4 &lt; 9</td><td>0</td><td>4</td><td>4</td></tr>
     </tbody>
   </table>
 </div>

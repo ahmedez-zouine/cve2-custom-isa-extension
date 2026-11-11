@@ -1,7 +1,6 @@
 ---
 hide:
   - toc
-  - navigation
 description: A custom integer square-root instruction for the CVE2 RISC-V core.
 ---
 
