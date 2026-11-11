@@ -175,6 +175,37 @@
 }
 
 .md-typeset .highlight pre {
+  padding: 1rem 1.1rem;
+  border: 1px solid #29424f;
+  border-radius: 0.45rem;
+  background: #18313f;
+  color: #eef3f5;
+  font-size: 0.81rem;
+  line-height: 1.65;
+}
+
+.md-typeset .highlight pre code {
+  background: transparent;
+  color: inherit;
+}
+
+.md-typeset .highlight .k,
+.md-typeset .highlight .kt,
+.md-typeset .highlight .kc {
+  color: #a9d4e4;
+}
+
+.md-typeset .highlight .mi,
+.md-typeset .highlight .mh {
+  color: #f1c1cc;
+}
+
+.md-typeset .highlight .c1,
+.md-typeset .highlight .cm {
+  color: #a7bdc7;
+}
+
+.md-typeset .highlight pre {
   background: #182b35;
   color: #eef3f5;
   border-radius: 0.4rem;
