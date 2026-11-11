@@ -189,6 +189,10 @@
   color: inherit;
 }
 
+.md-typeset .highlight pre code span {
+  color: #e2ebee;
+}
+
 .md-typeset .highlight .k,
 .md-typeset .highlight .kt,
 .md-typeset .highlight .kc {
