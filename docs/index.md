@@ -1,27 +1,49 @@
 ---
 hide:
   - toc
-description: A custom integer square-root instruction for the CVE2 RISC-V core.
+description: A custom integer square-root instruction for the CVE2 RISC-V processor, with its design, verification and Artix-7 results.
 ---
 
-# Integer square root for CVE2
+# An integer square root, built into CVE2
 
-The `isqrt` instruction returns the largest integer whose square fits within a 32-bit unsigned input. For example, `isqrt(20) = 4` because 4² ≤ 20 < 5². The extension uses CVE2’s existing ALU and register writeback path.
+The custom `isqrt rd, rs1` instruction computes the floor of the square root of a 32-bit unsigned integer. For example, `isqrt(20) = 4`: 4² ≤ 20 < 5². The processor writes the result to `rd` through its existing register writeback path.
 { .project-lead }
 
-[Work through the arithmetic](arithmetic.md){ .md-button .md-button--primary }
-[Compare FPGA results](results.md){ .md-button }
+[Explore the instruction design](design.md){ .md-button .md-button--primary }
+[See the experimental results](results.md){ .md-button }
 
-<dl class="project-metrics">
-  <div><dt>Simulated cycles per root</dt><dd>247 → 23</dd></div>
-  <div><dt>Integration checks passed</dt><dd>200,705</dd></div>
-  <div><dt>Routed LUTs</dt><dd>2,987 → 4,205</dd></div>
-</dl>
+## Project at a glance
 
-## From instruction to FPGA
+|  | Software reference | Custom instruction |
+| --- | ---: | ---: |
+| Average cycles per result | 247 | **23** |
+| Routed lookup tables | 2,987 | **4,205** |
+| Integration checks passed | — | **200,705** |
 
-The benchmark used about 10.7× fewer cycles with the custom instruction. On the FPGA, unrolling the 16 square-root steps increased routed LUT use by 40.8% and lengthened the critical path. The extended core’s worst register setup slack was **−29.556 ns** at the 20 ns target.
+The cycle comparison uses the same 256 inputs and produces checksum 10,996,072 for both implementations. Its printed averages are rounded. The custom instruction used about 10.7 times fewer cycles on that simulation workload, with a 40.8% increase in routed lookup tables.
 
-[![LUT counts and setup slack at synthesis and after routing for both core variants](assets/fpga-stages.svg)](assets/fpga-stages.svg)
+## What happens when the instruction runs
 
-Read the [instruction encoding and datapath](design.md), see the [writeback trace and test coverage](verification.md), or [reproduce the experiments](reproduce.md).
+The decoder recognizes the custom instruction and selects the existing arithmetic logic unit. That unit applies a restoring square-root recurrence to the operand, consuming two input bits per step. Sixteen steps produce the 16-bit integer root. The result uses CVE2’s ordinary writeback path, so dependent instructions can read it as soon as it is written.
+
+[![Instruction flow through fetch, decode, the ALU and register writeback](assets/pipeline.svg)](assets/pipeline.svg)
+
+[The arithmetic guide](arithmetic.md) derives the recurrence and works through the input 20. [Verification](verification.md) covers the test programs, boundary values, illegal encodings and writeback.
+
+## What the FPGA results show
+
+The original and extended cores use the same Artix-7 device, Vivado version and 20 ns clock target. Routed lookup-table use rose from 2,987 to 4,205. The extended design’s worst register setup slack was −29.556 ns, so this run did not meet its target. The routed out-of-context results provide an area and timing comparison, while board-level clock and interface context remain incomplete.
+
+[![Routed lookup-table counts and overall setup slack for both cores, at synthesis and after routing](assets/fpga-stages.svg)](assets/fpga-stages.svg)
+
+The FPGA measurements describe a physical implementation estimate. The cycle counts describe a simulation workload. They are separate results, and the cycle ratio does not predict a clock-frequency improvement. [Review timing, resources and power](results.md), or follow the [installation and reproduction steps](reproduce.md).
+
+## Follow the implementation
+
+| Topic | What you’ll find |
+| --- | --- |
+| [Instruction design](design.md) | Encoding, legality checks, ALU selection and writeback |
+| [Arithmetic](arithmetic.md) | The recurrence, a worked example and a 32-bit input explorer |
+| [Verification](verification.md) | Test coverage, dependency checks and a writeback waveform |
+| [FPGA results](results.md) | Routed resources, setup and hold timing, and power estimates |
+| [Installation](reproduce.md) | Tool setup, simulation commands and FPGA flow |
