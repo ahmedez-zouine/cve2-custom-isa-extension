@@ -23,6 +23,10 @@ The software and hardware workloads used the same 256 inputs and produced checks
 | Worst register setup | +0.058 ns | −29.556 ns |
 | Hold WHS | −2.232 ns | −2.168 ns |
 
+[![Routed timing slack for overall setup, filtered register setup, hold and pulse width on both designs](assets/fig10_routed_timing.svg)](assets/fig10_routed_timing.svg)
+
+The heatmap uses one signed scale centered on zero. Register setup is a separate register-to-register query: its +0.058 ns result for the original core does not override the −0.884 ns overall setup slack. Both designs also report hold violations.
+
 Both designs miss overall setup and hold at the 20 ns target. The extended core's worst register setup path traverses the square-root logic. The out-of-context clock and interface constraints omit part of the physical board timing context. See the [routed timing and utilization review](https://github.com/ahmedez-zouine/cve2-custom-isa-extension/blob/10f4bd0/output/fpga/implementation/comparison.md).
 
 ## Estimated power
