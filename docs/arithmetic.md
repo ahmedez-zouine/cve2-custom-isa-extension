@@ -100,6 +100,6 @@ Enter a whole number from 0 to 4,294,967,295. The table shows the pairs in the o
 
 ## How it maps to RTL
 
-The ALU shifts two input bits into the remainder and compares it with the trial value. The shift and compare repeat for all 16 pairs. The last step supplies the result to the [normal register writeback path](design.md#pipeline-integration).
+The ALU shifts two input bits into the remainder and compares it with the trial value. The shift and compare repeat for all 16 pairs. The last step supplies the result to the [normal register writeback path](design.md#decode-execute-and-write-back).
 
 [![The two-bit restoring square-root recurrence and the steps for input 20](assets/recurrence.svg)](assets/recurrence.svg)

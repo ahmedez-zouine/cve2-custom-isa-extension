@@ -6,13 +6,15 @@ description: A custom integer square-root instruction for the CVE2 RISC-V proces
 
 # An integer square root, built into CVE2
 
-The custom `isqrt rd, rs1` instruction computes the floor of the square root of a 32-bit unsigned integer. For example, `isqrt(20) = 4`: 4² ≤ 20 < 5². The processor writes the result to `rd` through its existing register writeback path.
+The custom `isqrt rd, rs1` instruction computes the floor of the square root of a 32-bit unsigned integer. For example, `isqrt(20) = 4`, since 4² ≤ 20 < 5². CVE2 decodes the instruction, calculates the root in its ALU, then writes it to `rd` through the existing register path.
 { .project-lead }
 
 [Explore the instruction design](design.md){ .md-button .md-button--primary }
 [See the experimental results](results.md){ .md-button }
 
-## Project at a glance
+![Instruction flow from fetch and decode through the existing ALU and register writeback](assets/pipeline.svg)
+
+## Measured comparison { .project-section }
 
 |  | Software reference | Custom instruction |
 | --- | ---: | ---: |
@@ -20,25 +22,21 @@ The custom `isqrt rd, rs1` instruction computes the floor of the square root of 
 | Routed lookup tables | 2,987 | **4,205** |
 | Integration checks passed | — | **200,705** |
 
-The cycle comparison uses the same 256 inputs and produces checksum 10,996,072 for both implementations. Its printed averages are rounded. The custom instruction used about 10.7 times fewer cycles on that simulation workload, with a 40.8% increase in routed lookup tables.
+Both implementations processed the same 256 inputs and produced checksum 10,996,072. The displayed cycle counts are rounded workload averages. In this simulation, the custom instruction reduced the average from 247 cycles to 23. Routed lookup-table use rose by 1,218, or 40.8%. Integration tests check square boundaries, full-width inputs and dependent instructions.
 
-## What happens when the instruction runs
+## How the extension fits the processor { .project-section }
 
-The decoder recognizes the custom instruction and selects the existing arithmetic logic unit. That unit applies a restoring square-root recurrence to the operand, consuming two input bits per step. Sixteen steps produce the 16-bit integer root. The result uses CVE2’s ordinary writeback path, so dependent instructions can read it as soon as it is written.
+The decoder accepts the custom-0 encoding when its function fields are legal. It selects the square-root ALU operation and reads the source register. The ALU consumes two operand bits per restoring step. Sixteen steps produce the 16-bit root, which then flows through the existing result mux and writeback logic. The [arithmetic guide](arithmetic.md) derives the recurrence, and [verification](verification.md) shows a register-to-register example.
 
-[![Instruction flow through fetch, decode, the ALU and register writeback](assets/pipeline.svg)](assets/pipeline.svg)
+## FPGA area and timing { .project-section }
 
-[The arithmetic guide](arithmetic.md) derives the recurrence and works through the input 20. [Verification](verification.md) covers the test programs, boundary values, illegal encodings and writeback.
-
-## What the FPGA results show
-
-The original and extended cores use the same Artix-7 device, Vivado version and 20 ns clock target. Routed lookup-table use rose from 2,987 to 4,205. The extended design’s worst register setup slack was −29.556 ns, so this run did not meet its target. The routed out-of-context results provide an area and timing comparison, while board-level clock and interface context remain incomplete.
+The comparison uses the same Artix-7 `xc7a35tcsg324-1` device, Vivado 2024.2 and 20 ns target for both variants. The routed extended core **does not meet that target**. Its worst register setup slack is −29.556 ns. The implementation is out of context, so the reports lack complete board clock and interface constraints.
 
 [![Routed lookup-table counts and overall setup slack for both cores, at synthesis and after routing](assets/fpga-stages.svg)](assets/fpga-stages.svg)
 
-The FPGA measurements describe a physical implementation estimate. The cycle counts describe a simulation workload. They are separate results, and the cycle ratio does not predict a clock-frequency improvement. [Review timing, resources and power](results.md), or follow the [installation and reproduction steps](reproduce.md).
+Cycle measurements come from simulation. FPGA measurements come from synthesis and routing. The simulated cycle ratio does not predict FPGA clock frequency. [Review resources, timing and power estimates](results.md) or [reproduce the experiments](reproduce.md).
 
-## Follow the implementation
+## Browse the project { .project-section }
 
 <nav class="project-card-grid" aria-label="Project guides">
   <a class="project-card" href="design/">
