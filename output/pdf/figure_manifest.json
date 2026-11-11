@@ -3,7 +3,7 @@
   "width_inches": 7.16,
   "results_file": "/Users/mac/Documents/euro/cve2-main/build/figure_data/results.json",
   "results_sha256": "02d75952286cf203329a729ba5d4f2c7634ae7ca324c3ed54619c08be2248612",
-  "generator_sha256": "4690c94fc413d3958346e291c32ca3af91eb55272ce9452a0009b4e98d025397",
+  "generator_sha256": "47402690abba001872072cce1ea5d23c577227c07e30a289f01209530d22e134",
   "style_sha256": "909b42374e77af72a0be8f263a88ef69f381c374679742c4dd9510190a92babe",
   "simulation_evidence": {
     "schema": 1,
@@ -305,12 +305,12 @@
     "fig01_pipeline": "Integration of the unsigned integer square-root instruction in the two-stage CVE2 pipeline. The burgundy ISQRT block denotes the added datapath within the existing ALU. The existing register-file write port captures the selected result at the closing clock edge. Dashed arrows denote control; solid arrows denote data. Only the relevant instruction and data paths are shown.",
     "fig02_recurrence": "Unrolled restoring square-root recurrence with no registers between its 16 stages. The arithmetic example is computed from the captured input 20; its final root matches the measured result 4. The table shows the last three recurrence rounds, not measured internal stage delays. The 16-bit root is zero-extended onto the 32-bit result bus.",
     "fig04_benchmark": "Benchmark workload averages printed by the simulated software and hardware tests. Both workloads use the same seeded input sequence and produce matching checksums. The reported integer-rounded averages include loop and random-number-generation overhead; they are not individual instruction latencies or physical execution times.",
-    "fig03_writeback": "Modular summary of the measured RTL trace for isqrt x11, x11 at PC 0x00000d20. The execution, control, and register-file panels show input 20, result 4, and the measured destination update. ID/EX entry is at 20565 ps; writeback occurs at 20575 ps. The timeline is normalized to the observed clock period; simulation timestamps are not physical FPGA delays."
+    "fig03_writeback": "RTL simulation trace of isqrt x11, x11 at PC 0x00000d20. Operand 20 produces 4; the control enables writeback to x11. The destination changes from 20 to 4 at the next rising edge (20565 to 20575 ps). The horizontal axis is normalized to the measured clock period; simulation timestamps are not FPGA path delays."
   },
   "figure_kinds": {
     "fig01_pipeline": "Reviewed structural schematic",
     "fig02_recurrence": "Reviewed recurrence; example computed from captured input",
-    "fig03_writeback": "Modular timing summary of measured VCD signals",
+    "fig03_writeback": "Measured RTL waveform with compact module-flow annotation",
     "fig04_benchmark": "Parsed simulator output"
   }
 }

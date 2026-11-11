@@ -19,7 +19,7 @@
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{output/pdf/fig03_writeback.pdf}
-  \caption{Modular summary of the measured RTL trace for isqrt x11, x11 at PC 0x00000d20. The execution, control, and register-file panels show input 20, result 4, and the measured destination update. ID/EX entry is at 20565 ps; writeback occurs at 20575 ps. The timeline is normalized to the observed clock period; simulation timestamps are not physical FPGA delays.}
+  \caption{RTL simulation trace of isqrt x11, x11 at PC 0x00000d20. Operand 20 produces 4; the control enables writeback to x11. The destination changes from 20 to 4 at the next rising edge (20565 to 20575 ps). The horizontal axis is normalized to the measured clock period; simulation timestamps are not FPGA path delays.}
   \label{fig:fig03_writeback}
 \end{figure}
 

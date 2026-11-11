@@ -216,88 +216,75 @@ def timing(data, measured):
     period = t1 - t0
     times = [(r["time_ps"] - t0) / period for r in rows]
     fig = plt.figure(figsize=(WIDTH, 4.4))
-    fig.text(0.5, 0.965, "One-cycle ISQRT execution and writeback",
-             ha="center", va="top", fontsize=11, fontweight="bold")
-    fig.text(0.5, 0.916,
-             f"Measured RTL trace  ·  PC 0x{measured['pc']:08x}  ·  "
+    fig.text(0.08, 0.955, "ISQRT instruction: execution and writeback",
+             ha="left", va="top", fontsize=11.5, fontweight="bold", color=INK)
+    fig.text(0.08, 0.905,
+             f"RTL simulation  |  PC 0x{measured['pc']:08x}  |  "
              f"isqrt x{measured['rd']}, x{measured['rs1']}",
-             ha="center", va="top", fontsize=8.5, color=MUTED)
+             ha="left", va="top", fontsize=8, color=MUTED)
 
-    modules = fig.add_axes([0.04, 0.65, 0.92, 0.22])
-    modules.set(xlim=(0, 10), ylim=(0, 3))
-    modules.axis("off")
-    cards = [
-        (0.15, DATA, DATA_LIGHT, "01  EXECUTE",
-         f"isqrt x{measured['rd']}, x{measured['rs1']}",
-         f"Input  {measured['input']}   →   Result  {measured['result']}"),
-        (3.58, CUSTOM, CUSTOM_LIGHT, "02  CONTROL",
-         f"Destination  x{measured['rd']}",
-         "Write 1  ·  Stall 0  ·  Illegal 0"),
-        (7.01, SUCCESS, SUCCESS_LIGHT, "03  REGISTER FILE",
-         f"Stored register  x{measured['rd']}",
-         f"{rows[start]['destination_value']}   →   {rows[end]['destination_value']}  at edge"),
-    ]
-    for x, accent, fill, heading, detail, value in cards:
-        modules.add_patch(FancyBboxPatch(
-            (x, 0.15), 2.84, 2.68,
-            boxstyle="round,pad=0.04,rounding_size=0.12",
-            facecolor=fill, edgecolor=GRID, linewidth=0.9))
-        modules.add_patch(Rectangle((x, 0.15), 0.075, 2.68,
-                                    facecolor=accent, edgecolor="none"))
-        modules.text(x + 0.24, 2.42, heading, color=accent, fontsize=8,
-                     fontweight="bold", va="center")
-        modules.text(x + 0.24, 1.65, detail, color=INK, fontsize=8.5,
-                     fontweight="bold", va="center")
-        modules.text(x + 0.24, 0.82, value, color=INK,
-                     fontsize=7.2 if heading == "02  CONTROL" else 8,
-                     va="center")
-    for x in [3.28, 6.71]:
-        modules.add_patch(FancyArrowPatch(
-            (x, 1.5), (x + 0.22, 1.5), arrowstyle="-|>",
-            mutation_scale=10, linewidth=1.1, color=MUTED))
+    # Compact, unboxed module flow keeps the measured waveform as the focus.
+    flow = fig.add_axes([0.08, 0.695, 0.84, 0.135])
+    flow.set(xlim=(0, 1), ylim=(0, 1))
+    flow.axis("off")
+    cols = [(0.02, "ALU / ISQRT", f"rs1 = {measured['input']}  →  {measured['result']}"),
+            (0.37, "CONTROL", f"rd = x{measured['rd']}  |  write = 1  |  stall = 0"),
+            (0.74, "REGISTER FILE", f"x{measured['rd']}: {rows[start]['destination_value']}  →  {rows[end]['destination_value']}")]
+    for x, head, detail in cols:
+        flow.text(x, 0.77, head, transform=flow.transAxes, ha="left", va="center",
+                  fontsize=7.2, color=MUTED, fontweight="bold")
+        flow.text(x, 0.30, detail, transform=flow.transAxes, ha="left", va="center",
+                  fontsize=7.0, color=INK)
+    for x in [0.33, 0.70]:
+        flow.annotate("", xy=(x + 0.02, 0.53), xytext=(x - 0.02, 0.53),
+                      xycoords="axes fraction", textcoords="axes fraction",
+                      arrowprops={"arrowstyle": "->", "color": MUTED, "lw": 0.75})
+    flow.plot([0, 1], [0.02, 0.02], transform=flow.transAxes, color=GRID, lw=0.7,
+              clip_on=False)
 
-    ax = fig.add_axes([0.22, 0.16, 0.74, 0.36])
+    ax = fig.add_axes([0.205, 0.205, 0.715, 0.405])
     ax.set(xlim=(-0.5, 1.5), ylim=(0.15, 5.55))
-    ax.axvspan(0, 1, color=CUSTOM_LIGHT, alpha=0.62, zorder=0)
+    ax.axvspan(0, 1, color=PANEL, alpha=0.75, zorder=0)
     for y in [3.9, 2.95, 2.0, 1.05]:
-        ax.axhline(y, color=GRID, lw=0.65, zorder=0)
+        ax.axhline(y, color=GRID, lw=0.6, zorder=0)
     for x in [0, 1]:
-        ax.axvline(x, color=CUSTOM, lw=1.0, ls=(0, (3, 2)), zorder=1)
-    for name, y, color in [("clk", 4.42, INK), ("write_enable", 1.57, SUCCESS)]:
+        ax.axvline(x, color=CUSTOM, lw=0.85, ls=(0, (3, 2)), zorder=1)
+    for name, y, color in [("clk", 4.42, INK), ("write_enable", 1.57, CUSTOM)]:
         signal = [y + (0.3 if r[name] else 0.05) for r in rows]
-        ax.step(times, signal, where="post", color=color, lw=1.35, zorder=3)
+        ax.step(times, signal, where="post", color=color, lw=1.2, zorder=3)
     for name, y, color, fill, value in [
         ("operand_a", 3.35, DATA, DATA_LIGHT, rows[start]["operand_a"]),
         ("result", 2.4, CUSTOM, CUSTOM_LIGHT, rows[start]["result"]),
     ]:
         ax.add_patch(Rectangle((0, y), 1, 0.55, facecolor=fill,
-                               edgecolor=color, lw=0.95, zorder=2))
+                               edgecolor=color, lw=0.85, zorder=2))
         ax.text(0.5, y + 0.275, str(value), ha="center", va="center",
-                color=INK, fontweight="bold", fontsize=8.5, zorder=3)
+                color=INK, fontweight="bold", fontsize=8, zorder=3)
     ax.add_patch(Rectangle((-0.5, 0.45), 1.5, 0.55, facecolor=DATA_LIGHT,
                            edgecolor=DATA, lw=0.95, zorder=2))
-    ax.add_patch(Rectangle((1, 0.45), 0.5, 0.55, facecolor=SUCCESS_LIGHT,
-                           edgecolor=SUCCESS, lw=0.95, zorder=2))
+    ax.add_patch(Rectangle((1, 0.45), 0.5, 0.55, facecolor="white",
+                           edgecolor=CUSTOM, lw=0.85, zorder=2))
     ax.text(0.25, 0.725, str(rows[start]["destination_value"]), ha="center",
-            va="center", color=INK, fontweight="bold", fontsize=8.5, zorder=3)
+            va="center", color=INK, fontsize=8, zorder=3)
     ax.text(1.25, 0.725, str(rows[end]["destination_value"]), ha="center",
-            va="center", color=INK, fontweight="bold", fontsize=8.5, zorder=3)
+            va="center", color=INK, fontweight="bold", fontsize=8, zorder=3)
     ax.set_yticks([4.47, 3.625, 2.675, 1.72, 0.725],
-                  ["Clock", "Operand A", "ALU result", "RegWrite", f"Stored x{measured['rd']}"])
+                  ["clk", "operand A", "ALU result", "RegWrite", f"x{measured['rd']} value"])
     ax.set_xticks([-0.5, 0, 0.5, 1, 1.5])
-    ax.set_xlabel("Clock cycles relative to ID/EX entry", labelpad=5)
-    ax.tick_params(axis="y", length=0, pad=8, colors=INK, labelsize=8)
-    ax.tick_params(axis="x", colors=MUTED, labelsize=8, pad=3)
+    ax.set_xlabel("Time from ID/EX entry (clock periods)", labelpad=4, fontsize=8)
+    ax.tick_params(axis="y", length=0, pad=7, colors=INK, labelsize=7.5)
+    ax.tick_params(axis="x", colors=MUTED, labelsize=7.5, pad=3)
     ax.spines["bottom"].set_color(GRID)
-    ax.spines["bottom"].set_linewidth(1.0)
+    ax.spines["bottom"].set_linewidth(0.8)
     for side in ["left", "top", "right"]:
         ax.spines[side].set_visible(False)
-    ax.text(-0.03, 5.18, f"ENTRY  ·  {t0} ps", ha="right", va="center", fontsize=7.5,
+    ax.text(-0.025, 5.18, f"ENTRY  {t0} ps", ha="right", va="center", fontsize=7,
+            color=CUSTOM)
+    ax.text(1.025, 5.18, f"WRITEBACK  {t1} ps", ha="left", va="center", fontsize=7,
             color=CUSTOM, fontweight="bold")
-    ax.text(1.03, 5.18, f"WRITEBACK  ·  {t1} ps", ha="left", va="center", fontsize=7.5,
-            color=SUCCESS, fontweight="bold")
-    fig.text(0.96, 0.035, "Simulation trace; not physical FPGA timing",
-             ha="right", va="center", color=MUTED, fontsize=7)
+    fig.text(0.205, 0.072,
+             "Observed at RTL; timestamps are simulation time, not FPGA path delay.",
+             ha="left", va="center", color=MUTED, fontsize=7)
     return fig
 
 
