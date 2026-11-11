@@ -52,6 +52,28 @@
   margin-bottom: 0.6rem;
 }
 
+.md-typeset h2.project-section {
+  display: flex;
+  align-items: baseline;
+  gap: 0.65rem;
+  padding-top: 0.55rem;
+  border-top: 1px solid var(--project-rule);
+}
+
+.md-typeset h2.project-section::before {
+  counter-increment: project-section;
+  content: counter(project-section, decimal-leading-zero);
+  color: var(--project-accent);
+  font-family: var(--md-code-font-family);
+  font-size: 0.72rem;
+  font-weight: 500;
+  flex: 0 0 auto;
+}
+
+.md-typeset article {
+  counter-reset: project-section;
+}
+
 .md-typeset p {
   max-width: 72ch;
 }
@@ -169,6 +191,14 @@
 .md-typeset a:has(> img[src*="assets/"]) {
   display: block;
   margin-block: 1rem;
+}
+
+.md-typeset a:has(> img[src*="assets/pipeline.svg"]) {
+  margin-block: 1.25rem 1.7rem;
+  padding: 0.55rem;
+  border: 1px solid var(--project-rule);
+  border-radius: 0.45rem;
+  background: #fff;
 }
 
 .md-typeset img[src*="assets/"] {
