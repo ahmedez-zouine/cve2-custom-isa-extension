@@ -14,7 +14,7 @@
 }
 
 .md-content__inner {
-  max-width: 48rem;
+  max-width: 58rem;
   margin-inline: auto;
   padding-inline: 1rem;
 }
@@ -30,6 +30,10 @@
   font-weight: 600;
   line-height: 1.15;
   text-wrap: balance;
+}
+
+.md-typeset article {
+  padding-bottom: 2rem;
 }
 
 .md-typeset :is(h2, h3)[id] {
@@ -54,8 +58,14 @@
 
 .md-typeset .project-lead {
   color: var(--project-muted);
-  font-size: 1.05rem;
-  max-width: 64ch;
+  font-size: 1.1rem;
+  max-width: 68ch;
+  line-height: 1.7;
+}
+
+.md-typeset .project-intro {
+  max-width: 48rem;
+  margin-bottom: 1.4rem;
 }
 
 .md-typeset .md-button {
@@ -85,24 +95,75 @@
 .md-typeset .project-metrics {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
+  gap: 0.7rem;
   margin: 1.4rem 0;
-  padding: 1rem;
-  background: var(--project-paper);
-  border-block: 1px solid var(--project-rule);
+  padding: 0;
+  background: transparent;
+  border: 0;
 }
 
 .md-typeset .project-metrics dt {
   color: var(--project-muted);
-  font-size: 0.78rem;
+  font-size: 0.76rem;
+}
+
+.md-typeset .project-metrics > div {
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--project-rule);
+  border-top: 3px solid var(--project-accent);
+  border-radius: 0.4rem;
+  background: #fff;
 }
 
 .md-typeset .project-metrics dd {
   color: var(--project-ink);
-  font-size: clamp(1.15rem, 2.8vw, 1.65rem);
+  font-size: clamp(1.05rem, 2.4vw, 1.45rem);
   font-variant-numeric: tabular-nums;
   font-weight: 600;
   margin: 0;
+}
+
+.md-typeset .project-card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.7rem;
+  margin-block: 1rem;
+}
+
+.md-typeset a.project-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.25rem 0.75rem;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid var(--project-rule);
+  border-radius: 0.4rem;
+  background: #fff;
+  color: var(--project-ink);
+  text-decoration: none;
+  transition: border-color 120ms ease, background-color 120ms ease;
+}
+
+.md-typeset a.project-card:hover {
+  border-color: var(--md-typeset-a-color);
+  background: var(--project-paper);
+}
+
+.project-card strong {
+  font-weight: 600;
+}
+
+.project-card span:last-child {
+  grid-column: 1 / -1;
+  color: var(--project-muted);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.project-card-number {
+  color: var(--project-accent);
+  font-family: var(--md-code-font-family);
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
 }
 
 .md-typeset a:has(> img[src*="assets/"]) {
@@ -154,6 +215,7 @@
   font-size: 0.82rem;
   font-variant-numeric: tabular-nums;
   line-height: 1.4;
+  margin-block: 1rem;
 }
 
 .md-typeset :is(table:not([class]), .project-data) thead th {
@@ -173,6 +235,14 @@
 
 .md-typeset :is(table:not([class]), .project-data) tbody tr:nth-child(even) {
   background: var(--project-paper);
+}
+
+.md-typeset table:not([class]) tbody tr > :first-child {
+  text-align: left;
+}
+
+.md-typeset table:not([class]) tbody :is(th, td):first-child {
+  font-weight: 500;
 }
 
 .md-typeset .project-table-scroll {
@@ -282,6 +352,10 @@
   .md-typeset .project-metrics {
     grid-template-columns: 1fr;
     gap: 0.6rem;
+  }
+
+  .md-typeset .project-card-grid {
+    grid-template-columns: 1fr;
   }
 
   .md-typeset .project-data.project-worked :is(th, td) {

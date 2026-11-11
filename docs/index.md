@@ -40,10 +40,25 @@ The FPGA measurements describe a physical implementation estimate. The cycle cou
 
 ## Follow the implementation
 
-| Topic | What you’ll find |
-| --- | --- |
-| [Instruction design](design.md) | Encoding, legality checks, ALU selection and writeback |
-| [Arithmetic](arithmetic.md) | The recurrence, a worked example and a 32-bit input explorer |
-| [Verification](verification.md) | Test coverage, dependency checks and a writeback waveform |
-| [FPGA results](results.md) | Routed resources, setup and hold timing, and power estimates |
-| [Installation](reproduce.md) | Tool setup, simulation commands and FPGA flow |
+<nav class="project-card-grid" aria-label="Project guides">
+  <a class="project-card" href="design/">
+    <strong>Instruction design</strong><span class="project-card-number">01</span>
+    <span>Encoding, decoding, ALU selection and writeback</span>
+  </a>
+  <a class="project-card" href="arithmetic/">
+    <strong>Arithmetic</strong><span class="project-card-number">02</span>
+    <span>The recurrence, worked example and input explorer</span>
+  </a>
+  <a class="project-card" href="verification/">
+    <strong>Verification</strong><span class="project-card-number">03</span>
+    <span>Test coverage, instruction dependencies and waveform</span>
+  </a>
+  <a class="project-card" href="results/">
+    <strong>FPGA results</strong><span class="project-card-number">04</span>
+    <span>Routed resources, timing and power estimates</span>
+  </a>
+  <a class="project-card" href="reproduce/">
+    <strong>Installation</strong><span class="project-card-number">05</span>
+    <span>Set up the tools and run the experiments</span>
+  </a>
+</nav>
