@@ -1,0 +1,20 @@
+{
+  "prepared_utc": "2026-11-11T16:54:23.444693+00:00",
+  "source_revision": "624e076f0f05d59a82d7c63a94376febdde397ec",
+  "checks": {
+    "tested_source_files_matched": 1287,
+    "routed_source_files_matched": 46,
+    "power_source_files_matched": 40,
+    "fresh_figure_generation": "passed"
+  },
+  "sha256": {
+    "output/pdf/fig01_pipeline.pdf": "10f41017d4702b0731f3c2399f952a5fbb0666fad615054b3ba08996628db806",
+    "output/pdf/fig02_recurrence.pdf": "6147663765998f2bcf58f1784490358c015f06ea672c861ef16a48b8e73b4c64",
+    "output/pdf/fig03_writeback.pdf": "f11e90f5ae99242e066fad17bd73e522675bf729d1cfce14fd80d25d9b14d03a",
+    "output/pdf/figure_manifest.json": "8fa2d92c01e94120d2f927ab4ffc2e2907bef1dd038153d6559e926a8f1e5d70",
+    "output/verification/submission_review/manifest.json": "8205af7a6696c3d6a05fc669f23a19ceb3bb2dfa54e1b1b1f881190952f21515",
+    "output/fpga/implementation/review_manifest.json": "d5276e89eaa5f981542941d24e5d129d6e447d6e74e3fa5552e965879b5d8a84",
+    "output/fpga/power_attempt4/archive_review_manifest.json": "1ec07395585d8d83cbc9b6ffbab61dd592c45a77e9f0de3905102bcab7e8ce8f",
+    "output/fpga/power_attempt4/archive_review.json": "306c5b478687fbbaf24d81f28ccad0db21ac6ae0f569fb30f964b1717a8543aa"
+  }
+}

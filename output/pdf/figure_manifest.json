@@ -1,15 +1,15 @@
 {
   "matplotlib": "3.11.2",
   "width_inches": 7.16,
-  "results_file": "/Users/mac/Documents/euro/cve2-main/build/figure_data/results.json",
-  "results_sha256": "02d75952286cf203329a729ba5d4f2c7634ae7ca324c3ed54619c08be2248612",
-  "generator_sha256": "47402690abba001872072cce1ea5d23c577227c07e30a289f01209530d22e134",
+  "results_file": "build/figure_data_submission/results.json",
+  "results_sha256": "e762ff36700edd5acd09b7fab5c2d7d90d381ba0a78263d4ca55d5f6669039b8",
+  "generator_sha256": "174600336360692ab05cf80410b97e3ef7929ba3f6fa5525fe3c5a6d0b41589d",
   "style_sha256": "909b42374e77af72a0be8f263a88ef69f381c374679742c4dd9510190a92babe",
   "simulation_evidence": {
     "schema": 1,
     "status": "passed",
-    "started_utc": "2026-11-10T12:35:44.496863+00:00",
-    "run_directory": "run_ww3c3z_s",
+    "started_utc": "2026-11-11T16:52:34.860998+00:00",
+    "run_directory": "run_07re54g9",
     "commands": [
       [
         "make",
@@ -24,18 +24,18 @@
       [
         "/Users/mac/Documents/euro/cve2-main/build/sim/Vtb_top",
         "+hex=build/sw_isqrt.hex",
-        "+cve2_tracer_file_base=/Users/mac/Documents/euro/cve2-main/build/figure_data/run_ww3c3z_s/sw_isqrt"
+        "+cve2_tracer_file_base=/Users/mac/Documents/euro/cve2-main/build/figure_data_submission/run_07re54g9/sw_isqrt"
       ],
       [
         "/Users/mac/Documents/euro/cve2-main/build/sim/Vtb_top",
         "+hex=build/hw_isqrt.hex",
-        "+cve2_tracer_file_base=/Users/mac/Documents/euro/cve2-main/build/figure_data/run_ww3c3z_s/hw_isqrt"
+        "+cve2_tracer_file_base=/Users/mac/Documents/euro/cve2-main/build/figure_data_submission/run_07re54g9/hw_isqrt"
       ],
       [
         "/Users/mac/Documents/euro/cve2-main/build/sim/Vtb_top",
         "+hex=build/isqrt_corners.hex",
-        "+cve2_tracer_file_base=/Users/mac/Documents/euro/cve2-main/build/figure_data/run_ww3c3z_s/isqrt_corners",
-        "+waves=/Users/mac/Documents/euro/cve2-main/build/figure_data/run_ww3c3z_s/isqrt_corners.vcd"
+        "+cve2_tracer_file_base=/Users/mac/Documents/euro/cve2-main/build/figure_data_submission/run_07re54g9/isqrt_corners",
+        "+waves=/Users/mac/Documents/euro/cve2-main/build/figure_data_submission/run_07re54g9/isqrt_corners.vcd"
       ]
     ],
     "tests": {
@@ -60,31 +60,31 @@
     },
     "artifacts": {
       "build_log": {
-        "path": "run_ww3c3z_s/build.log",
+        "path": "run_07re54g9/build.log",
         "sha256": "e4d337e6b00a003a3f259f590a2a2b7e1f8b100a3bd05661490a2c42b22a82fe"
       },
       "sw_isqrt_log": {
-        "path": "run_ww3c3z_s/sw_isqrt.log",
-        "sha256": "41040c07011683b1494c80f4a077c5b977a9f7d2bd809a99549ba472fdc0e285"
+        "path": "run_07re54g9/sw_isqrt.log",
+        "sha256": "f303460a0c799e50b009bd532ae186936ceb165425da50b7940b98e8f34c4ccb"
       },
       "hw_isqrt_log": {
-        "path": "run_ww3c3z_s/hw_isqrt.log",
-        "sha256": "0dfa7c980bce3fb949ae2dd297c38377cd26c9ab8a9fd3af434dca9764a89356"
+        "path": "run_07re54g9/hw_isqrt.log",
+        "sha256": "3356597e082c9bcc820f8b18ac94d15ad6319ae940b8b36ed76a05ebabdbe401"
       },
       "isqrt_corners_log": {
-        "path": "run_ww3c3z_s/isqrt_corners.log",
-        "sha256": "8fee360532a74ef5996b8ab479b800a2e1bc59a8d62848fec609f6be628f30b1"
+        "path": "run_07re54g9/isqrt_corners.log",
+        "sha256": "77c15cb204430097b0069f3c38ac651ea518305549cdf894e56e5306f5ea25a2"
       },
       "vcd": {
-        "path": "run_ww3c3z_s/isqrt_corners.vcd",
+        "path": "run_07re54g9/isqrt_corners.vcd",
         "sha256": "574663fc92e58d48f76d9ce209b289c00fc23aaff3d07a978c03f9ad4e3d7855"
       },
       "timing_csv": {
-        "path": "run_ww3c3z_s/writeback.csv",
+        "path": "run_07re54g9/writeback.csv",
         "sha256": "d0d449927af4c8cbafe1f7c0686bc455de3f4411eb3d9f39191192f200af9ae5"
       },
       "benchmark_csv": {
-        "path": "run_ww3c3z_s/benchmarks.csv",
+        "path": "run_07re54g9/benchmarks.csv",
         "sha256": "e7ec7a35ff025605e9ad9ffa48bcb83120fed1235eb83736c326f883a6185907"
       }
     },
@@ -268,6 +268,7 @@
       "files.f": "d1ec1348cd37d7bc3a8c9b0ddf2004c79929476140075f222594d40d5a9858c9",
       "sw/hw_isqrt.c": "8f1ba8ef29104e499627a38a1a2e8c5f139bb5c69acaa06a77202d3513551f0e",
       "sw/isqrt_corners.c": "bf9503ddf8c833ff8f3cb90736e4c489609007abf02ba2c1aa6dea750f482dc5",
+      "sw/isqrt_integration.c": "6387a80185821c3ae9f95c89f49100ba136f92a01993a829a050ce4fe7eb0b1e",
       "sw/lib/crt0.S": "d8f16387039203c1c2b77cbeaa25a6f9ba3ab267512f9494a11dbcd8c274cf46",
       "sw/lib/isqrt.h": "28a21fd635626e185ae402102ba3e650273fd9147c679582ad22ad3e43123930",
       "sw/lib/lib.c": "68ee12a7eecbd16059df28bb33084b5f8b642b28a8508b87ff07f5f1fd6086b6",
@@ -279,7 +280,7 @@
       "tb/tb_mem.sv": "0552bb826e6e18c8dc74826a29cfe4eb24b513eec73f3080fdc1a665d617f398",
       "tb/tb_top.sv": "7846a29c09d7a7de802e60dd4d122c6328b26c50b1cf408799bb20da151372c8"
     },
-    "git_revision": "3e75400719e59c0c6ccec22693a4e792de82f4e2",
+    "git_revision": "624e076f0f05d59a82d7c63a94376febdde397ec",
     "versions": {
       "verilator": "Verilator 5.054 2026-11-01 rev vUNKNOWN-built20261101",
       "gcc": "riscv64-elf-gcc (GCC) 16.2.0"
@@ -299,7 +300,7 @@
       "timescale": "ps",
       "scope": "One selected instruction in zero-delay RTL simulation, not FPGA timing"
     },
-    "finished_utc": "2026-11-10T12:35:58.854519+00:00"
+    "finished_utc": "2026-11-11T16:52:50.373956+00:00"
   },
   "captions": {
     "fig01_pipeline": "Integration of the unsigned integer square-root instruction in the two-stage CVE2 pipeline. The burgundy ISQRT block denotes the added datapath within the existing ALU. The existing register-file write port captures the selected result at the closing clock edge. Dashed arrows denote control; solid arrows denote data. Only the relevant instruction and data paths are shown.",

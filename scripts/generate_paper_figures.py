@@ -343,12 +343,14 @@ def main():
         "The table shows the last three recurrence rounds, not measured internal stage delays. "
         "The 16-bit root is zero-extended onto the 32-bit result bus.")
     CAPTIONS["fig03_writeback"] = (
-        f"Modular summary of the measured RTL trace for isqrt x{measured['rd']}, "
-        f"x{measured['rs1']} at PC 0x{measured['pc']:08x}. The execution, control, and "
-        f"register-file panels show input {measured['input']}, result {measured['result']}, "
-        f"and the measured destination update. ID/EX entry is at {measured['entry_ps']} ps; "
-        f"writeback occurs at {measured['writeback_ps']} ps. The timeline is normalized "
-        "to the observed clock period; simulation timestamps are not physical FPGA delays.")
+        f"RTL simulation trace of isqrt x{measured['rd']}, x{measured['rs1']} "
+        f"at PC 0x{measured['pc']:08x}. Operand {measured['input']} produces "
+        f"{measured['result']}; the control enables writeback to x{measured['rd']}. "
+        f"The destination changes from {data[0][data[1]]['destination_value']} to "
+        f"{data[0][data[2]]['destination_value']} at the next rising edge "
+        f"({measured['entry_ps']} to {measured['writeback_ps']} ps). The horizontal "
+        "axis is normalized to the measured clock period; simulation timestamps "
+        "are not FPGA path delays.")
     figures = {"fig01_pipeline": pipeline(), "fig02_recurrence": recurrence(measured),
                "fig03_writeback": timing(data, measured), "fig04_benchmark": benchmark(evidence)}
     for name, fig in figures.items():
@@ -382,7 +384,7 @@ def main():
                 "simulation_evidence": evidence, "captions": CAPTIONS,
                 "figure_kinds": {"fig01_pipeline": "Reviewed structural schematic",
                                  "fig02_recurrence": "Reviewed recurrence; example computed from captured input",
-                                 "fig03_writeback": "Modular timing summary of measured VCD signals",
+                                 "fig03_writeback": "Measured RTL waveform with compact module-flow annotation",
                                  "fig04_benchmark": "Parsed simulator output"}}
     (args.out_dir / "figure_manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
 

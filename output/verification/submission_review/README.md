@@ -79,9 +79,9 @@ successful extended implementation launch log are recorded in the
 [routed review](../../fpga/implementation/comparison.md). This review does not
 resolve them or establish an implemented maximum clock frequency.
 
-Before submission, select the final report figures and confirm their source
-identities and captions. The existing figure collector dataset predates a
-change to the integration test; its freshness guard must remain enabled.
-This fresh run reproduces the displayed waveform and benchmark values, but
-does not relabel the older figure collection as a new run. Finish the report,
-review its rendered pages, and audit the final deliverable file list.
+At the time of this review, the figure collector dataset predated a change
+to the integration test. A subsequent collection refreshed those figures
+through the normal freshness checks, reproducing the same values. The
+[report evidence packet](../report_evidence.md) records that follow-up and
+the selected figures. Finish the report, review its rendered pages, and
+audit the final deliverable file list.
