@@ -38,25 +38,10 @@ Cycle measurements come from simulation. FPGA measurements come from synthesis a
 
 ## Browse the project { .project-section }
 
-<nav class="project-card-grid" aria-label="Project guides">
-  <a class="project-card" href="design/">
-    <strong>Instruction design</strong><span class="project-card-number">01</span>
-    <span>Encoding, decoding, ALU selection and writeback</span>
-  </a>
-  <a class="project-card" href="arithmetic/">
-    <strong>Arithmetic</strong><span class="project-card-number">02</span>
-    <span>The recurrence, worked example and input explorer</span>
-  </a>
-  <a class="project-card" href="verification/">
-    <strong>Verification</strong><span class="project-card-number">03</span>
-    <span>Test coverage, instruction dependencies and waveform</span>
-  </a>
-  <a class="project-card" href="results/">
-    <strong>FPGA results</strong><span class="project-card-number">04</span>
-    <span>Routed resources, timing and power estimates</span>
-  </a>
-  <a class="project-card" href="reproduce/">
-    <strong>Installation</strong><span class="project-card-number">05</span>
-    <span>Set up the tools and run the experiments</span>
-  </a>
+<nav class="project-link-list" aria-label="Project guides">
+  <a href="design/"><strong>Instruction design</strong><span>Encoding, decode, execution and writeback</span></a>
+  <a href="arithmetic/"><strong>Arithmetic</strong><span>Recurrence, worked example and input explorer</span></a>
+  <a href="verification/"><strong>Verification</strong><span>Test coverage, dependencies and waveform</span></a>
+  <a href="results/"><strong>FPGA results</strong><span>Area, routed timing and power estimates</span></a>
+  <a href="reproduce/"><strong>Installation</strong><span>Tool setup and experiment commands</span></a>
 </nav>

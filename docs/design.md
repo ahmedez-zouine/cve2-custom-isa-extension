@@ -47,3 +47,22 @@ Each step consumes the next two input bits and adds one bit to the root. The [ar
 The RTL unrolls all 16 steps into one combinational path. Every step depends on the preceding root and remainder. This avoids an iterative controller but contributes a long path from the operand to the destination register. A multicycle implementation could reuse a single step, with additional cycles and control logic.
 
 [Inspect the routed timing and area](results.md) to see the cost of the unrolled implementation.
+
+### The core RTL loop
+
+The ALU initializes `sq_x` to the operand and initializes the root and remainder to zero before this loop. On each pass, the loop brings in the next two operand bits, forms the threshold, then decides whether to subtract it and append a one to the root. Since the loop is combinational, synthesis builds all 16 dependent passes into the same instruction path.
+
+```systemverilog
+for (int i = 0; i < 16; i++) begin
+  sq_rem   = (sq_rem << 2) | (sq_x >> 30);
+  sq_x     = sq_x << 2;
+  sq_trial = (sq_root << 2) | 32'h1;
+  sq_root  = sq_root << 1;
+  if (sq_rem >= sq_trial) begin
+    sq_rem  = sq_rem - sq_trial;
+    sq_root = sq_root | 32'h1;
+  end
+end
+```
+
+For the current root `q`, the two possible next roots are `2q` and `2q + 1`. Their squares differ by `4q + 1`, which is the trial threshold in the code. The comparison selects the next root bit and the optional subtraction maintains the remainder. [Read the full ALU implementation](https://github.com/ahmedez-zouine/cve2-custom-isa-extension/blob/10f4bd0/cve2/rtl/cve2_alu.sv#L1321).
