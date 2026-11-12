@@ -293,7 +293,8 @@
 }
 
 .md-typeset figure.project-core-figure {
-  max-width: 54rem;
+  width: 100%;
+  max-width: none;
   margin: 1.25rem 0 1.75rem;
 }
 
