@@ -135,7 +135,7 @@
 
 .md-typeset .paper-viewer {
   width: 100%;
-  max-width: 56rem;
+  max-width: 48rem;
   margin: 0.75rem 0 0;
   overflow: hidden;
   border: 1px solid var(--project-rule);
@@ -147,7 +147,7 @@
 .md-typeset .paper-viewer iframe {
   display: block;
   width: 100%;
-  height: clamp(32rem, 84svh, 68rem);
+  height: clamp(36rem, 90svh, 72rem);
   border: 0;
   background: #fff;
 }
@@ -166,7 +166,7 @@
   }
 
   .md-typeset .paper-viewer iframe {
-    height: clamp(24rem, 76svh, 44rem);
+    height: clamp(28rem, 84svh, 48rem);
   }
 }
 
