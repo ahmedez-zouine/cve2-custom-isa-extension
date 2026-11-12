@@ -11,9 +11,9 @@ The custom `isqrt rd, rs1` instruction computes the floor of the square root of 
 
 [Explore the instruction design](design.md){ .md-button .md-button--primary }
 [See the experimental results](results.md){ .md-button }
-[Read the technical report](paper.md){ .md-button }
+[Read the technical report](#technical-report){ .md-button }
 
-![Instruction flow from fetch and decode through the existing ALU and register writeback](assets/pipeline.svg)
+![CVE2 datapath showing ISQRT integrated into the existing decoder, ALU and register writeback path](assets/pipeline.png)
 
 ## Measured comparison { .project-section }
 
@@ -51,3 +51,18 @@ Cycle measurements come from simulation. FPGA measurements come from synthesis a
   <a href="results/"><strong>FPGA results</strong><span>Area, routed timing and power estimates</span></a>
   <a href="reproduce/"><strong>Installation</strong><span>Tool setup and experiment commands</span></a>
 </nav>
+
+## Technical report { .project-section }
+
+Read the complete two-column report here, or download it for offline reading.
+
+<p class="paper-actions">
+  <a class="md-button md-button--primary" href="assets/cve2-isqrt-technical-report.pdf" download>Download PDF</a>
+  <a class="md-button" href="assets/cve2-isqrt-technical-report.pdf" target="_blank" rel="noopener">Open PDF in a new tab</a>
+</p>
+
+<div class="paper-viewer">
+  <iframe src="assets/cve2-isqrt-technical-report.pdf#view=FitH" title="CVE2 integer square-root technical report" loading="lazy" style="display:block;width:100%;height:82vh;min-height:44rem;border:0;background:#fff"></iframe>
+</div>
+
+<p class="paper-fallback">If the embedded paper does not appear in your browser, open the <a href="assets/cve2-isqrt-technical-report.pdf">PDF directly</a>.</p>

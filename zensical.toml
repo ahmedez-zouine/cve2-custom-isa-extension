@@ -14,7 +14,6 @@ nav = [
   { "Trade-offs" = "alternatives.md" },
   { "Verification" = "verification.md" },
   { "FPGA results" = "results.md" },
-  { "Technical report" = "paper.md" },
   { "Installation" = "reproduce.md" },
 ]
 
