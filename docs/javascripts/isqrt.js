@@ -1,27 +1,30 @@
 function squareRootSteps(input) {
   const steps = [];
-  let prefix = 0;
-  let root = 0;
-  let remainder = 0;
+  let prefix = 0n;
+  let root = 0n;
+  let remainder = 0n;
+  const bigInput = BigInt(input);
 
   for (let pairIndex = 15; pairIndex >= 0; pairIndex--) {
-    const pair = Math.floor(input / 4 ** pairIndex) % 4;
-    const shiftedRemainder = 4 * remainder + pair;
-    const trial = 4 * root + 1;
-    const bit = shiftedRemainder >= trial ? 1 : 0;
+    const shift = BigInt(2 * pairIndex);
+    const pair = Number((bigInput >> shift) & 3n);
+    const bigPair = BigInt(pair);
+    const shiftedRemainder = (remainder << 2n) | bigPair;
+    const trial = (root << 2n) | 1n;
+    const bit = shiftedRemainder >= trial ? 1n : 0n;
 
-    prefix = 4 * prefix + pair;
-    root = 2 * root + bit;
+    prefix = (prefix << 2n) | bigPair;
+    root = (root << 1n) | bit;
     remainder = shiftedRemainder - bit * trial;
     steps.push({
       step: 16 - pairIndex,
       pair,
-      prefix,
-      shiftedRemainder,
-      trial,
-      bit,
-      root,
-      remainder,
+      prefix: Number(prefix),
+      shiftedRemainder: Number(shiftedRemainder),
+      trial: Number(trial),
+      bit: Number(bit),
+      root: Number(root),
+      remainder: Number(remainder),
     });
   }
 
@@ -36,16 +39,21 @@ if (form) {
   const format = new Intl.NumberFormat("en-US");
 
   function calculate() {
-    const number = Number(input.value);
-    if (number > 0xffffffff) {
-      input.setCustomValidity("Enter a whole number from 0 to 4,294,967,295.");
+    const rawVal = input.value.replace(/,/g, "").trim();
+    const number = Number(rawVal);
+    if (isNaN(number) || number < 0 || number > 0xffffffff || !Number.isInteger(number)) {
+      input.setCustomValidity("Enter an integer from 0 to 4,294,967,295.");
       input.reportValidity();
       return;
     }
+    input.setCustomValidity("");
 
     const steps = squareRootSteps(number);
     const rows = steps.map(({ step, pair, prefix, shiftedRemainder, trial, bit, root, remainder }) => {
       const row = document.createElement("tr");
+      if (bit === 1) {
+        row.classList.add("step-active");
+      }
       const rowHeading = document.createElement("th");
       rowHeading.scope = "row";
       rowHeading.textContent = step;
@@ -68,8 +76,15 @@ if (form) {
     });
 
     table.replaceChildren(...rows);
-    const { root, remainder } = steps.at(-1);
-    result.value = `Root ${format.format(root)} · Remainder ${format.format(remainder)} · ${format.format(root ** 2)} ≤ ${format.format(number)} < ${format.format((root + 1) ** 2)}`;
+    const lastStep = steps[steps.length - 1];
+    const rootVal = lastStep.root;
+    const remVal = lastStep.remainder;
+    const rootSq = BigInt(rootVal) * BigInt(rootVal);
+    const nextRootSq = BigInt(rootVal + 1) * BigInt(rootVal + 1);
+
+    result.innerHTML = `<span class="res-pill"><strong>Root (rd):</strong> ${format.format(rootVal)}</span> ` +
+                       `<span class="res-pill"><strong>Remainder:</strong> ${format.format(remVal)}</span> ` +
+                       `<span class="res-formula">${format.format(rootSq)} ≤ ${format.format(number)} &lt; ${format.format(nextRootSq)}</span>`;
   }
 
   input.addEventListener("input", () => input.setCustomValidity(""));
@@ -77,6 +92,18 @@ if (form) {
     event.preventDefault();
     calculate();
   });
+
+  // Preset chips handler
+  document.querySelectorAll(".preset-chip").forEach((chip) => {
+    chip.addEventListener("click", () => {
+      input.value = chip.getAttribute("data-value");
+      calculate();
+    });
+  });
+
   calculate();
-  form.closest(".isqrt-explorer").hidden = false;
+  const explorer = form.closest(".isqrt-explorer");
+  if (explorer) {
+    explorer.hidden = false;
+  }
 }

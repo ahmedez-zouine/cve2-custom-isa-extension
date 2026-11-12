@@ -1,6 +1,6 @@
-# Architecture trade-offs
+# Architectural Trade-offs: Single-Cycle vs Iterative Multicycle
 
-The implemented ISQRT unit unrolls sixteen restoring steps inside the ALU. An alternative would reuse one step over sixteen clock cycles. Only the unrolled unit has been implemented and measured; the iterative design below is a proposal based on the same recurrence.
+An in-depth trade-off analysis comparing the implemented unrolled combinational ALU with a proposed 16-cycle iterative multicycle unit, examining area, critical path timing, pipeline stall control, and energy implications.
 { .project-lead }
 
 ## What the implemented design costs

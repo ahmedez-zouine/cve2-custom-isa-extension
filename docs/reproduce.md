@@ -1,6 +1,6 @@
-# Installation and reproduction
+# Toolchain Setup & Reproduction Guide
 
-Start with the simulator to run the instruction tests. The FPGA flow also requires Vivado 2024.2 and Artix-7 device support.
+Complete instructions for configuring the RISC-V GNU toolchain, Verilator simulator, running the automated test suite, and reproducing Artix-7 FPGA synthesis and routing in Vivado 2024.2.
 { .project-lead }
 
 ## Install the simulation tools

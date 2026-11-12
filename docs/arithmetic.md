@@ -62,33 +62,42 @@ Start with q = 0 and r = 0. The 32-bit representation of 20 ends in the pairs `0
 
 At step 14, the shifted remainder equals the trial, so the algorithm accepts the subtraction and writes a one. The next two subtractions would go below zero, so each adds a zero bit. The resulting bits `100` give **4**, with a remainder of **4**.
 
-## Try a 32-bit input
+## Interactive input explorer { .project-section }
 
-Enter a whole number from 0 to 4,294,967,295. The table shows the pairs in the order the ALU processes them.
+Enter an unsigned 32-bit integer (0 to 4,294,967,295) or click one of the presets. The trace dynamically breaks down the sixteen 2-bit stages evaluated in the combinational ALU.
 
 <section class="isqrt-explorer" hidden>
+  <div class="isqrt-presets" aria-label="Example numbers">
+    <span class="preset-label">Presets:</span>
+    <button type="button" class="preset-chip" data-value="20">20 (Report Example)</button>
+    <button type="button" class="preset-chip" data-value="144">144 (Exact Square)</button>
+    <button type="button" class="preset-chip" data-value="1024">1,024</button>
+    <button type="button" class="preset-chip" data-value="65535">65,535 (16-bit max)</button>
+    <button type="button" class="preset-chip" data-value="1000000">1,000,000</button>
+    <button type="button" class="preset-chip" data-value="4294967295">4,294,967,295 (Max UINT32)</button>
+  </div>
   <form id="isqrt-form">
-    <label for="isqrt-input">Unsigned input</label>
+    <label for="isqrt-input"><strong>Unsigned 32-bit input operand (rs1):</strong></label>
     <div class="isqrt-controls">
-      <input id="isqrt-input" type="text" inputmode="numeric" pattern="[0-9]+" value="20" required>
-      <button class="md-button md-button--primary" type="submit">Calculate</button>
+      <input id="isqrt-input" type="text" inputmode="numeric" pattern="[0-9, ]+" value="20" required aria-label="Unsigned 32-bit integer">
+      <button class="md-button md-button--primary" type="submit">Compute Root</button>
     </div>
     <output for="isqrt-input" id="isqrt-result" aria-live="polite"></output>
   </form>
-  <details>
-    <summary>Show all 16 steps</summary>
+  <details open>
+    <summary>Show all 16 restoring stages</summary>
     <div class="project-table-scroll" tabindex="0" role="region" aria-label="Square-root calculation steps">
       <table class="project-data project-trace">
         <thead>
           <tr>
             <th scope="col">Step</th>
-            <th scope="col">Pair</th>
-            <th scope="col">Prefix</th>
-            <th scope="col">Shifted remainder</th>
-            <th scope="col">Trial</th>
-            <th scope="col">Root bit</th>
-            <th scope="col">Root</th>
-            <th scope="col">Remainder</th>
+            <th scope="col">Pair (b)</th>
+            <th scope="col">Prefix (P)</th>
+            <th scope="col">Shifted Remainder (T)</th>
+            <th scope="col">Trial Value (D)</th>
+            <th scope="col">Root Bit</th>
+            <th scope="col">Partial Root (q)</th>
+            <th scope="col">Remainder (r)</th>
           </tr>
         </thead>
         <tbody id="isqrt-steps"></tbody>

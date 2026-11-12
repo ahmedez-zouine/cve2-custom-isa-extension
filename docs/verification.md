@@ -1,6 +1,6 @@
-# Verification
+# Verification & Simulation Analysis
 
-The tests run C programs on the Verilated CVE2 core using the supplied testbench. The hardware helper emits the instruction with the assembler’s `.insn` directive. [Install the tools and run the checks](reproduce.md#run-the-simulation-checks).
+Comprehensive functional verification of the CVE2 `isqrt` instruction using Verilator simulation, RVFI instruction tracing, 200,705 automated boundary checks, and exception recovery validation.
 { .project-lead }
 
 ## Test sequence

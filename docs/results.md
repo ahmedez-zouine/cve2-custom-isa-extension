@@ -1,6 +1,7 @@
-# FPGA results
+# FPGA Implementation & Physical Results
 
-The two cores were synthesized and routed out of context with Vivado 2024.2 for `xc7a35tcsg324-1`. Both runs used the same wrapper and 20 ns clock target. The resource counts include the wrapper.
+Comparative post-synthesis and post-routing implementation results for the baseline and `isqrt`-extended CVE2 cores on AMD Xilinx Artix-7 (`xc7a35tcsg324-1`) with Vivado 2024.2 under a 20 ns (50 MHz) target constraint.
+{ .project-lead }
 
 ## Area and cycle counts
 

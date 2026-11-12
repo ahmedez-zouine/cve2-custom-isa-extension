@@ -1,30 +1,51 @@
 [project]
 site_name = "CVE2 isqrt"
-site_description = "An integer square-root instruction for CVE2, from RTL to routed FPGA results."
+site_description = "Hardware integer square-root extension for the CVE2 RISC-V core: RTL design, verification, and Artix-7 FPGA results."
+site_author = "Ahmed Ez-Zouine"
 site_url = "https://ahmedez-zouine.github.io/cve2-custom-isa-extension/"
 repo_url = "https://github.com/ahmedez-zouine/cve2-custom-isa-extension"
 repo_name = "cve2-custom-isa-extension"
 strict = true
 extra_css = ["stylesheets/project.css"]
 extra_javascript = ["javascripts/isqrt.js"]
+
 nav = [
   { "Overview" = "index.md" },
-  { "Design" = "design.md" },
-  { "Arithmetic" = "arithmetic.md" },
-  { "Trade-offs" = "alternatives.md" },
+  { "Core Architecture" = "design.md" },
+  { "Arithmetic Algorithm" = "arithmetic.md" },
   { "Verification" = "verification.md" },
-  { "FPGA results" = "results.md" },
-  { "Installation" = "reproduce.md" },
+  { "FPGA Results" = "results.md" },
+  { "Trade-offs" = "alternatives.md" },
+  { "Reproduction" = "reproduce.md" },
 ]
 
 [project.theme]
-features = ["navigation.tabs", "navigation.top", "navigation.footer", "content.code.copy"]
+features = [
+  "navigation.tabs",
+  "navigation.tabs.sticky",
+  "navigation.top",
+  "navigation.footer",
+  "content.code.copy",
+  "search.highlight",
+]
 
 [project.theme.font]
-text = "Source Sans 3"
-code = "IBM Plex Mono"
+text = "Inter"
+code = "JetBrains Mono"
 
 [[project.theme.palette]]
+media = "(prefers-color-scheme)"
+toggle.icon = "lucide/sun-moon"
+toggle.name = "Switch to light mode"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: light)"
 scheme = "default"
-primary = "custom"
-accent = "custom"
+toggle.icon = "lucide/sun"
+toggle.name = "Switch to dark mode"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: dark)"
+scheme = "slate"
+toggle.icon = "lucide/moon"
+toggle.name = "Switch to system preference"
