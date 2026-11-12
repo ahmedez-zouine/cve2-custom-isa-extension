@@ -109,6 +109,43 @@
   color: #fff;
 }
 
+.md-typeset .paper-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 1rem 0 1.25rem;
+}
+
+.md-typeset .paper-viewer {
+  overflow: hidden;
+  border: 1px solid var(--project-rule);
+  border-radius: 0.45rem;
+  background: #eef1f2;
+  box-shadow: 0 0.35rem 1.2rem rgb(24 49 63 / 8%);
+}
+
+.md-typeset .paper-viewer iframe {
+  display: block;
+  width: 100%;
+  height: min(78vh, 68rem);
+  min-height: 44rem;
+  border: 0;
+  background: #fff;
+}
+
+.md-typeset .paper-fallback {
+  margin-top: 0.7rem;
+  color: var(--project-muted);
+  font-size: 0.82rem;
+}
+
+@media (max-width: 44rem) {
+  .md-typeset .paper-viewer iframe {
+    height: 68vh;
+    min-height: 32rem;
+  }
+}
+
 .md-typeset :focus-visible {
   outline: 2px solid var(--md-typeset-a-color);
   outline-offset: 3px;

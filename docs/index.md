@@ -11,6 +11,7 @@ The custom `isqrt rd, rs1` instruction computes the floor of the square root of 
 
 [Explore the instruction design](design.md){ .md-button .md-button--primary }
 [See the experimental results](results.md){ .md-button }
+[Read the technical report](paper.md){ .md-button }
 
 ![Instruction flow from fetch and decode through the existing ALU and register writeback](assets/pipeline.svg)
 
