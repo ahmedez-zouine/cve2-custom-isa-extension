@@ -52,9 +52,9 @@ Cycle measurements come from simulation. FPGA measurements come from synthesis a
   <a href="reproduce/"><strong>Installation</strong><span>Tool setup and experiment commands</span></a>
 </nav>
 
-## Technical report { .project-section }
+## Technical report { .project-section .paper-section }
 
-Read the complete two-column report here, or download it for offline reading.
+<p class="paper-intro">Read the complete two-column report here, or download it for offline reading.</p>
 
 <p class="paper-actions">
   <a class="md-button md-button--primary" href="assets/cve2-isqrt-technical-report.pdf" download>Download PDF</a>
@@ -62,7 +62,7 @@ Read the complete two-column report here, or download it for offline reading.
 </p>
 
 <div class="paper-viewer">
-  <iframe src="assets/cve2-isqrt-technical-report.pdf#view=FitH" title="CVE2 integer square-root technical report" loading="lazy" style="display:block;width:100%;height:82vh;min-height:44rem;border:0;background:#fff"></iframe>
+  <iframe class="paper-frame" src="assets/cve2-isqrt-technical-report.pdf#view=FitH" title="CVE2 integer square-root technical report" loading="lazy"></iframe>
 </div>
 
 <p class="paper-fallback">If the embedded paper does not appear in your browser, open the <a href="assets/cve2-isqrt-technical-report.pdf">PDF directly</a>.</p>

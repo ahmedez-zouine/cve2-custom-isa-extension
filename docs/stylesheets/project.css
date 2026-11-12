@@ -112,11 +112,31 @@
 .md-typeset .paper-actions {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 0.45rem;
+  width: min(88vw, 82rem);
   margin: 1rem 0 1.25rem;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.md-typeset h2.paper-section {
+  justify-content: center;
+}
+
+.md-typeset .paper-intro {
+  max-width: none;
+  margin: 0 auto 0.8rem;
+  text-align: center;
 }
 
 .md-typeset .paper-viewer {
+  position: relative;
+  left: 50%;
+  width: min(88vw, 82rem);
+  margin: 0.75rem 0 0;
+  transform: translateX(-50%);
   overflow: hidden;
   border: 1px solid var(--project-rule);
   border-radius: 0.45rem;
@@ -127,23 +147,34 @@
 .md-typeset .paper-viewer iframe {
   display: block;
   width: 100%;
-  height: min(82vh, 72rem);
-  min-height: 44rem;
+  height: min(86vh, 72rem);
+  min-height: 50rem;
   max-height: 72rem;
   border: 0;
   background: #fff;
 }
 
 .md-typeset .paper-fallback {
-  margin-top: 0.7rem;
+  width: min(88vw, 82rem);
+  margin: 0.7rem 0 0;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
   color: var(--project-muted);
   font-size: 0.82rem;
 }
 
 @media (max-width: 44rem) {
+  .md-typeset .paper-actions,
+  .md-typeset .paper-viewer,
+  .md-typeset .paper-fallback {
+    width: calc(100vw - 1.5rem);
+  }
+
   .md-typeset .paper-viewer iframe {
-    height: 68vh;
-    min-height: 32rem;
+    height: 78vh;
+    min-height: 38rem;
   }
 }
 
