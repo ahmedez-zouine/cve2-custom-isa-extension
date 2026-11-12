@@ -308,10 +308,10 @@
 .md-typeset figure.project-core-figure {
   width: 100%;
   max-width: 32rem;
-  margin: 1.25rem 0 1.75rem;
+  margin: 1rem 0 1ch;
   padding: clamp(0.5rem, 2vw, 1rem);
   border: 1px solid var(--project-rule);
-  border-radius: 0.45rem;
+  border-radius: 0.25rem;
   background: #fff;
 }
 
