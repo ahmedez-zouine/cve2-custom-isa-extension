@@ -126,6 +126,7 @@
 
 .md-typeset .paper-viewer {
   width: 100%;
+  max-width: 48rem;
   margin: 0.75rem 0 0;
   overflow: hidden;
   border: 1px solid var(--project-rule);
@@ -137,9 +138,9 @@
 .md-typeset .paper-viewer iframe {
   display: block;
   width: 100%;
-  height: min(76vh, 60rem);
-  min-height: 40rem;
-  max-height: 60rem;
+  height: min(88vh, 68rem);
+  min-height: 42rem;
+  max-height: 68rem;
   border: 0;
   background: #fff;
 }
@@ -153,8 +154,12 @@
 }
 
 @media (max-width: 44rem) {
+  .md-typeset .paper-viewer {
+    max-width: 100%;
+  }
+
   .md-typeset .paper-viewer iframe {
-    height: 70vh;
+    height: 82vh;
     min-height: 30rem;
   }
 }
@@ -294,7 +299,7 @@
 
 .md-typeset figure.project-core-figure {
   width: 100%;
-  max-width: none;
+  max-width: 48rem;
   margin: 1.25rem 0 1.75rem;
 }
 
