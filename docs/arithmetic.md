@@ -111,4 +111,8 @@ Enter an unsigned 32-bit integer (0 to 4,294,967,295) or click one of the preset
 
 The ALU shifts two input bits into the remainder and compares it with the trial value. The shift and compare repeat for all 16 pairs. The last step supplies the result to the [normal register writeback path](design.md#decode-execute-and-write-back).
 
-[![The two-bit restoring square-root recurrence and the steps for input 20](assets/recurrence.svg)](assets/recurrence.svg)
+<figure class="project-compact-figure">
+  <a href="assets/recurrence.svg" aria-label="Open full-size recurrence diagram">
+    <img src="assets/recurrence.svg" alt="The two-bit restoring square-root recurrence and the steps for input 20">
+  </a>
+</figure>

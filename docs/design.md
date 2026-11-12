@@ -28,7 +28,11 @@ The two register corner cases use the processor’s existing register-file rules
 
 ## Decode, execute and write back { .project-section }
 
-[![CVE2 instruction flow from fetch through the decoder and ALU to register writeback](assets/pipeline.svg)](assets/pipeline.svg)
+<figure class="project-compact-figure">
+  <a href="assets/pipeline.svg" aria-label="Open full-size CVE2 instruction pipeline flow">
+    <img src="assets/pipeline.svg" alt="CVE2 instruction flow from fetch through the decoder and ALU to register writeback">
+  </a>
+</figure>
 
 Fetch brings the instruction into the core. The decoder checks the opcode and reserved fields, reads `rs1`, and selects `ALU_ISQRT`. In the execute stage, operand A enters the square-root datapath. The ALU result mux sends the completed root through the ordinary writeback path to `rd`. No separate register file or write port is introduced.
 

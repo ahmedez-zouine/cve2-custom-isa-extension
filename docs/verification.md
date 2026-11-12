@@ -26,7 +26,11 @@ For another 4,096 full-width inputs, the integration test checks **root² ≤ in
 
 ## Writeback in simulation
 
-[![RTL timing trace for isqrt x11, x11: operand 20 produces 4, which is written to x11 at the next rising edge](assets/fig03_writeback.svg)](assets/fig03_writeback.svg)
+<figure class="project-compact-figure">
+  <a href="assets/fig03_writeback.svg" aria-label="Open full-size writeback waveform">
+    <img src="assets/fig03_writeback.svg" alt="RTL timing trace for isqrt x11, x11: operand 20 produces 4, which is written to x11 at the next rising edge">
+  </a>
+</figure>
 
 In this trace, `isqrt x11, x11` reads 20 and writes 4 to `x11` at the next simulated clock edge. The timing plot shows the RTL execution interval. The [routed timing reports](results.md#routed-timing) show the physical delay and slack for the FPGA target.
 
