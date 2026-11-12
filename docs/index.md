@@ -13,7 +13,7 @@ The custom `isqrt rd, rs1` instruction computes the floor of the square root of 
 [See the experimental results](results.md){ .md-button }
 [Read the technical report](#technical-report){ .md-button }
 
-![CVE2 datapath showing ISQRT integrated into the existing decoder, ALU and register writeback path](assets/pipeline.png)
+[![CVE2 datapath showing ISQRT integrated into the existing decoder, ALU and register writeback path](assets/pipeline.png)](assets/pipeline.svg)
 
 ## Measured comparison { .project-section }
 
@@ -30,7 +30,9 @@ Both implementations processed the same 256 inputs and produced checksum 10,996,
 The decoder accepts the custom-0 encoding when its function fields are legal. It selects the square-root ALU operation and reads the source register. The ALU consumes two operand bits per restoring step. Sixteen steps produce the 16-bit root, which then flows through the existing result mux and writeback logic. The [arithmetic guide](arithmetic.md) derives the recurrence, and [verification](verification.md) shows a register-to-register example.
 
 <figure class="project-core-figure">
-  <img src="assets/cve2-core-blockdiagram.svg" alt="Block diagram of the CVE2 core, including fetch, decode, register file, ALU, load-store unit, and memory interfaces">
+  <a href="assets/cve2-core-blockdiagram.svg" aria-label="Open the full-size CVE2 core block diagram">
+    <img src="assets/cve2-core-blockdiagram.svg" alt="Block diagram of the CVE2 core, including fetch, decode, register file, ALU, load-store unit, and memory interfaces">
+  </a>
   <figcaption>Full-core context: ISQRT is implemented within the ALU and uses the existing register file and writeback path.</figcaption>
 </figure>
 
