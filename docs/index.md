@@ -42,16 +42,6 @@ The comparison uses the same Artix-7 `xc7a35tcsg324-1` device, Vivado 2024.2 and
 
 Cycle measurements come from simulation. FPGA measurements come from synthesis and routing. The simulated cycle ratio does not predict FPGA clock frequency. [Review resources, timing and power estimates](results.md) or [reproduce the experiments](reproduce.md).
 
-## Browse the project { .project-section }
-
-<nav class="project-link-list" aria-label="Project guides">
-  <a href="design/"><strong>Instruction design</strong><span>Encoding, decode, execution and writeback</span></a>
-  <a href="arithmetic/"><strong>Arithmetic</strong><span>Recurrence, worked example and input explorer</span></a>
-  <a href="verification/"><strong>Verification</strong><span>Test coverage, dependencies and waveform</span></a>
-  <a href="results/"><strong>FPGA results</strong><span>Area, routed timing and power estimates</span></a>
-  <a href="reproduce/"><strong>Installation</strong><span>Tool setup and experiment commands</span></a>
-</nav>
-
 ## Technical report { .project-section .paper-section }
 
 <p class="paper-intro">Read the complete two-column report here, or download it for offline reading.</p>
@@ -66,3 +56,13 @@ Cycle measurements come from simulation. FPGA measurements come from synthesis a
 </div>
 
 <p class="paper-fallback">If the embedded paper does not appear in your browser, open the <a href="assets/cve2-isqrt-technical-report.pdf">PDF directly</a>.</p>
+
+## Browse the project { .project-section }
+
+<nav class="project-link-list" aria-label="Project guides">
+  <a href="design/"><strong>Instruction design</strong><span>Encoding, decode, execution and writeback</span></a>
+  <a href="arithmetic/"><strong>Arithmetic</strong><span>Recurrence, worked example and input explorer</span></a>
+  <a href="verification/"><strong>Verification</strong><span>Test coverage, dependencies and waveform</span></a>
+  <a href="results/"><strong>FPGA results</strong><span>Area, routed timing and power estimates</span></a>
+  <a href="reproduce/"><strong>Installation</strong><span>Tool setup and experiment commands</span></a>
+</nav>
