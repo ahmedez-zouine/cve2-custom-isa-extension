@@ -1,6 +1,6 @@
 # Core Architecture & Instruction Design
 
-The `isqrt rd, rs1` instruction treats `rs1` as an unsigned 32-bit integer and returns the floor of its square root ($\lfloor\sqrt{n}\rfloor$). The computed root fits in 16 bits and is zero-extended to 32 bits during writeback.
+The `isqrt rd, rs1` instruction treats `rs1` as an unsigned 32-bit integer and returns the floor of its square root (**q = ⌊√n⌋**). The computed root fits in 16 bits and is zero-extended to 32 bits during writeback.
 { .project-lead }
 
 ## R-type encoding { .project-section }

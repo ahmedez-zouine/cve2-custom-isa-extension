@@ -6,7 +6,7 @@ description: "A custom integer square-root instruction for the CVE2 RISC-V core:
 
 # An integer square root, built into CVE2
 
-The custom `isqrt rd, rs1` instruction calculates the floor of the square root of a 32-bit unsigned integer in hardware ($\lfloor\sqrt{n}\rfloor$). For example, `isqrt(20) = 4`, since $4^2 \le 20 < 5^2$. CVE2 decodes the custom-0 instruction, evaluates the root in its ALU in one execution interval, and returns the result to `rd` through the existing register writeback path.
+The custom `isqrt rd, rs1` instruction computes the floor of the square root of an unsigned 32-bit integer: **q = ⌊√n⌋**. For example, **isqrt(20) = 4**, since **4² ≤ 20 < 5²**. CVE2 decodes the custom-0 instruction, evaluates the root in its ALU in one execution interval, and returns the result to `rd` through the existing register writeback path.
 { .project-lead }
 
 <div class="project-actions">
