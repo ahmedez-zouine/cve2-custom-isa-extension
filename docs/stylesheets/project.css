@@ -127,8 +127,9 @@
 .md-typeset .paper-viewer iframe {
   display: block;
   width: 100%;
-  height: min(78vh, 68rem);
+  height: min(82vh, 72rem);
   min-height: 44rem;
+  max-height: 72rem;
   border: 0;
   background: #fff;
 }

@@ -12,7 +12,7 @@ This report brings together the instruction design, arithmetic, verification res
 </p>
 
 <div class="paper-viewer" id="paper-preview">
-  <iframe src="assets/cve2-isqrt-technical-report.pdf#view=FitH" title="CVE2 integer square-root technical report" loading="lazy"></iframe>
+  <iframe src="assets/cve2-isqrt-technical-report.pdf#view=FitH" title="CVE2 integer square-root technical report" loading="lazy" style="display:block;width:100%;height:82vh;min-height:44rem;border:0;background:#fff"></iframe>
 </div>
 
 <p class="paper-fallback">If your browser does not show the embedded document, use <a href="assets/cve2-isqrt-technical-report.pdf">this direct PDF link</a>.</p>
