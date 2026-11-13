@@ -5,7 +5,7 @@ Comparative post-synthesis and post-routing implementation results for the basel
 
 ## Implementation overview
 
-<figure class="project-figure project-figure--wide">
+<figure class="project-figure">
   <a href="assets/table3_fpga_comparison.png" aria-label="Open full-size FPGA implementation comparison table">
     <img src="assets/table3_fpga_comparison.png" alt="FPGA implementation comparison table (Table 3) between baseline and ISQRT-extended CVE2 cores on Artix-7 xc7a35tcsg324-1 at 50 MHz">
   </a>

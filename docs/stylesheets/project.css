@@ -306,7 +306,7 @@ figure.project-figure figcaption {
 
 .md-typeset .paper-viewer {
   width: 100%;
-  max-width: 42rem;
+  max-width: 32rem;
   margin: 0.5rem 0 0.55rem 0;
   border: 1px solid var(--project-rule);
   border-radius: 0.25rem;
@@ -317,7 +317,7 @@ figure.project-figure figcaption {
 .md-typeset .paper-viewer iframe {
   display: block;
   width: 100%;
-  height: clamp(20rem, 55svh, 32rem);
+  height: clamp(16rem, 45svh, 24rem);
   border: 0;
   background: #ffffff;
 }
@@ -461,6 +461,6 @@ figure.project-figure figcaption {
   }
 
   .md-typeset .paper-viewer iframe {
-    height: clamp(18rem, 50svh, 26rem);
+    height: clamp(14rem, 40svh, 20rem);
   }
 }
