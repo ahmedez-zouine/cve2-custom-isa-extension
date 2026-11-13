@@ -23,7 +23,7 @@ The custom `isqrt rd, rs1` instruction computes the floor of the square root of 
     controls
     playsinline
     preload="metadata"
-    src="assets/CVE2-ISQRT-60s.mp4"
+    poster="assets/pipeline.png"
     style="width: 100%; height: 100%; display: block; object-fit: contain;"
   >
     <source src="assets/CVE2-ISQRT-60s.mp4" type="video/mp4" />

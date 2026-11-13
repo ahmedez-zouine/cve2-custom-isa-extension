@@ -22,7 +22,7 @@ A high-definition (1080p, 30 fps) technical presentation of the custom integer s
     controls
     playsinline
     preload="metadata"
-    src="assets/CVE2-ISQRT-60s.mp4"
+    poster="assets/pipeline.png"
     style="width: 100%; height: 100%; display: block; object-fit: contain;"
   >
     <source src="assets/CVE2-ISQRT-60s.mp4" type="video/mp4" />
