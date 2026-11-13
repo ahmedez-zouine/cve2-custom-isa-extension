@@ -38,7 +38,7 @@ A companion 83-second technical video presentation walks through the silicon arc
 
 <p align="center">
   <a href="https://ahmedez-zouine.github.io/cve2-custom-isa-extension/video/">
-    <img src="docs/assets/pipeline-animated.svg" width="760" alt="Watch the 1080p technical video presentation of the CVE2 ISQRT extension">
+    <img src="docs/assets/pipeline.png" width="760" alt="Watch the 1080p technical video presentation of the CVE2 ISQRT extension">
   </a>
 </p>
 

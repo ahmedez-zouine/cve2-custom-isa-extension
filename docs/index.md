@@ -10,32 +10,18 @@ The custom `isqrt rd, rs1` instruction computes the floor of the square root of 
 { .project-lead }
 
 <div class="project-actions">
-  <a class="md-button md-button--primary" href="assets/CVE2-ISQRT-60s.mp4" download="CVE2-ISQRT-Presentation.mp4">Download 1080p video (12 MB)</a>
-  <a class="md-button" href="video/">Video chapter index</a>
+  <a class="md-button md-button--primary" href="video/">Watch video presentation (83s)</a>
   <a class="md-button" href="design/">Core architecture</a>
   <a class="md-button" href="arithmetic/">Arithmetic algorithm</a>
   <a class="md-button" href="results/">FPGA results</a>
   <a class="md-button" href="#technical-report">Technical report</a>
 </div>
 
-<div class="video-container" style="position: relative; width: 100%; aspect-ratio: 16 / 9; border-radius: 10px; overflow: hidden; border: 1px solid #cbd5e1; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); background: #0f172a; margin: 1.5rem 0 2rem;">
-  <video
-    controls
-    playsinline
-    preload="metadata"
-    poster="assets/pipeline.png"
-    style="width: 100%; height: 100%; display: block; object-fit: contain;"
-  >
-    <source src="assets/CVE2-ISQRT-60s.mp4" type="video/mp4" />
-    Your browser does not support HTML5 video. You can <a href="assets/CVE2-ISQRT-60s.mp4" download>download the video</a> directly.
-  </video>
-</div>
-
 <figure class="project-figure">
-  <a href="assets/pipeline-animated.svg" aria-label="Open full-size animated CVE2 datapath diagram">
-    <img src="assets/pipeline-animated.svg" alt="CVE2 datapath showing animated signal flow and ISQRT integrated into the existing decoder, ALU and register writeback path">
+  <a href="assets/pipeline.svg" aria-label="Open full-size CVE2 datapath diagram">
+    <img src="assets/pipeline.png" alt="CVE2 datapath showing ISQRT integrated into the existing decoder, ALU and register writeback path">
   </a>
-  <figcaption>CVE2 datapath: ISQRT integrates directly into decode, the single-cycle ALU, and existing register writeback (animated signal flow).</figcaption>
+  <figcaption>CVE2 datapath: ISQRT integrates directly into decode, the single-cycle ALU, and existing register writeback.</figcaption>
 </figure>
 
 ## Measured comparison { .project-section }
