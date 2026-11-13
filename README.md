@@ -303,7 +303,7 @@ If you reference this work or build upon this custom extension, please cite:
 
 - **Preprint DOI**: [10.13140/RG.2.2.30489.79204](https://doi.org/10.13140/RG.2.2.30489.79204)
 - **Interactive Documentation**: [https://ahmedez-zouine.github.io/cve2-custom-isa-extension/](https://ahmedez-zouine.github.io/cve2-custom-isa-extension/)
-- **Author**: Ahmed Ez-Zouine — Mohammed V University in Rabat (UM5R) (zouineahmed976@gmail.com)
+- **Author**: Ahmed Ez-Zouine — Mohammed V University in Rabat (UM5R) ([ahmed.ezzouine@um5r.ac.ma](mailto:ahmed.ezzouine@um5r.ac.ma))
 
 ---
 
