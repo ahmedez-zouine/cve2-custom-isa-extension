@@ -7,8 +7,8 @@ An unsigned 32-bit integer square-root hardware instruction added to **CVE2**, a
 [![License](https://img.shields.io/badge/License-Apache%202.0-lightgrey.svg)](LICENSE)
 
 <p align="center">
-  <a href="docs/assets/cve2-core-blockdiagram.jpg">
-    <img src="docs/assets/cve2-core-blockdiagram.jpg" width="760" alt="CVE2 core block diagram showing ISQRT integrated in the ALU, decode, and memory interfaces">
+  <a href="docs/assets/cve2-core-blockdiagram.svg">
+    <img src="docs/assets/cve2-core-blockdiagram.svg" width="760" alt="CVE2 core block diagram showing ISQRT integrated in the ALU, decode, and memory interfaces">
   </a>
 </p>
 <p align="center">
@@ -304,3 +304,11 @@ If you reference this work or build upon this custom extension, please cite:
 - **Preprint DOI**: [10.13140/RG.2.2.30489.79204](https://doi.org/10.13140/RG.2.2.30489.79204)
 - **Interactive Documentation**: [https://ahmedez-zouine.github.io/cve2-custom-isa-extension/](https://ahmedez-zouine.github.io/cve2-custom-isa-extension/)
 - **Author**: Ahmed Ez-Zouine — Mohammed V University in Rabat (UM5R) (zouineahmed976@gmail.com)
+
+---
+
+## License
+
+This project is licensed under the **Apache License, Version 2.0** — see the [LICENSE](LICENSE) file for the full text.
+
+The underlying CVE2 processor core is open-source hardware developed by the OpenHW Group / lowRISC under the Apache 2.0 license.
