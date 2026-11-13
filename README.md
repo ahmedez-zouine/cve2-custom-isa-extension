@@ -4,6 +4,7 @@ An unsigned 32-bit integer square-root hardware instruction added to **CVE2**, a
 
 [![Report DOI](https://img.shields.io/badge/DOI-10.13140%2FRG.2.2.30489.79204-blue.svg)](https://doi.org/10.13140/RG.2.2.30489.79204)
 [![Online Documentation](https://img.shields.io/badge/Docs-Interactive%20Website-teal.svg)](https://ahmedez-zouine.github.io/cve2-custom-isa-extension/)
+[![Interactive Showcase](https://img.shields.io/badge/Showcase-Live%20Player-blueviolet.svg)](https://ahmedez-zouine.github.io/cve2-custom-isa-extension/showcase.html)
 [![License](https://img.shields.io/badge/License-Apache%202.0-lightgrey.svg)](LICENSE)
 
 <p align="center">
@@ -211,7 +212,7 @@ The trade-off between combinational and iterative architectures was the key arch
   - *Cons*: Heavy area (+40.8% LUTs) and long critical path (49.4 ns logic chain), limiting the maximum clock frequency to ~20 MHz on Artix-7.
 - **16-Cycle Iterative (proposed)**:
   - *Concept*: Reuses a single restoring stage across 16 clock cycles, stalling the pipeline or running in the background.
-  - *Trade-off*: Slashes area overhead down to ~150–200 LUTs and easily meets a 50–100 MHz clock target, at the cost of 16-cycle instruction latency.
+  - *Trade-off*: Slashes area overhead down to ~150-200 LUTs and easily meets a 50-100 MHz clock target, at the cost of 16-cycle instruction latency.
 
 See the [Design Alternatives Guide](https://ahmedez-zouine.github.io/cve2-custom-isa-extension/alternatives/) on the website for detailed formulas and timing analysis.
 
@@ -303,12 +304,12 @@ If you reference this work or build upon this custom extension, please cite:
 
 - **Preprint DOI**: [10.13140/RG.2.2.30489.79204](https://doi.org/10.13140/RG.2.2.30489.79204)
 - **Interactive Documentation**: [https://ahmedez-zouine.github.io/cve2-custom-isa-extension/](https://ahmedez-zouine.github.io/cve2-custom-isa-extension/)
-- **Author**: Ahmed Ez-Zouine — Mohammed V University in Rabat (UM5R) ([ahmed.ezzouine@um5r.ac.ma](mailto:ahmed.ezzouine@um5r.ac.ma))
+- **Author**: Ahmed Ez-Zouine : Mohammed V University in Rabat (UM5R) ([ahmed.ezzouine@um5r.ac.ma](mailto:ahmed.ezzouine@um5r.ac.ma))
 
 ---
 
 ## License
 
-This project is licensed under the **Apache License, Version 2.0** — see the [LICENSE](LICENSE) file for the full text.
+This project is licensed under the **Apache License, Version 2.0** : see the [LICENSE](LICENSE) file for the full text.
 
 The underlying CVE2 processor core is open-source hardware developed by the OpenHW Group / lowRISC under the Apache 2.0 license.

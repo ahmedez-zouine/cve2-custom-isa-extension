@@ -1,0 +1,349 @@
+{
+  "revision": "4ccbf66f29018b81b7a1d4cf6b01ca08aa745c30",
+  "sources": [
+    {
+      "path": "README.md",
+      "sha256": "336a1a736386ec74332890a91177f1552edb59ccef441fe1a003c5c7395ab9ca"
+    },
+    {
+      "path": "cve2/rtl/cve2_alu.sv",
+      "sha256": "57d3135a7bf2404db866c5ed184152c3f6263cd5ed93c0e719264b76e51c0b63"
+    },
+    {
+      "path": "cve2/rtl/cve2_decoder.sv",
+      "sha256": "6712d86767f38d62ab0402b60d2891c4510203c29aa18513ec0d003a9cd42b1d"
+    },
+    {
+      "path": "cve2/rtl/cve2_ex_block.sv",
+      "sha256": "2437e51c3725c7815f4b14f114c22407b367a442d2f7684114069bba58867050"
+    },
+    {
+      "path": "cve2/rtl/cve2_core.sv",
+      "sha256": "abc24c7b17f3aa1bee46a7cc166627ee2af6453e2052d94e23879b7c9720c622"
+    },
+    {
+      "path": "tb/tb_top.sv",
+      "sha256": "7846a29c09d7a7de802e60dd4d122c6328b26c50b1cf408799bb20da151372c8"
+    },
+    {
+      "path": "output/verification/submission_review/writeback.csv",
+      "sha256": "d0d449927af4c8cbafe1f7c0686bc455de3f4411eb3d9f39191192f200af9ae5"
+    },
+    {
+      "path": "output/verification/submission_review/integration.log",
+      "sha256": "d19a5491501a9af77a8b37fe1bcaeaa696ba5c854f6f8de8546bea45a8ddbd18"
+    },
+    {
+      "path": "output/verification/submission_review/corners.log",
+      "sha256": "818a516d5406d87db7f7abacfef742c247284a9f8e7727e2392309d346f695ce"
+    },
+    {
+      "path": "output/verification/submission_review/supplied.log",
+      "sha256": "27b35a8d6b5eb55401183fa437e80894288128b720cc44457d01114d698d3e73"
+    },
+    {
+      "path": "output/verification/submission_review/manifest.json",
+      "sha256": "8205af7a6696c3d6a05fc669f23a19ceb3bb2dfa54e1b1b1f881190952f21515"
+    },
+    {
+      "path": "output/fpga/implementation/baseline/utilization.rpt",
+      "sha256": "be7fb0211e1f62b546460b4a49d3961a3011cbc059ea97a16ab53fb5663d1560"
+    },
+    {
+      "path": "output/fpga/implementation/extended/utilization.rpt",
+      "sha256": "504bd2ad8bb8edcb5745bfd0fd8bdb68d42db965f14d425d46c64068c2354733"
+    },
+    {
+      "path": "output/fpga/implementation/baseline/timing_summary.rpt",
+      "sha256": "364e7cd176633cd040e7f52b987d2f892cf82a7cefce92bd3fa961306242fe8c"
+    },
+    {
+      "path": "output/fpga/implementation/extended/timing_summary.rpt",
+      "sha256": "a49292403a04eae4494bbe110452bdf9ba3e45f5ba3f76c5604271335b0d9c41"
+    },
+    {
+      "path": "output/fpga/implementation/extended/register_setup_paths.rpt",
+      "sha256": "55913050b6d5b0469fa3df28b0f2b1ee326000f4f33618f1c61f03fd38cc31bc"
+    },
+    {
+      "path": "output/fpga/implementation/baseline/route_status.rpt",
+      "sha256": "99cb90f197121adde0b74b4ce25bef3f8b1592d090f0af0df3b576f260282c3c"
+    },
+    {
+      "path": "output/fpga/implementation/extended/route_status.rpt",
+      "sha256": "616f20c98065ef40f898c9b51ac4b1d58ae057d991871a99958507dffc2b4822"
+    }
+  ],
+  "snippets": {
+    "decoder": {
+      "firstLine": 345,
+      "code": "      OPCODE_CUSTOM_0: begin // Unsigned integer square root\n        if (instr[31:25] == 7'b000_0000 &&\n            instr[24:20] == 5'b0_0000 &&\n            instr[14:12] == 3'b000) begin\n          rf_ren_a_o = 1'b1;\n          rf_we      = 1'b1;\n        end else begin\n          illegal_insn = 1'b1;"
+    },
+    "loop": {
+      "firstLine": 1332,
+      "code": "    for (int i = 0; i < 16; i++) begin\n      sq_rem   = (sq_rem << 2) | (sq_x >> 30);\n      sq_x     = sq_x << 2;\n      sq_trial = (sq_root << 2) | 32'h1;\n      sq_root  = sq_root << 1;\n      if (sq_rem >= sq_trial) begin\n        sq_rem  = sq_rem - sq_trial;\n        sq_root = sq_root | 32'h1;"
+    },
+    "selection": {
+      "firstLine": 1353,
+      "code": "      ALU_ISQRT: result_o = isqrt_result;"
+    }
+  },
+  "workedExample": {
+    "input": 144,
+    "result": 12,
+    "steps": [
+      {
+        "step": 1,
+        "pair": 0,
+        "trial": 1,
+        "candidate": 0,
+        "root": 0,
+        "remainder": 0
+      },
+      {
+        "step": 2,
+        "pair": 0,
+        "trial": 1,
+        "candidate": 0,
+        "root": 0,
+        "remainder": 0
+      },
+      {
+        "step": 3,
+        "pair": 0,
+        "trial": 1,
+        "candidate": 0,
+        "root": 0,
+        "remainder": 0
+      },
+      {
+        "step": 4,
+        "pair": 0,
+        "trial": 1,
+        "candidate": 0,
+        "root": 0,
+        "remainder": 0
+      },
+      {
+        "step": 5,
+        "pair": 0,
+        "trial": 1,
+        "candidate": 0,
+        "root": 0,
+        "remainder": 0
+      },
+      {
+        "step": 6,
+        "pair": 0,
+        "trial": 1,
+        "candidate": 0,
+        "root": 0,
+        "remainder": 0
+      },
+      {
+        "step": 7,
+        "pair": 0,
+        "trial": 1,
+        "candidate": 0,
+        "root": 0,
+        "remainder": 0
+      },
+      {
+        "step": 8,
+        "pair": 0,
+        "trial": 1,
+        "candidate": 0,
+        "root": 0,
+        "remainder": 0
+      },
+      {
+        "step": 9,
+        "pair": 0,
+        "trial": 1,
+        "candidate": 0,
+        "root": 0,
+        "remainder": 0
+      },
+      {
+        "step": 10,
+        "pair": 0,
+        "trial": 1,
+        "candidate": 0,
+        "root": 0,
+        "remainder": 0
+      },
+      {
+        "step": 11,
+        "pair": 0,
+        "trial": 1,
+        "candidate": 0,
+        "root": 0,
+        "remainder": 0
+      },
+      {
+        "step": 12,
+        "pair": 0,
+        "trial": 1,
+        "candidate": 0,
+        "root": 0,
+        "remainder": 0
+      },
+      {
+        "step": 13,
+        "pair": 2,
+        "trial": 1,
+        "candidate": 2,
+        "root": 1,
+        "remainder": 1
+      },
+      {
+        "step": 14,
+        "pair": 1,
+        "trial": 5,
+        "candidate": 5,
+        "root": 3,
+        "remainder": 0
+      },
+      {
+        "step": 15,
+        "pair": 0,
+        "trial": 13,
+        "candidate": 0,
+        "root": 6,
+        "remainder": 0
+      },
+      {
+        "step": 16,
+        "pair": 0,
+        "trial": 25,
+        "candidate": 0,
+        "root": 12,
+        "remainder": 0
+      }
+    ],
+    "kind": "Calculated from RTL recurrence; not a measured waveform"
+  },
+  "trace": [
+    {
+      "time_ps": 20555,
+      "clk": 1,
+      "valid": 1,
+      "instruction": 20972947,
+      "pc": 3358,
+      "write_register": 11,
+      "write_data": 20,
+      "write_enable": 1,
+      "operator": 0,
+      "operand_a": 0,
+      "result": 20,
+      "ex_valid": 1,
+      "illegal": 0,
+      "stall": 0,
+      "destination_value": 7536651
+    },
+    {
+      "time_ps": 20560,
+      "clk": 0,
+      "valid": 1,
+      "instruction": 20972947,
+      "pc": 3358,
+      "write_register": 11,
+      "write_data": 20,
+      "write_enable": 1,
+      "operator": 0,
+      "operand_a": 0,
+      "result": 20,
+      "ex_valid": 1,
+      "illegal": 0,
+      "stall": 0,
+      "destination_value": 7536651
+    },
+    {
+      "time_ps": 20565,
+      "clk": 1,
+      "valid": 1,
+      "instruction": 361867,
+      "pc": 3360,
+      "write_register": 11,
+      "write_data": 4,
+      "write_enable": 1,
+      "operator": 65,
+      "operand_a": 20,
+      "result": 4,
+      "ex_valid": 1,
+      "illegal": 0,
+      "stall": 0,
+      "destination_value": 20
+    },
+    {
+      "time_ps": 20570,
+      "clk": 0,
+      "valid": 1,
+      "instruction": 361867,
+      "pc": 3360,
+      "write_register": 11,
+      "write_data": 4,
+      "write_enable": 1,
+      "operator": 65,
+      "operand_a": 20,
+      "result": 4,
+      "ex_valid": 1,
+      "illegal": 0,
+      "stall": 0,
+      "destination_value": 20
+    },
+    {
+      "time_ps": 20575,
+      "clk": 1,
+      "valid": 1,
+      "instruction": 1542035,
+      "pc": 3364,
+      "write_register": 15,
+      "write_data": 43,
+      "write_enable": 1,
+      "operator": 0,
+      "operand_a": 42,
+      "result": 43,
+      "ex_valid": 1,
+      "illegal": 0,
+      "stall": 0,
+      "destination_value": 4
+    },
+    {
+      "time_ps": 20580,
+      "clk": 0,
+      "valid": 1,
+      "instruction": 1542035,
+      "pc": 3364,
+      "write_register": 15,
+      "write_data": 43,
+      "write_enable": 1,
+      "operator": 0,
+      "operand_a": 42,
+      "result": 43,
+      "ex_valid": 1,
+      "illegal": 0,
+      "stall": 0,
+      "destination_value": 4
+    }
+  ],
+  "verification": {
+    "corners": 43,
+    "integration": 200705
+  },
+  "fpga": {
+    "part": "xc7a35tcsg324-1",
+    "periodNs": 20,
+    "baselineLuts": 2987,
+    "extendedLuts": 4205,
+    "baselineWns": -0.884,
+    "extendedWns": -29.556
+  },
+  "limitations": [
+    "Exploratory out-of-context FPGA analysis",
+    "External clock context and interface routing incomplete",
+    "Neither implementation meets overall timing at the 20 ns target",
+    "RTL simulation latency is not achieved FPGA frequency",
+    "Worked example animation is not a physical propagation measurement"
+  ]
+}

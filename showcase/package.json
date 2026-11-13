@@ -1,0 +1,35 @@
+{
+  "name": "cve2-isqrt-showcase",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Evidence-backed cinematic showcase of the CVE2 ISQRT extension",
+  "scripts": {
+    "prestart": "node scripts/ensure-assets.mjs",
+    "start": "remotion studio src/index.ts",
+    "typecheck": "tsc --noEmit",
+    "verify": "python3 scripts/verify_outputs.py",
+    "evidence": "python3 scripts/collect_evidence.py",
+    "audio": "python3 scripts/soundtrack.py",
+    "frames": "node scripts/render.mjs frames",
+    "render": "node scripts/render.mjs all",
+    "render:full": "node scripts/render.mjs full",
+    "render:short": "node scripts/render.mjs short",
+    "render:poster": "node scripts/render.mjs poster"
+  },
+  "dependencies": {
+    "@fontsource/ibm-plex-mono": "5.3.0",
+    "@fontsource/inter": "5.3.0",
+    "@remotion/bundler": "4.0.543",
+    "@remotion/cli": "4.0.543",
+    "@remotion/renderer": "4.0.543",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "remotion": "4.0.543"
+  },
+  "devDependencies": {
+    "@types/react": "18.3.18",
+    "@types/react-dom": "18.3.5",
+    "ffmpeg-static": "5.3.0",
+    "typescript": "5.8.3"
+  }
+}

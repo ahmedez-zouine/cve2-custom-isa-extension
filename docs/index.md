@@ -13,14 +13,15 @@ The custom `isqrt rd, rs1` instruction computes the floor of the square root of 
   <a class="md-button md-button--primary" href="design/">Core architecture</a>
   <a class="md-button" href="arithmetic/">Arithmetic algorithm</a>
   <a class="md-button" href="results/">FPGA results</a>
+  <a class="md-button" href="showcase.html">Interactive showcase</a>
   <a class="md-button" href="#technical-report">Technical report</a>
 </div>
 
 <figure class="project-figure">
-  <a href="assets/pipeline.svg" aria-label="Open full-size CVE2 datapath diagram">
-    <img src="assets/pipeline.png" alt="CVE2 datapath showing ISQRT integrated into the existing decoder, ALU and register writeback path">
+  <a href="assets/pipeline-animated.svg" aria-label="Open full-size animated CVE2 datapath diagram">
+    <img src="assets/pipeline-animated.svg" alt="CVE2 datapath showing animated signal flow and ISQRT integrated into the existing decoder, ALU and register writeback path">
   </a>
-  <figcaption>CVE2 datapath: ISQRT integrates directly into decode, the single-cycle ALU, and existing register writeback.</figcaption>
+  <figcaption>CVE2 datapath: ISQRT integrates directly into decode, the single-cycle ALU, and existing register writeback (animated signal flow).</figcaption>
 </figure>
 
 ## Measured comparison { .project-section }
@@ -29,7 +30,7 @@ The custom `isqrt rd, rs1` instruction computes the floor of the square root of 
 | --- | ---: | ---: |
 | Average cycles per result | 247 | **23** |
 | Routed lookup tables (Artix-7) | 2,987 | **4,205** |
-| Integration checks passed | — | **200,705** |
+| Integration checks passed | - | **200,705** |
 
 Both implementations processed the same 256-input benchmark array and produced matching checksum 10,996,072. In simulation, the custom instruction reduced the workload average from 247 cycles to 23 (about 10.7× fewer cycles). Routed lookup-table use increased by 1,218 LUTs (+40.8%). Integration tests verify square boundaries, full-width inputs, corner cases, and dependent instruction chains.
 

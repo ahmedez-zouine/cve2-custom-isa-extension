@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" role="img" aria-labelledby="title desc">
+  <title id="title">CVE2 core architecture with the ISQRT ALU operation</title>
+  <desc id="desc">A single-core schematic showing instruction fetch, decode, register reads, ALU including ISQRT, multiply divide, load store, control and register writeback.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto"><path d="M0 0L9 4L0 8Z" fill="#315f78"/></marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto"><path d="M0 0L9 4L0 8Z" fill="#059669"/></marker>
+    <marker id="arrowRed" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto"><path d="M0 0L9 4L0 8Z" fill="#8b3447"/></marker>
+
+    <filter id="alu-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#8b3447" flood-opacity="0.45"/>
+    </filter>
+
+    <style>
+      .outer{fill:#fff;stroke:#315f78;stroke-width:2.2}.stage{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1.5}
+      .box{fill:#fff;stroke:#315f78;stroke-width:2}.hot{fill:#fff5f5;stroke:#8b3447;stroke-width:2.6;filter:url(#alu-glow)}
+      .wire{fill:none;stroke:#315f78;stroke-width:2.4;stroke-linejoin:round;marker-end:url(#arrow)}
+      .wire-pulse{fill:none;stroke:#0284c7;stroke-width:3.0;stroke-dasharray:12 16;animation:flow 1.8s linear infinite}
+      .back{fill:none;stroke:#059669;stroke-width:2.8;stroke-linejoin:round;marker-end:url(#arrowGreen)}
+      .back-pulse{fill:none;stroke:#10b981;stroke-width:3.2;stroke-dasharray:16 20;stroke-linejoin:round;animation:flow-back 2.2s linear infinite}
+      .control{fill:none;stroke:#8b3447;stroke-width:2;stroke-dasharray:8 6;marker-end:url(#arrowRed);animation:dash-pulse 1.2s ease-in-out infinite}
+      .h{font:700 22px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#1f3542}
+      .t{font:19px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#243c49}
+      .s{font:16px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#607782}
+      .stageLabel{font:700 15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;letter-spacing:1.2px;fill:#315f78}
+      .pill{fill:#8b3447}.pilltxt{font:700 14px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:white}
+
+      @keyframes flow {
+        to { stroke-dashoffset: -28; }
+      }
+      @keyframes flow-up {
+        to { stroke-dashoffset: 28; }
+      }
+      @keyframes flow-back {
+        to { stroke-dashoffset: -36; }
+      }
+      @keyframes dash-pulse {
+        0%, 100% { opacity: 0.6; }
+        50% { opacity: 1.0; stroke-width: 2.6; }
+      }
+      @keyframes alu-pulse {
+        0%, 100% { stroke-width: 2.6; }
+        50% { stroke-width: 3.2; stroke: #991b1b; }
+      }
+      .hot { animation: alu-pulse 2s ease-in-out infinite; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="640" rx="14" fill="#fff"/>
+  <text x="600" y="36" text-anchor="middle" class="h">CVE2 core datapath and ISQRT integration</text>
+  <text x="600" y="62" text-anchor="middle" class="s">Two-stage RV32IMC core : ISQRT uses the existing decode, ALU and writeback path</text>
+
+  <!-- STAGE 1: IF / FETCH -->
+  <rect x="24" y="94" width="246" height="332" rx="12" class="stage"/>
+  <text x="147" y="122" text-anchor="middle" class="stageLabel">IF / FETCH</text>
+  <rect x="53" y="148" width="188" height="78" rx="8" class="box"/>
+  <text x="147" y="180" text-anchor="middle" class="h">PC + prefetch</text><text x="147" y="205" text-anchor="middle" class="t">buffer</text>
+  <rect x="53" y="279" width="188" height="78" rx="8" class="box"/>
+  <text x="147" y="311" text-anchor="middle" class="h">Compressed</text><text x="147" y="336" text-anchor="middle" class="t">instruction decode</text>
+  <path d="M147 226V276" class="wire"/>
+  <text x="147" y="393" text-anchor="middle" class="s">Instruction memory interface</text>
+
+  <!-- STAGE 2: ID / EX -->
+  <rect x="294" y="94" width="882" height="332" rx="12" class="stage"/>
+  <text x="735" y="122" text-anchor="middle" class="stageLabel">ID / EX : DECODE, EXECUTE AND WRITEBACK</text>
+
+  <rect x="326" y="161" width="202" height="84" rx="8" class="box"/>
+  <text x="427" y="194" text-anchor="middle" class="h">Instruction decoder</text><text x="427" y="221" text-anchor="middle" class="t">custom-0 + legality</text>
+  <rect x="326" y="291" width="202" height="80" rx="8" class="box"/>
+  <text x="427" y="323" text-anchor="middle" class="h">Register file</text><text x="427" y="349" text-anchor="middle" class="t">read rs1 : write rd</text>
+
+  <!-- ALU [NEW] Unit -->
+  <rect x="596" y="164" width="226" height="96" rx="8" class="hot"/>
+  <rect x="766" y="174" width="44" height="24" rx="12" class="pill"/><text x="788" y="191" text-anchor="middle" class="pilltxt">NEW</text>
+  <text x="709" y="207" text-anchor="middle" class="h">ALU</text><text x="709" y="234" text-anchor="middle" class="t">ISQRT : 16 restoring steps</text>
+  <rect x="596" y="294" width="226" height="68" rx="8" class="box"/>
+  <text x="709" y="323" text-anchor="middle" class="h">Multiply / divide</text><text x="709" y="347" text-anchor="middle" class="s">existing execution unit</text>
+
+  <rect x="886" y="164" width="142" height="96" rx="8" class="box"/>
+  <text x="957" y="201" text-anchor="middle" class="h">Result</text><text x="957" y="229" text-anchor="middle" class="t">selection</text>
+  <rect x="1061" y="164" width="91" height="96" rx="8" class="box"/>
+  <text x="1106" y="201" text-anchor="middle" class="h">Write</text><text x="1106" y="229" text-anchor="middle" class="t">back</text>
+
+  <!-- Wires -->
+  <path d="M241 187H322" class="wire"/>
+  <path d="M241 187H322" class="wire-pulse"/>
+
+  <path d="M427 246V287" class="control"/>
+
+  <path d="M528 320H560V211H592" class="wire"/>
+  <path d="M528 320H560V211H592" class="wire-pulse"/>
+
+  <path d="M528 339H560V328H592" class="wire"/>
+  <path d="M822 211H882" class="wire"/>
+  <path d="M822 211H882" class="wire-pulse"/>
+
+  <path d="M822 328H852V242H882" class="wire"/>
+  <path d="M1028 211H1057" class="wire"/>
+
+  <!-- Crisp Manhattan Writeback Path -->
+  <path d="M 1061 239 H 1042 V 392 H 427 V 375" class="back"/>
+  <path d="M 1061 239 H 1042 V 392 H 427 V 375" class="back-pulse"/>
+  <text x="704" y="375" text-anchor="middle" class="s">32-bit result returned to rd at the closing edge</text>
+
+  <!-- Load / Store Unit outside ID/EX stage -->
+  <rect x="886" y="454" width="266" height="62" rx="8" class="box"/>
+  <text x="1019" y="481" text-anchor="middle" class="h">Load / store unit</text>
+  <text x="1019" y="504" text-anchor="middle" class="s">data memory interface</text>
+
+  <!-- LSU Memory Interface Connections with Flow Animation -->
+  <path d="M990 260V448" class="wire"/>
+  <path d="M990 260V448" stroke="#0284c7" stroke-width="2.6" stroke-dasharray="8 12" fill="none" style="animation: flow 1.6s linear infinite"/>
+  <text x="1002" y="435" text-anchor="start" class="s">addr / wdata</text>
+
+  <path d="M930 454V266" class="wire"/>
+  <path d="M930 454V266" stroke="#0284c7" stroke-width="2.6" stroke-dasharray="8 12" fill="none" style="animation: flow-up 1.6s linear infinite"/>
+  <text x="918" y="435" text-anchor="end" class="s">rdata</text>
+
+  <!-- Legend -->
+  <rect x="24" y="534" width="1152" height="78" rx="10" fill="#f8fafb" stroke="#cbd5e1" stroke-width="1.5"/>
+  <line x1="145" y1="562" x2="201" y2="562" stroke="#315f78" stroke-width="2.5" marker-end="url(#arrow)"/><text x="213" y="568" class="s">operand / result</text>
+  <line x1="466" y1="562" x2="522" y2="562" stroke="#8b3447" stroke-width="2" stroke-dasharray="8 6" marker-end="url(#arrowRed)"/><text x="534" y="568" class="s">decode control</text>
+  <line x1="790" y1="562" x2="846" y2="562" stroke="#059669" stroke-width="2.8" marker-end="url(#arrowGreen)"/><text x="858" y="568" class="s">register writeback</text>
+  <text x="600" y="596" text-anchor="middle" class="s">ISQRT adds combinational ALU logic; the existing register file captures the result without a new pipeline stage.</text>
+</svg>

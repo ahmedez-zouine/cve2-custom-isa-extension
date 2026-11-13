@@ -9,12 +9,12 @@ The instruction uses the R-type layout and the RISC-V custom-0 opcode. It has no
 
 | Bits | Field | Value |
 | --- | --- | --- |
-| 31–25 | `funct7` | `0000000` |
-| 24–20 | `rs2` | `00000` |
-| 19–15 | `rs1` | Source register |
-| 14–12 | `funct3` | `000` |
-| 11–7 | `rd` | Destination register |
-| 6–0 | Opcode | `0001011` (`0x0b`, custom-0) |
+| 31-25 | `funct7` | `0000000` |
+| 24-20 | `rs2` | `00000` |
+| 19-15 | `rs1` | Source register |
+| 14-12 | `funct3` | `000` |
+| 11-7 | `rd` | Destination register |
+| 6-0 | Opcode | `0001011` (`0x0b`, custom-0) |
 
 The decoder accepts the instruction only when `funct7`, `rs2` and `funct3` all encode zero. The ordinary illegal-instruction path handles the other custom-0 encodings. The existing register file handles `rd = rs1` and `rd = x0`.
 
