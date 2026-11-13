@@ -8,9 +8,9 @@ A high-definition (1080p, 30 fps) technical presentation of the custom integer s
 { .project-lead }
 
 <div class="project-actions">
-  <a class="md-button md-button--primary" href="../assets/CVE2-ISQRT-60s.mp4" download="CVE2-ISQRT-Presentation.mp4">Download 1080p MP4 (12 MB)</a>
+  <a class="md-button md-button--primary" href="assets/CVE2-ISQRT-60s.mp4" download="CVE2-ISQRT-Presentation.mp4">Download 1080p MP4 (12 MB)</a>
   <a class="md-button" href="https://github.com/ahmedez-zouine/cve2-custom-isa-extension/tree/main/showcase" target="_blank" rel="noopener">Remotion Source Code ↗</a>
-  <a class="md-button" href="../design/">Core Architecture ↗</a>
+  <a class="md-button" href="design/">Core Architecture ↗</a>
 </div>
 
 ---
@@ -22,10 +22,11 @@ A high-definition (1080p, 30 fps) technical presentation of the custom integer s
     controls
     playsinline
     preload="metadata"
+    src="assets/CVE2-ISQRT-60s.mp4"
     style="width: 100%; height: 100%; display: block; object-fit: contain;"
   >
-    <source src="../assets/CVE2-ISQRT-60s.mp4" type="video/mp4" />
-    Your browser does not support HTML5 video. You can <a href="../assets/CVE2-ISQRT-60s.mp4" download>download the video</a> directly.
+    <source src="assets/CVE2-ISQRT-60s.mp4" type="video/mp4" />
+    Your browser does not support HTML5 video. You can <a href="assets/CVE2-ISQRT-60s.mp4" download>download the video</a> directly.
   </video>
 </div>
 
