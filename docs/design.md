@@ -29,8 +29,8 @@ The two register corner cases use the processor’s existing register-file rules
 ## Decode, execute and write back { .project-section }
 
 <figure class="project-compact-figure">
-  <a href="assets/pipeline.svg" aria-label="Open full-size CVE2 instruction pipeline flow">
-    <img src="assets/pipeline.svg" alt="CVE2 instruction flow from fetch through the decoder and ALU to register writeback">
+  <a href="assets/pipeline.png" aria-label="Open full-size CVE2 instruction pipeline flow">
+    <img src="assets/pipeline.png" alt="CVE2 instruction flow from fetch through the decoder and ALU to register writeback">
   </a>
 </figure>
 

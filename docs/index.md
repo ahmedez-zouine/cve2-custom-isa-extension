@@ -18,7 +18,7 @@ The custom `isqrt rd, rs1` instruction computes the floor of the square root of 
 </div>
 
 <figure class="project-figure">
-  <a href="assets/pipeline.svg" aria-label="Open full-size CVE2 datapath diagram">
+  <a href="assets/pipeline.png" aria-label="Open full-size CVE2 datapath diagram">
     <img src="assets/pipeline.png" alt="CVE2 datapath showing ISQRT integrated into the existing decoder, ALU and register writeback path">
   </a>
   <figcaption>CVE2 datapath: ISQRT integrates directly into decode, the single-cycle ALU, and existing register writeback.</figcaption>
