@@ -37,11 +37,11 @@ Both implementations processed the same 256-input benchmark array and produced m
 
 The decoder accepts the custom-0 encoding (`0x0b`) when its function fields are legal (`funct7 = 0`, `rs2 = 0`, `funct3 = 0`). It selects the square-root ALU operation and reads the source register. The ALU processes two operand bits per restoring step; sixteen unrolled steps produce the 16-bit root, which flows through the existing result mux and writeback logic. The [arithmetic guide](arithmetic.md) derives the recurrence, and [verification](verification.md) illustrates register writeback.
 
-<figure class="project-figure project-figure--narrow">
-  <a href="assets/cve2-core-blockdiagram.svg" aria-label="Open the full-size CVE2 core block diagram">
-    <img src="assets/cve2-core-blockdiagram.svg" alt="Block diagram of the CVE2 core, including fetch, decode, register file, ALU, load-store unit, and memory interfaces">
+<figure class="project-figure">
+  <a href="assets/cve2-core-blockdiagram-lsu-outside.png" aria-label="Open the full-size CVE2 core block diagram">
+    <img src="assets/cve2-core-blockdiagram-lsu-outside.png" alt="Block diagram of the CVE2 core, including fetch, decode, register file, ALU with ISQRT, load-store unit, and memory interfaces">
   </a>
-  <figcaption>Full-core context: ISQRT is implemented within the ALU and uses the existing register file and writeback path.</figcaption>
+  <figcaption>Full-core context: ISQRT is implemented within the ALU and uses the existing register file and writeback path; the load/store unit interfaces with external data memory.</figcaption>
 </figure>
 
 ## FPGA area and timing { .project-section }

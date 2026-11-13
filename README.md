@@ -5,7 +5,7 @@ This project adds an unsigned integer square-root instruction to CVE2, a compact
 the instruction in simulation, and measure its implementation cost on an FPGA.
 
 <p align="center">
-  <img src="docs/assets/cve2-core-blockdiagram.svg" width="720" alt="CVE2 core block diagram showing the processor datapath, register file, ALU, control, and memory interfaces">
+  <img src="docs/assets/cve2-core-blockdiagram-lsu-outside.png" width="720" alt="CVE2 core block diagram showing the processor datapath, register file, ALU with ISQRT, control, and memory interfaces">
 </p>
 <p align="center">
   <em>Full-core context: ISQRT is integrated in the ALU and uses the existing register file and writeback path.</em>
