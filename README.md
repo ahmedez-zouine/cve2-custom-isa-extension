@@ -4,7 +4,7 @@ An unsigned 32-bit integer square-root hardware instruction added to **CVE2**, a
 
 [![Report DOI](https://img.shields.io/badge/DOI-10.13140%2FRG.2.2.30489.79204-blue.svg)](https://doi.org/10.13140/RG.2.2.30489.79204)
 [![Online Documentation](https://img.shields.io/badge/Docs-Interactive%20Website-teal.svg)](https://ahmedez-zouine.github.io/cve2-custom-isa-extension/)
-[![Interactive Showcase](https://img.shields.io/badge/Showcase-Live%20Player-blueviolet.svg)](https://ahmedez-zouine.github.io/cve2-custom-isa-extension/showcase.html)
+[![Watch Video](https://img.shields.io/badge/Video-1080p%20MP4%20(83s)-red.svg)](https://ahmedez-zouine.github.io/cve2-custom-isa-extension/video/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-lightgrey.svg)](LICENSE)
 
 <p align="center">
@@ -29,6 +29,40 @@ Calculating integer square roots in software on an embedded microcontroller typi
 - **FPGA Cost**: On an AMD Xilinx Artix-7 (`xc7a35tcsg324-1`), core area increased by **+1,218 LUTs (+40.8%)**, and the long unrolled logic chain (49.4 ns data path) missed our 50 MHz timing target.
 
 > **Technical Report**: The complete derivation, microarchitectural details, and physical FPGA evaluation are published on [ResearchGate (DOI: 10.13140/RG.2.2.30489.79204)](https://doi.org/10.13140/RG.2.2.30489.79204). You can also browse the full interactive documentation on the [Project Website](https://ahmedez-zouine.github.io/cve2-custom-isa-extension/).
+
+---
+
+## Technical Video Presentation (1080p, 83 seconds)
+
+A companion 83-second technical video presentation walks through the silicon architecture, hardware recurrence algorithm, SystemVerilog RTL, and Artix-7 FPGA implementation:
+
+<p align="center">
+  <a href="https://ahmedez-zouine.github.io/cve2-custom-isa-extension/video/">
+    <img src="docs/assets/pipeline-animated.svg" width="760" alt="Watch the 1080p technical video presentation of the CVE2 ISQRT extension">
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://ahmedez-zouine.github.io/cve2-custom-isa-extension/video/">
+    <img src="https://img.shields.io/badge/Watch%20Video-1080p%20MP4%20(83s)-blue?style=for-the-badge" alt="Watch Video">
+  </a>
+  <a href="docs/assets/CVE2-ISQRT-60s.mp4" download="CVE2-ISQRT-Presentation.mp4">
+    <img src="https://img.shields.io/badge/Download%20MP4-12%20MB-success?style=for-the-badge" alt="Download MP4">
+  </a>
+</p>
+
+### Video Chapter Index
+
+| Timestamp | Chapter | Key Highlights |
+| :---: | :--- | :--- |
+| `00:00 - 00:09` | **01: Processor Architecture** | Silicon packaging reveal, 32-bit RV32IMC core context, Harvard bus topology |
+| `00:09 - 00:24` | **02: Core Datapath & Writeback** | Custom-0 instruction decode, source register read, single-cycle ALU, and writeback routing |
+| `00:24 - 00:42` | **03: Hardware Recurrence** | Worked example $\lfloor\sqrt{144}\rfloor = 12$ across 16 bit-pair stages with invariant validation |
+| `00:42 - 00:56` | **04: SystemVerilog RTL** | Production code in `cve2_decoder.sv` (illegal trap checks) and `cve2_alu.sv` (unrolled loop) |
+| `00:56 - 01:11` | **05: Verification & FPGA** | 200,705 Verilator integration checks ($20\text{ ps}$ trace) and AMD Xilinx Artix-7 routing results |
+| `01:11 - 01:23` | **06: Summary & Trade-offs** | $10.7\times$ speedup, combinational critical path delay, and 16-cycle iterative alternative |
+
+> **Render or edit locally**: The video is built programmatically with [Remotion](https://www.remotion.dev) in [`showcase/`](showcase/). Run `npm start` for an interactive preview or `npm run render:full` to re-export the master MP4.
 
 ---
 

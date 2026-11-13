@@ -11,6 +11,7 @@ extra_javascript = ["javascripts/isqrt.js"]
 
 nav = [
   { "Overview" = "index.md" },
+  { "Video Presentation" = "video.md" },
   { "Core Architecture" = "design.md" },
   { "Arithmetic Algorithm" = "arithmetic.md" },
   { "Verification" = "verification.md" },

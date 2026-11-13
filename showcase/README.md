@@ -6,9 +6,9 @@ A local React/TypeScript/Remotion project for the actual CVE2 integer square-roo
 
 | Deliverable | File | Format |
 | --- | --- | --- |
-| Full film | `out/CVE2-ISQRT-60s.mp4` | 60 s, 1920 × 1080, 30 fps, H.264 / AAC |
-| Short showcase | `out/CVE2-ISQRT-15s.mp4` | 15 s, 1920 × 1080, 30 fps, H.264 / AAC |
-| Poster | `out/CVE2-ISQRT-poster.png` | 1920 × 1080 PNG |
+| Full film | `out/CVE2-ISQRT-60s.mp4` | 83 s (2,490 frames), 1920 x 1080, 30 fps, H.264 / AAC |
+| Short showcase | `out/CVE2-ISQRT-15s.mp4` | 18 s (540 frames), 1920 x 1080, 30 fps, H.264 / AAC |
+| Website release | `docs/assets/CVE2-ISQRT-60s.mp4` | Published online video asset |
 | Scene previews | `out/frames/` | Full-resolution PNGs |
 | Encoded-output checks | `out/quality-report.json` | Duration, frame count, codecs, decode checks and hashes |
 
@@ -64,14 +64,14 @@ npx remotion render src/index.ts CVE2-ISQRT out/CVE2-ISQRT-60s.mp4 --codec=h264 
 
 | Full film | Scene | Evidence and presentation |
 | --- | --- | --- |
-| 0-7 s | Introduction | Stylized processor package; circuit reveal and slow camera push |
-| 7-17 s | Architecture | Fetch, decoder, register file, `cve2_ex_block`, `cve2_alu`, `isqrt_comb`, result selection and writeback |
-| 17-30 s | Arithmetic | 144 -> 12, calculated from the RTL's restoring recurrence; 32 input bits grouped into 16 pairs |
-| 30-40 s | RTL | Exact excerpts from `cve2_decoder.sv` and `cve2_alu.sv`, with source line numbers |
-| 40-52 s | Verification / FPGA | Archived passing checks, selected 20 -> 4 waveform, routed LUT counts and negative setup slack |
-| 52-60 s | Closing | Architecture and processor hero, project name, author and source link |
+| 00:00 - 00:09 | Introduction | Processor silicon package, Harvard bus architecture, and custom extension context |
+| 00:09 - 00:24 | Architecture | Fetch, decoder, register file, `cve2_alu`, exact Manhattan writeback bus and LSU memory flow |
+| 00:24 - 00:42 | Arithmetic | Worked example 144 -> 12 across 16 bit-pair stages, candidate, trial divisor and root accumulator |
+| 00:42 - 00:56 | RTL | Production excerpts from `cve2_decoder.sv` and `cve2_alu.sv` with active scanner and result mux |
+| 00:56 - 01:11 | Verification / FPGA | Verilator logic analyzer trace (20 -> 4), 200,705 checks, Artix-7 LUT counts and timing slack |
+| 01:11 - 01:23 | Closing | Core summary, architectural takeaways, project links and technical report citation |
 
-The 15-second cut uses the same six scenes with faster reveals. It is a visual teaser; the full film gives the technical content time to read. Scene boundaries use eased fades through the persistent navy field, and the full film begins and ends in black.
+The 18-second cut uses the same six scenes with accelerated reveals for social media and quick previews. The full 83-second film gives the technical content generous time to read and inspect. Scene boundaries use eased fades through studio white, and the full film starts and concludes with crisp title branding.
 
 ## Technical basis
 

@@ -10,10 +10,10 @@ The custom `isqrt rd, rs1` instruction computes the floor of the square root of 
 { .project-lead }
 
 <div class="project-actions">
-  <a class="md-button md-button--primary" href="design/">Core architecture</a>
+  <a class="md-button md-button--primary" href="video/">Watch video (83s)</a>
+  <a class="md-button" href="design/">Core architecture</a>
   <a class="md-button" href="arithmetic/">Arithmetic algorithm</a>
   <a class="md-button" href="results/">FPGA results</a>
-  <a class="md-button" href="showcase.html">Interactive showcase</a>
   <a class="md-button" href="#technical-report">Technical report</a>
 </div>
 
@@ -68,6 +68,7 @@ Cycle measurements come from Verilator simulation. FPGA measurements come from V
 ## Documentation guides { .project-section }
 
 <nav class="project-link-list" aria-label="Project guides">
+  <a href="video/"><strong>Video presentation</strong><span>83-second 1080p walkthrough of architecture, RTL and FPGA results</span></a>
   <a href="design/"><strong>Core architecture</strong><span>Encoding, decode, execution and writeback</span></a>
   <a href="arithmetic/"><strong>Arithmetic algorithm</strong><span>Recurrence, worked example and input explorer</span></a>
   <a href="verification/"><strong>Verification</strong><span>Test coverage, dependencies and waveform</span></a>
