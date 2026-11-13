@@ -9,7 +9,7 @@ A high-definition (1080p, 30 fps) technical presentation of the custom integer s
 
 <div class="project-actions">
   <a class="md-button md-button--primary" href="assets/CVE2-ISQRT-60s.mp4" download="CVE2-ISQRT-Presentation.mp4">Download 1080p MP4 (12 MB)</a>
-  <a class="md-button" href="https://github.com/ahmedez-zouine/cve2-custom-isa-extension/tree/main/showcase" target="_blank" rel="noopener">Remotion Source Code ↗</a>
+  <a class="md-button" href="https://github.com/ahmedez-zouine/cve2-custom-isa-extension/tree/Master/showcase" target="_blank" rel="noopener">Remotion Source Code ↗</a>
   <a class="md-button" href="design/">Core Architecture ↗</a>
 </div>
 
@@ -40,12 +40,12 @@ A high-definition (1080p, 30 fps) technical presentation of the custom integer s
 
 | Timestamp | Chapter | Core Technical Content |
 | :---: | :--- | :--- |
-| **00:00 - 00:09** | **01: Processor Hero** | Package reveal: 32-bit RV32IMC processor core context, Harvard bus topology, and custom ISA extension goals. |
+| **00:00 - 00:09** | **01: Processor Architecture** | Silicon packaging reveal: 32-bit RV32IMC processor core context, Harvard bus topology, and custom ISA extension goals. |
 | **00:09 - 00:24** | **02: Architecture & Datapath** | Logical schematic: instruction decode (`custom-0`), source read (`rs1`), single-cycle combinational ALU, and register writeback (`rd`) without extra pipeline stages. |
-| **00:24 - 00:42** | **03: Hardware Recurrence** | Step-by-step arithmetic engine: unrolls $\lfloor\sqrt{144}\rfloor = 12$ across 16 bit-pair stages ($p_{15}$ through $p_0$) with candidate formation, trial divisor, and subtractor compare. |
+| **00:24 - 00:42** | **03: Hardware Recurrence** | Step-by-step arithmetic engine: unrolls ⌊√144⌋ = 12 across 16 bit-pair stages (p15 through p0) with candidate formation, trial divisor, and subtractor compare. |
 | **00:42 - 00:56** | **04: RTL Implementation** | SystemVerilog source excerpts: instruction decoding with illegal trap handling in `cve2_decoder.sv`, and the unrolled restoring loop in `cve2_alu.sv`. |
-| **00:56 - 01:11** | **05: Verification & FPGA** | Zero-defect Verilator simulation ($200,705$ checks, $20\text{ ps}$ trace) alongside AMD Xilinx Artix-7 post-routing LUT utilization ($4,205$ LUTs) and timing slack analysis. |
-| **01:11 - 01:23** | **06: Summary & Findings** | Key engineering trade-offs: $10.7\times$ benchmark speedup, single-cycle combinational trade-offs, and multi-cycle iterative alternative. |
+| **00:56 - 01:11** | **05: Verification & FPGA** | Zero-defect Verilator simulation (200,705 checks, 20 ps trace) alongside AMD Xilinx Artix-7 post-routing LUT utilization (4,205 LUTs) and timing slack analysis. |
+| **01:11 - 01:23** | **06: Summary & Results** | Key engineering trade-offs: 10.7× benchmark speedup, single-cycle combinational datapath, and multi-cycle iterative alternative. |
 
 ---
 

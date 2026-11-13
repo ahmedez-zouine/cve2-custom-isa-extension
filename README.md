@@ -57,10 +57,10 @@ A companion 83-second technical video presentation walks through the silicon arc
 | :---: | :--- | :--- |
 | `00:00 - 00:09` | **01: Processor Architecture** | Silicon packaging reveal, 32-bit RV32IMC core context, Harvard bus topology |
 | `00:09 - 00:24` | **02: Core Datapath & Writeback** | Custom-0 instruction decode, source register read, single-cycle ALU, and writeback routing |
-| `00:24 - 00:42` | **03: Hardware Recurrence** | Worked example $\lfloor\sqrt{144}\rfloor = 12$ across 16 bit-pair stages with invariant validation |
+| `00:24 - 00:42` | **03: Hardware Recurrence** | Worked example ⌊√144⌋ = 12 across 16 bit-pair stages with invariant validation |
 | `00:42 - 00:56` | **04: SystemVerilog RTL** | Production code in `cve2_decoder.sv` (illegal trap checks) and `cve2_alu.sv` (unrolled loop) |
-| `00:56 - 01:11` | **05: Verification & FPGA** | 200,705 Verilator integration checks ($20\text{ ps}$ trace) and AMD Xilinx Artix-7 routing results |
-| `01:11 - 01:23` | **06: Summary & Trade-offs** | $10.7\times$ speedup, combinational critical path delay, and 16-cycle iterative alternative |
+| `00:56 - 01:11` | **05: Verification & FPGA** | 200,705 Verilator integration checks (20 ps trace) and AMD Xilinx Artix-7 routing results |
+| `01:11 - 01:23` | **06: Summary & Results** | 10.7× speedup, combinational critical path delay, and 16-cycle iterative alternative |
 
 > **Render or edit locally**: The video is built programmatically with [Remotion](https://www.remotion.dev) in [`showcase/`](showcase/). Run `npm start` for an interactive preview or `npm run render:full` to re-export the master MP4.
 
