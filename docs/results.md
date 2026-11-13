@@ -3,6 +3,15 @@
 Comparative post-synthesis and post-routing implementation results for the baseline and `isqrt`-extended CVE2 cores on AMD Xilinx Artix-7 (`xc7a35tcsg324-1`) with Vivado 2024.2 under a 20 ns (50 MHz) target constraint.
 { .project-lead }
 
+## Implementation overview
+
+<figure class="project-figure project-figure--wide">
+  <a href="assets/table3_fpga_comparison.png" aria-label="Open full-size FPGA implementation comparison table">
+    <img src="assets/table3_fpga_comparison.png" alt="FPGA implementation comparison table (Table 3) between baseline and ISQRT-extended CVE2 cores on Artix-7 xc7a35tcsg324-1 at 50 MHz">
+  </a>
+  <figcaption>Table 3: Comprehensive FPGA physical implementation comparison showing post-synthesis/route logic utilization, timing slack, and estimated power on Artix-7 at 50 MHz.</figcaption>
+</figure>
+
 ## Area and cycle counts
 
 | Metric | Original core or software | With isqrt |

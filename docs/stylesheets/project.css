@@ -184,6 +184,10 @@ figure.project-figure--narrow {
   max-width: 23rem;
 }
 
+figure.project-figure--wide {
+  max-width: 44rem;
+}
+
 figure.project-figure img {
   display: block;
   max-width: 100%;

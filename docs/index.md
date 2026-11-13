@@ -48,6 +48,13 @@ The decoder accepts the custom-0 encoding (`0x0b`) when its function fields are 
 
 The comparison uses the same AMD Xilinx Artix-7 `xc7a35tcsg324-1` device, Vivado 2024.2 and a 20 ns (50 MHz) target for both variants. The routed extended core does not meet that target; its worst register setup slack is −29.556 ns due to the unrolled 16-step combinational delay (49.387 ns data path). The implementation is out of context, so reports omit complete board clock and interface constraints.
 
+<figure class="project-figure project-figure--wide">
+  <a href="assets/table3_fpga_comparison.png" aria-label="Open full-size FPGA implementation comparison table">
+    <img src="assets/table3_fpga_comparison.png" alt="FPGA implementation comparison table (Table 3) between baseline and ISQRT-extended CVE2 cores on Artix-7 xc7a35tcsg324-1 at 50 MHz">
+  </a>
+  <figcaption>Table 3: Comprehensive FPGA implementation metrics comparing baseline and ISQRT cores on Artix-7 at 50 MHz.</figcaption>
+</figure>
+
 <figure class="project-figure">
   <a href="assets/fpga-stages.svg" aria-label="Open full-size FPGA stages comparison">
     <img src="assets/fpga-stages.svg" alt="Routed lookup-table counts and overall setup slack for both cores, at synthesis and after routing">
