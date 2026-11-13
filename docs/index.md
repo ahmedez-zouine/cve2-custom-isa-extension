@@ -10,7 +10,7 @@ The custom `isqrt rd, rs1` instruction computes the floor of the square root of 
 { .project-lead }
 
 <div class="project-actions">
-  <a class="md-button md-button--primary" href="video/">Watch video presentation (83s)</a>
+  <a class="md-button md-button--primary" href="video/">Video Demo</a>
   <a class="md-button" href="design/">Core architecture</a>
   <a class="md-button" href="arithmetic/">Arithmetic algorithm</a>
   <a class="md-button" href="results/">FPGA results</a>
