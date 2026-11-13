@@ -7,7 +7,9 @@ An unsigned 32-bit integer square-root hardware instruction added to **CVE2**, a
 [![License](https://img.shields.io/badge/License-Apache%202.0-lightgrey.svg)](LICENSE)
 
 <p align="center">
-  <img src="docs/assets/cve2-core-blockdiagram.svg" width="760" alt="CVE2 core block diagram showing ISQRT integrated in the ALU, decode, and memory interfaces">
+  <a href="docs/assets/cve2-core-blockdiagram.jpg">
+    <img src="docs/assets/cve2-core-blockdiagram.jpg" width="760" alt="CVE2 core block diagram showing ISQRT integrated in the ALU, decode, and memory interfaces">
+  </a>
 </p>
 <p align="center">
   <em>Figure 1: Full-core block diagram. ISQRT executes inside the ALU and uses the existing register file and writeback path.</em>
@@ -17,7 +19,7 @@ An unsigned 32-bit integer square-root hardware instruction added to **CVE2**, a
 
 ## Overview
 
-Calculating integer square roots in software on an embedded microcontroller typically requires dozens to hundreds of clock cycles per root. This project explores what happens when you replace that software routine with a dedicated hardware instruction:
+Calculating integer square roots in software on an embedded microcontroller typically requires dozens to hundreds of clock cycles per root. This project explores what happens when you replace that software loop with a dedicated hardware instruction:
 
 - **Instruction**: `isqrt rd, rs1` computes $r = \lfloor \sqrt{x} \rfloor$ for a 32-bit unsigned integer $x$ in register `rs1` and writes the 16-bit zero-extended result into `rd`.
 - **Implementation**: Unrolls 16 restoring recurrence steps combinationally inside the ALU within the processor's existing Decode/Execute (ID/EX) stage.
@@ -34,10 +36,12 @@ Calculating integer square roots in software on an embedded microcontroller typi
 The table below summarizes post-synthesis and post-routing results on an AMD Xilinx Artix-7 FPGA at a 50 MHz (20 ns) clock constraint:
 
 <p align="center">
-  <img src="docs/assets/table3_fpga_comparison.png" width="760" alt="FPGA implementation results comparing baseline CVE2 and ISQRT core on Artix-7 at 50 MHz">
+  <a href="docs/assets/table3_fpga_comparison.jpg">
+    <img src="docs/assets/table3_fpga_comparison.jpg" width="760" alt="FPGA implementation results comparing baseline CVE2 and ISQRT core on Artix-7 at 50 MHz">
+  </a>
 </p>
 <p align="center">
-  <em>Figure 2: Physical FPGA implementation summary (Artix-7 xc7a35tcsg324-1, Vivado 2024.2).</em>
+  <em>Figure 2: Physical FPGA implementation summary (Table 3: Artix-7 xc7a35tcsg324-1, Vivado 2024.2).</em>
 </p>
 
 | Metric | Original CVE2 | With ISQRT | Difference |
@@ -78,7 +82,9 @@ CVE2 is a compact 2-stage in-order RISC-V processor:
 2. **ID / EX (Decode, Execute & Writeback)**: Decodes instructions, reads source registers, computes results in the ALU or multiplier/divider, and writes back to the register file at the closing clock edge.
 
 <p align="center">
-  <img src="docs/assets/pipeline.png" width="760" alt="CVE2 pipeline diagram showing ISQRT datapath within the ALU and Load/Store Unit outside">
+  <a href="docs/assets/pipeline.jpg">
+    <img src="docs/assets/pipeline.jpg" width="760" alt="CVE2 pipeline diagram showing ISQRT datapath within the ALU and Load/Store Unit outside">
+  </a>
 </p>
 <p align="center">
   <em>Figure 3: CVE2 pipeline datapath showing ISQRT integrated into the ALU within the ID/EX stage.</em>
@@ -96,7 +102,9 @@ Because CVE2 writes back at the closing edge of the ID/EX stage without a separa
 The hardware computes the square root using the digit-by-digit restoring algorithm. Because each base-4 step processes 2 input bits to produce 1 bit of the root, a 32-bit input requires **16 unrolled steps**:
 
 <p align="center">
-  <img src="docs/assets/recurrence.svg" width="760" alt="Restoring square root hardware recurrence and worked example">
+  <a href="docs/assets/recurrence.jpg">
+    <img src="docs/assets/recurrence.jpg" width="760" alt="Restoring square root hardware recurrence and worked example">
+  </a>
 </p>
 <p align="center">
   <em>Figure 4: Unrolled 16-step restoring recurrence with worked example for input 20.</em>
@@ -118,10 +126,25 @@ This mathematical formulation guarantees the invariant $P = Q^2 + R$ with $0 \le
 Verification was performed in Verilator and models the complete RTL down to clock-edge register writes:
 
 <p align="center">
-  <img src="docs/assets/fig03_writeback.svg" width="760" alt="Sampled simulation waveform showing ISQRT writeback on the rising clock edge">
+  <a href="docs/assets/fig03_writeback.jpg">
+    <img src="docs/assets/fig03_writeback.jpg" width="760" alt="Sampled simulation waveform showing ISQRT writeback on the rising clock edge">
+  </a>
 </p>
 <p align="center">
   <em>Figure 5: Simulation waveform of isqrt a1, a1 reading 20 and writing 4 at the rising clock edge without pipeline stalls.</em>
+</p>
+
+### Workload Latency Benchmark
+
+Processing an array of 256 representative 32-bit test vectors demonstrates the speedup of the hardware instruction compared to a software routine:
+
+<p align="center">
+  <a href="docs/assets/fig04_benchmark.jpg">
+    <img src="docs/assets/fig04_benchmark.jpg" width="760" alt="Benchmark latency comparison: 247 software cycles vs 23 hardware cycles per root">
+  </a>
+</p>
+<p align="center">
+  <em>Figure 6: Average cycles per square root: 247 cycles in software vs. 23 cycles with the ISQRT instruction (10.7× faster).</em>
 </p>
 
 ### Test Suite Summary
@@ -133,6 +156,49 @@ Verification was performed in Verilator and models the complete RTL down to cloc
    - In-place updates (`isqrt a0, a0`).
    - Exception handling: checks that invalid `funct7`, `funct3`, or `rs2` fields trigger an illegal instruction trap and resume execution cleanly.
 4. **`isqrt_integration`**: Exhaustive verification across 200,000+ pseudo-random values and square-boundary transitions ($k^2 - 1$, $k^2$, $k^2 + 1$).
+
+---
+
+## FPGA Timing & Physical Analysis
+
+Synthesis and place-and-route were carried out on an AMD Xilinx Artix-7 (`xc7a35tcsg324-1`) target using Vivado 2024.2 under a 50 MHz (20 ns) clock constraint.
+
+### Routed Timing Slack Heatmap
+
+<p align="center">
+  <a href="docs/assets/fig10_routed_timing.jpg">
+    <img src="docs/assets/fig10_routed_timing.jpg" width="760" alt="Post-routing timing slack heatmap comparing baseline and ISQRT cores">
+  </a>
+</p>
+<p align="center">
+  <em>Figure 7: Routed timing slack heatmap: overall setup (WNS), internal register-to-register setup, hold (WHS), and pulse width.</em>
+</p>
+
+### Critical Path Delay Breakdown
+
+The unrolled 16-step restoring chain creates a long combinational path across the ALU that misses the 50 MHz timing constraint:
+
+<p align="center">
+  <a href="docs/assets/fig11_routed_path_delay.jpg">
+    <img src="docs/assets/fig11_routed_path_delay.jpg" width="760" alt="Critical path delay breakdown: logic delay vs routing delay">
+  </a>
+</p>
+<p align="center">
+  <em>Figure 8: Internal register setup path delay: logic delay (43.1 ns) dominates over net routing delay (6.3 ns) across the 16 unrolled steps.</em>
+</p>
+
+### On-Chip Power Consumption
+
+Vectorless power estimation at 50 MHz and 25 °C junction temperature reveals an expected moderate increase in dynamic power with device static power unchanged:
+
+<p align="center">
+  <a href="docs/assets/power.jpg">
+    <img src="docs/assets/power.jpg" width="760" alt="Estimated on-chip power consumption comparison: dynamic, static, and total power">
+  </a>
+</p>
+<p align="center">
+  <em>Figure 9: Estimated on-chip power consumption: total power grows from 86 mW to 101 mW (+17.4%), driven by dynamic switching (+15 mW).</em>
+</p>
 
 ---
 
@@ -228,7 +294,7 @@ If you reference this work or build upon this custom extension, please cite:
 @techreport{ezzouine2026isqrt,
   author      = {Ahmed Ez-Zouine},
   title       = {An Integer Square-Root Instruction for the CVE2 RISC-V Core: Algorithm, RTL Integration, and FPGA Evaluation},
-  institution = {Université Ibn Tofail},
+  institution = {Mohammed V University in Rabat (UM5R)},
   year        = {2026},
   doi         = {10.13140/RG.2.2.30489.79204},
   url         = {https://ahmedez-zouine.github.io/cve2-custom-isa-extension/}
@@ -237,4 +303,4 @@ If you reference this work or build upon this custom extension, please cite:
 
 - **Preprint DOI**: [10.13140/RG.2.2.30489.79204](https://doi.org/10.13140/RG.2.2.30489.79204)
 - **Interactive Documentation**: [https://ahmedez-zouine.github.io/cve2-custom-isa-extension/](https://ahmedez-zouine.github.io/cve2-custom-isa-extension/)
-- **Author**: Ahmed Ez-Zouine (zouineahmed976@gmail.com)
+- **Author**: Ahmed Ez-Zouine — Mohammed V University in Rabat (UM5R) (zouineahmed976@gmail.com)
