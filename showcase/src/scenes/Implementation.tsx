@@ -2,13 +2,12 @@ import React from 'react';
 import {useCurrentFrame} from 'remotion';
 import {Header, Footnote, Panel, reveal} from '../components/Motion';
 import {RTLCodeViewer} from '../components/RTLCodeViewer';
-import {C, mono, sans} from '../styles/theme';
+import {C, mono} from '../styles/theme';
 
-export const Implementation: React.FC<{duration: number; short?: boolean}> = ({duration, short}) => {
+export const Implementation: React.FC<{duration: number; short?: boolean}> = ({short}) => {
   const f = useCurrentFrame();
   const t = f * (short ? 2 : 1);
 
-  // Snippets
   const decoderCode = [
     "OPCODE_CUSTOM_0: begin // ISQRT decode (0x0B)",
     "  if (instr[31:25] == 7'b000_0000 &&",
@@ -43,110 +42,145 @@ export const Implementation: React.FC<{duration: number; short?: boolean}> = ({d
     "end",
   ].join('\n');
 
-  // Dynamic focus logic synchronized with presentation timeline
-  const decoderFocus =
-    t < 30 ? 0 :
-    t < 90 ? 4 :
-    t < 160 ? 5 :
-    t < 230 ? 6 :
-    t < 300 ? 8 : -1;
+  // Synchronized line focus and descriptive labels
+  const decoderStep =
+    t < 45 ? {line: 0, label: 'Match 0x0B (custom-0)', tone: 'cyan' as const} :
+    t < 110 ? {line: 4, label: 'Select ALU_ISQRT', tone: 'cyan' as const} :
+    t < 175 ? {line: 5, label: 'Read rs1', tone: 'cyan' as const} :
+    t < 245 ? {line: 6, label: 'Enable rd Writeback', tone: 'green' as const} :
+    t < 310 ? {line: 8, label: 'Trap Illegal Fields', tone: 'cyan' as const} :
+    {line: 6, label: 'Enable rd Writeback', tone: 'green' as const};
 
-  const aluFocus =
-    t < 40 ? 0 :
-    t < 90 ? 5 :
-    t < 140 ? 6 :
-    t < 190 ? 8 :
-    t < 250 ? 10 :
-    t < 320 ? 15 : -1;
+  const aluStep =
+    t < 45 ? {line: 0, label: 'Combinational Block', tone: 'cyan' as const} :
+    t < 100 ? {line: 5, label: '16 Restoring Stages', tone: 'cyan' as const} :
+    t < 155 ? {line: 6, label: 'Candidate T = 4R + b', tone: 'cyan' as const} :
+    t < 210 ? {line: 8, label: 'Trial D = 4Q + 1', tone: 'cyan' as const} :
+    t < 270 ? {line: 10, label: 'Compare T >= D', tone: 'green' as const} :
+    {line: 15, label: 'Commit 16-Bit Root', tone: 'green' as const};
 
-  // Signal flow animation pulse (0 to 1 looping)
-  const flowPulse = (t * 0.015) % 1;
+  // Smooth calm signal pulse (0 to 1 looping)
+  const flowPulse = (t * 0.008) % 1;
 
   return (
     <>
       <Header number="04" title="RTL Implementation" />
 
       {/* Heading */}
-      <div style={{position: 'absolute', left: 110, top: 125, ...reveal(t, 4)}}>
-        <h1 style={{fontSize: 52, letterSpacing: -1, fontWeight: 600, margin: 0, lineHeight: 1.1, color: C.white}}>
+      <div style={{position: 'absolute', left: 110, top: 120, ...reveal(t, 4)}}>
+        <h1 style={{fontSize: 50, letterSpacing: -1, fontWeight: 600, margin: 0, lineHeight: 1.1, color: C.white}}>
           SystemVerilog RTL Integration
         </h1>
-        <p style={{fontSize: 23, color: C.muted, margin: '12px 0 0'}}>
+        <p style={{fontSize: 22, color: C.muted, margin: '10px 0 0'}}>
           Custom instruction decode and unrolled 16-step recurrence in cve2_decoder.sv and cve2_alu.sv.
         </p>
       </div>
 
       {/* Main Two-Editor Layout */}
-      <div style={{position: 'absolute', left: 110, right: 110, top: 235, display: 'flex', gap: 28, ...reveal(t, 10)}}>
-        {/* Left: Decoder Editor */}
-        <div style={{flex: 1, display: 'flex', flexDirection: 'column'}}>
+      <div style={{position: 'absolute', left: 110, right: 110, top: 230, display: 'flex', gap: 24, ...reveal(t, 10)}}>
+        {/* Left: Decoder Editor + Insight Card */}
+        <div style={{flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column'}}>
           <RTLCodeViewer
             path="cve2/rtl/cve2_decoder.sv"
             code={decoderCode}
             firstLine={345}
-            frame={t - 10}
-            focusLine={decoderFocus}
+            frame={t - 8}
+            focusLine={decoderStep.line}
+            focusLabel={decoderStep.label}
+            focusTone={decoderStep.tone}
             badge="Instruction Decoder"
-            fontSize={18}
-            lineHeight={29}
-            style={{height: 545}}
+            fontSize={17}
+            lineHeight={31}
+            style={{height: 500}}
           />
 
-          {/* Decoder Architecture Insight Card */}
           <div
             style={{
               marginTop: 14,
-              padding: '14px 18px',
-              background: '#f8fafc',
+              padding: '13px 18px',
+              background: '#ffffff',
               border: `1px solid ${C.line}`,
-              borderRadius: 8,
+              borderRadius: 10,
+              boxShadow: '0 4px 14px rgba(15, 23, 42, 0.04)',
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
+              gap: 12,
             }}
           >
             <div>
-              <span style={{fontSize: 14, fontWeight: 700, color: C.white}}>Opcode 0x0B (CUSTOM-0)</span>
-              <span style={{fontSize: 13, color: C.muted, marginLeft: 10}}>Strict legality trap on non-zero unused fields</span>
+              <span style={{fontSize: 14.5, fontWeight: 700, color: C.white}}>Opcode 0x0B (CUSTOM-0)</span>
+              <span style={{fontSize: 13.5, color: C.muted, marginLeft: 10}}>
+                Strict legality trap on non-zero fields
+              </span>
             </div>
-            <span style={{fontFamily: mono, fontSize: 13, color: C.cyan, fontWeight: 600}}>
-              rs1 → ALU → rd
+            <span
+              style={{
+                fontFamily: mono,
+                fontSize: 12.5,
+                color: C.cyan,
+                background: '#f0f9ff',
+                border: '1px solid #bae6fd',
+                padding: '3px 10px',
+                borderRadius: 6,
+                fontWeight: 600,
+                whiteSpace: 'nowrap',
+              }}
+            >
+              rs1 -&gt; ALU -&gt; rd
             </span>
           </div>
         </div>
 
-        {/* Right: ALU Recurrence Editor */}
-        <div style={{flex: 1.32, display: 'flex', flexDirection: 'column'}}>
+        {/* Right: ALU Recurrence Editor + Insight Card */}
+        <div style={{flex: 1.32, minWidth: 0, display: 'flex', flexDirection: 'column'}}>
           <RTLCodeViewer
             path="cve2/rtl/cve2_alu.sv : isqrt_comb"
             code={aluCode}
             firstLine={1322}
-            frame={t - 16}
-            focusLine={aluFocus}
+            frame={t - 14}
+            focusLine={aluStep.line}
+            focusLabel={aluStep.label}
+            focusTone={aluStep.tone}
             badge="16 Unrolled Restoring Steps"
-            fontSize={18}
-            lineHeight={29}
-            style={{height: 545}}
+            fontSize={16.5}
+            lineHeight={25}
+            style={{height: 500}}
           />
 
-          {/* ALU Architecture Insight Card */}
           <div
             style={{
               marginTop: 14,
-              padding: '14px 18px',
-              background: '#f8fafc',
+              padding: '13px 18px',
+              background: '#ffffff',
               border: `1px solid ${C.line}`,
-              borderRadius: 8,
+              borderRadius: 10,
+              boxShadow: '0 4px 14px rgba(15, 23, 42, 0.04)',
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
+              gap: 12,
             }}
           >
             <div>
-              <span style={{fontSize: 14, fontWeight: 700, color: C.white}}>always_comb : isqrt_comb</span>
-              <span style={{fontSize: 13, color: C.muted, marginLeft: 10}}>Pure combinational datapath without internal clocks</span>
+              <span style={{fontSize: 14.5, fontWeight: 700, color: C.white}}>always_comb : isqrt_comb</span>
+              <span style={{fontSize: 13.5, color: C.muted, marginLeft: 10}}>
+                Pure combinational datapath without internal clocks
+              </span>
             </div>
-            <span style={{fontFamily: mono, fontSize: 13, color: C.green, fontWeight: 600}}>
+            <span
+              style={{
+                fontFamily: mono,
+                fontSize: 12.5,
+                color: C.green,
+                background: '#ecfdf5',
+                border: '1px solid #a7f3d0',
+                padding: '3px 10px',
+                borderRadius: 6,
+                fontWeight: 600,
+                whiteSpace: 'nowrap',
+              }}
+            >
               0 Pipeline Stalls
             </span>
           </div>
@@ -159,28 +193,28 @@ export const Implementation: React.FC<{duration: number; short?: boolean}> = ({d
           position: 'absolute',
           left: 110,
           right: 110,
-          top: 835,
-          padding: '18px 24px',
+          top: 816,
+          padding: '16px 24px',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
           boxSizing: 'border-box',
           background: '#ffffff',
           border: `1px solid ${C.line}`,
-          borderRadius: 10,
-          boxShadow: '0 4px 16px rgba(0, 0, 0, 0.04)',
+          borderRadius: 12,
+          boxShadow: '0 4px 16px rgba(15, 23, 42, 0.04)',
           ...reveal(t, 24),
         }}
       >
         {/* Left: Result Mux RTL Excerpt */}
-        <div style={{display: 'flex', alignItems: 'center', gap: 16}}>
+        <div style={{display: 'flex', alignItems: 'center', gap: 14}}>
           <span style={{fontSize: 15, fontWeight: 600, color: C.muted}}>Result Mux</span>
           <code
             style={{
               fontFamily: mono,
-              fontSize: 18,
+              fontSize: 17,
               color: C.cyan,
-              background: C.cyanLight,
+              background: '#f0f9ff',
               padding: '6px 14px',
               borderRadius: 6,
               fontWeight: 600,
@@ -191,33 +225,33 @@ export const Implementation: React.FC<{duration: number; short?: boolean}> = ({d
           </code>
         </div>
 
-        {/* Center: Live Flow Pipeline Diagram */}
-        <div style={{display: 'flex', alignItems: 'center', gap: 12}}>
+        {/* Center: Smooth End-to-End Signal Flow */}
+        <div style={{display: 'flex', alignItems: 'center', gap: 10}}>
           <div style={{padding: '5px 12px', background: '#f8fafc', border: `1px solid ${C.borderSubtle}`, borderRadius: 6, fontFamily: mono, fontSize: 13, color: C.white, fontWeight: 600}}>
             cve2_decoder
           </div>
-          <svg width="36" height="12" viewBox="0 0 36 12">
-            <line x1="2" y1="6" x2="30" y2="6" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="4 4" />
-            <polygon points="34,6 28,2.5 28,9.5" fill="#94a3b8" />
-            <circle cx={4 + 26 * flowPulse} cy="6" r="2.5" fill={C.cyan} />
+          <svg width="34" height="12" viewBox="0 0 34 12">
+            <line x1="2" y1="6" x2="28" y2="6" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="4 4" />
+            <polygon points="32,6 26,2.5 26,9.5" fill="#94a3b8" />
+            <circle cx={4 + 24 * flowPulse} cy="6" r="2.5" fill={C.cyan} />
           </svg>
 
           <div style={{padding: '5px 12px', background: '#f0f9ff', border: '1px solid #bae6fd', borderRadius: 6, fontFamily: mono, fontSize: 13, color: C.cyan, fontWeight: 600}}>
             cve2_alu
           </div>
-          <svg width="36" height="12" viewBox="0 0 36 12">
-            <line x1="2" y1="6" x2="30" y2="6" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="4 4" />
-            <polygon points="34,6 28,2.5 28,9.5" fill="#94a3b8" />
-            <circle cx={4 + 26 * ((flowPulse + 0.33) % 1)} cy="6" r="2.5" fill={C.cyan} />
+          <svg width="34" height="12" viewBox="0 0 34 12">
+            <line x1="2" y1="6" x2="28" y2="6" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="4 4" />
+            <polygon points="32,6 26,2.5 26,9.5" fill="#94a3b8" />
+            <circle cx={4 + 24 * ((flowPulse + 0.33) % 1)} cy="6" r="2.5" fill={C.cyan} />
           </svg>
 
           <div style={{padding: '5px 12px', background: '#f8fafc', border: `1px solid ${C.borderSubtle}`, borderRadius: 6, fontFamily: mono, fontSize: 13, color: C.white, fontWeight: 600}}>
             cve2_ex_block
           </div>
-          <svg width="36" height="12" viewBox="0 0 36 12">
-            <line x1="2" y1="6" x2="30" y2="6" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="4 4" />
-            <polygon points="34,6 28,2.5 28,9.5" fill="#94a3b8" />
-            <circle cx={4 + 26 * ((flowPulse + 0.66) % 1)} cy="6" r="2.5" fill={C.cyan} />
+          <svg width="34" height="12" viewBox="0 0 34 12">
+            <line x1="2" y1="6" x2="28" y2="6" stroke="#10b981" strokeWidth="1.5" strokeDasharray="4 4" />
+            <polygon points="32,6 26,2.5 26,9.5" fill="#059669" />
+            <circle cx={4 + 24 * ((flowPulse + 0.66) % 1)} cy="6" r="2.5" fill={C.green} />
           </svg>
 
           <div style={{padding: '5px 12px', background: '#ecfdf5', border: '1px solid #a7f3d0', borderRadius: 6, fontFamily: mono, fontSize: 13, color: C.green, fontWeight: 600}}>
@@ -226,11 +260,11 @@ export const Implementation: React.FC<{duration: number; short?: boolean}> = ({d
         </div>
 
         {/* Right: Key Specs */}
-        <div style={{display: 'flex', gap: 12}}>
-          <span style={{fontFamily: mono, fontSize: 13, background: '#f8fafc', border: `1px solid ${C.line}`, padding: '4px 10px', borderRadius: 5, color: C.white, fontWeight: 600}}>
+        <div style={{display: 'flex', gap: 10}}>
+          <span style={{fontFamily: mono, fontSize: 13, background: '#f8fafc', border: `1px solid ${C.line}`, padding: '4px 10px', borderRadius: 6, color: C.white, fontWeight: 600}}>
             1 Cycle Latency
           </span>
-          <span style={{fontFamily: mono, fontSize: 13, background: '#ecfdf5', border: '1px solid #a7f3d0', padding: '4px 10px', borderRadius: 5, color: C.green, fontWeight: 600}}>
+          <span style={{fontFamily: mono, fontSize: 13, background: '#ecfdf5', border: '1px solid #a7f3d0', padding: '4px 10px', borderRadius: 6, color: C.green, fontWeight: 600}}>
             0 Stalls
           </span>
         </div>
