@@ -193,45 +193,45 @@ export const Implementation: React.FC<{duration: number; short?: boolean}> = ({d
 
         {/* Center: Live Flow Pipeline Diagram */}
         <div style={{display: 'flex', alignItems: 'center', gap: 12}}>
-          <div style={{padding: '5px 12px', background: '#f1f5f9', borderRadius: 6, fontFamily: mono, fontSize: 13, color: C.white, fontWeight: 600}}>
+          <div style={{padding: '5px 12px', background: '#f8fafc', border: `1px solid ${C.borderSubtle}`, borderRadius: 6, fontFamily: mono, fontSize: 13, color: C.white, fontWeight: 600}}>
             cve2_decoder
           </div>
-          <svg width="40" height="12" viewBox="0 0 40 12">
-            <line x1="2" y1="6" x2="34" y2="6" stroke="#94a3b8" strokeWidth="2" strokeDasharray="4 4" />
-            <polygon points="38,6 32,2 32,10" fill="#94a3b8" />
-            <circle cx={4 + 30 * flowPulse} cy="6" r="3" fill="#0284c7" />
+          <svg width="36" height="12" viewBox="0 0 36 12">
+            <line x1="2" y1="6" x2="30" y2="6" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="4 4" />
+            <polygon points="34,6 28,2.5 28,9.5" fill="#94a3b8" />
+            <circle cx={4 + 26 * flowPulse} cy="6" r="2.5" fill={C.cyan} />
           </svg>
 
-          <div style={{padding: '5px 12px', background: '#e0f2fe', borderRadius: 6, fontFamily: mono, fontSize: 13, color: '#0369a1', fontWeight: 600}}>
+          <div style={{padding: '5px 12px', background: '#f0f9ff', border: '1px solid #bae6fd', borderRadius: 6, fontFamily: mono, fontSize: 13, color: C.cyan, fontWeight: 600}}>
             cve2_alu
           </div>
-          <svg width="40" height="12" viewBox="0 0 40 12">
-            <line x1="2" y1="6" x2="34" y2="6" stroke="#94a3b8" strokeWidth="2" strokeDasharray="4 4" />
-            <polygon points="38,6 32,2 32,10" fill="#94a3b8" />
-            <circle cx={4 + 30 * ((flowPulse + 0.33) % 1)} cy="6" r="3" fill="#0284c7" />
+          <svg width="36" height="12" viewBox="0 0 36 12">
+            <line x1="2" y1="6" x2="30" y2="6" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="4 4" />
+            <polygon points="34,6 28,2.5 28,9.5" fill="#94a3b8" />
+            <circle cx={4 + 26 * ((flowPulse + 0.33) % 1)} cy="6" r="2.5" fill={C.cyan} />
           </svg>
 
-          <div style={{padding: '5px 12px', background: '#ecfdf5', borderRadius: 6, fontFamily: mono, fontSize: 13, color: '#059669', fontWeight: 600}}>
-            cve2_ex_block (mux)
+          <div style={{padding: '5px 12px', background: '#f8fafc', border: `1px solid ${C.borderSubtle}`, borderRadius: 6, fontFamily: mono, fontSize: 13, color: C.white, fontWeight: 600}}>
+            cve2_ex_block
           </div>
-          <svg width="40" height="12" viewBox="0 0 40 12">
-            <line x1="2" y1="6" x2="34" y2="6" stroke="#94a3b8" strokeWidth="2" strokeDasharray="4 4" />
-            <polygon points="38,6 32,2 32,10" fill="#94a3b8" />
-            <circle cx={4 + 30 * ((flowPulse + 0.66) % 1)} cy="6" r="3" fill="#059669" />
+          <svg width="36" height="12" viewBox="0 0 36 12">
+            <line x1="2" y1="6" x2="30" y2="6" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="4 4" />
+            <polygon points="34,6 28,2.5 28,9.5" fill="#94a3b8" />
+            <circle cx={4 + 26 * ((flowPulse + 0.66) % 1)} cy="6" r="2.5" fill={C.cyan} />
           </svg>
 
-          <div style={{padding: '5px 12px', background: '#ecfdf5', borderRadius: 6, fontFamily: mono, fontSize: 13, color: '#059669', fontWeight: 700}}>
+          <div style={{padding: '5px 12px', background: '#ecfdf5', border: '1px solid #a7f3d0', borderRadius: 6, fontFamily: mono, fontSize: 13, color: C.green, fontWeight: 600}}>
             rd writeback
           </div>
         </div>
 
         {/* Right: Key Specs */}
-        <div style={{display: 'flex', gap: 14}}>
+        <div style={{display: 'flex', gap: 12}}>
           <span style={{fontFamily: mono, fontSize: 13, background: '#f8fafc', border: `1px solid ${C.line}`, padding: '4px 10px', borderRadius: 5, color: C.white, fontWeight: 600}}>
             1 Cycle Latency
           </span>
-          <span style={{fontFamily: mono, fontSize: 13, background: '#f8fafc', border: `1px solid ${C.line}`, padding: '4px 10px', borderRadius: 5, color: C.green, fontWeight: 600}}>
-            +0 FFs Overhead
+          <span style={{fontFamily: mono, fontSize: 13, background: '#ecfdf5', border: '1px solid #a7f3d0', padding: '4px 10px', borderRadius: 5, color: C.green, fontWeight: 600}}>
+            0 Stalls
           </span>
         </div>
       </Panel>

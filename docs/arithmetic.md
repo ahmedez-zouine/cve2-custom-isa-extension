@@ -62,30 +62,50 @@ Start with q = 0 and r = 0. The 32-bit representation of 20 ends in the pairs `0
 
 At step 14, the shifted remainder equals the trial, so the algorithm accepts the subtraction and writes a one. The next two subtractions would go below zero, so each adds a zero bit. The resulting bits `100` give **4**, with a remainder of **4**.
 
-## Interactive input explorer { .project-section }
+## Interactive hardware execution demo { .project-section }
 
-Enter an unsigned 32-bit integer (0 to 4,294,967,295) or click one of the presets. The trace dynamically breaks down the sixteen 2-bit stages evaluated in the combinational ALU.
+Enter an unsigned 32-bit integer (0 to 4,294,967,295), choose a preset, or step through the 16 combinational stages (`p15` down to `p0`) to inspect how `cve2_alu` resolves each root bit.
 
 <section class="isqrt-explorer" hidden>
-  <div class="isqrt-presets" aria-label="Example numbers">
-    <span class="preset-label">Presets:</span>
-    <button type="button" class="preset-chip" data-value="20">20 (Report Example)</button>
-    <button type="button" class="preset-chip" data-value="144">144 (Exact Square)</button>
-    <button type="button" class="preset-chip" data-value="1024">1,024</button>
-    <button type="button" class="preset-chip" data-value="65535">65,535 (16-bit max)</button>
-    <button type="button" class="preset-chip" data-value="1000000">1,000,000</button>
-    <button type="button" class="preset-chip" data-value="4294967295">4,294,967,295 (Max UINT32)</button>
-  </div>
-  <form id="isqrt-form">
-    <label for="isqrt-input"><strong>Unsigned 32-bit input operand (rs1):</strong></label>
-    <div class="isqrt-controls">
-      <input id="isqrt-input" type="text" inputmode="numeric" pattern="[0-9, ]+" value="20" required aria-label="Unsigned 32-bit integer">
-      <button class="md-button md-button--primary" type="submit">Compute Root</button>
+  <div class="isqrt-top-row">
+    <form id="isqrt-form" class="isqrt-form-bar">
+      <label for="isqrt-input"><strong>Input operand (rs1):</strong></label>
+      <div class="isqrt-controls">
+        <input id="isqrt-input" type="text" inputmode="numeric" pattern="[0-9, ]+" value="2086479684" required aria-label="Unsigned 32-bit integer">
+        <button class="md-button md-button--primary" type="submit">Compute</button>
+      </div>
+    </form>
+    <div class="isqrt-presets" aria-label="Example numbers">
+      <span class="preset-label">Presets:</span>
+      <button type="button" class="preset-chip" data-value="20">20 (Report)</button>
+      <button type="button" class="preset-chip" data-value="144">144</button>
+      <button type="button" class="preset-chip" data-value="65535">65,535</button>
+      <button type="button" class="preset-chip" data-value="1000000">1,000,000</button>
+      <button type="button" class="preset-chip" data-value="2086479684">2,086,479,684 (45,678²)</button>
+      <button type="button" class="preset-chip" data-value="4294967295">Max UINT32</button>
     </div>
-    <output for="isqrt-input" id="isqrt-result" aria-live="polite"></output>
-  </form>
-  <details open>
-    <summary>Show all 16 restoring stages</summary>
+  </div>
+
+  <output for="isqrt-input" id="isqrt-result" class="isqrt-summary-bar" aria-live="polite"></output>
+
+  <div class="isqrt-stepper-header">
+    <div class="isqrt-stepper-title">
+      <strong>16 Bit-Pair Register Strip</strong>
+      <span id="isqrt-stage-badge" class="isqrt-stage-badge">Stage 16 / 16</span>
+    </div>
+    <div class="isqrt-stepper-actions" role="group" aria-label="Stage navigation controls">
+      <button type="button" class="md-button" id="isqrt-prev" title="Previous stage">◀ Prev</button>
+      <button type="button" class="md-button md-button--primary" id="isqrt-play" title="Animate stages 1 to 16">▶ Play 16 Stages</button>
+      <button type="button" class="md-button" id="isqrt-next" title="Next stage">Next ▶</button>
+    </div>
+  </div>
+
+  <div id="isqrt-pairs" class="isqrt-pairs-strip" role="list" aria-label="16 2-bit input pairs"></div>
+
+  <div id="isqrt-stage-cards" class="isqrt-stage-grid" aria-live="polite"></div>
+
+  <details open class="isqrt-trace-details">
+    <summary>All 16 combinational stages (click any row to inspect stage)</summary>
     <div class="project-table-scroll" tabindex="0" role="region" aria-label="Square-root calculation steps">
       <table class="project-data project-trace">
         <thead>
@@ -93,11 +113,11 @@ Enter an unsigned 32-bit integer (0 to 4,294,967,295) or click one of the preset
             <th scope="col">Step</th>
             <th scope="col">Pair (b)</th>
             <th scope="col">Prefix (P)</th>
-            <th scope="col">Shifted Remainder (T)</th>
-            <th scope="col">Trial Value (D)</th>
+            <th scope="col">Candidate (T)</th>
+            <th scope="col">Trial (D)</th>
             <th scope="col">Root Bit</th>
-            <th scope="col">Partial Root (q)</th>
-            <th scope="col">Remainder (r)</th>
+            <th scope="col">Partial Root (Q)</th>
+            <th scope="col">Remainder (R)</th>
           </tr>
         </thead>
         <tbody id="isqrt-steps"></tbody>

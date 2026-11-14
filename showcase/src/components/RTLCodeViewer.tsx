@@ -76,17 +76,10 @@ export const RTLCodeViewer: React.FC<RTLCodeViewerProps> = ({
           alignItems: 'center',
         }}
       >
-        <div style={{display: 'flex', alignItems: 'center', gap: 14}}>
-          {/* Traffic Light Dots */}
-          <div style={{display: 'flex', gap: 6}}>
-            <div style={{width: 10, height: 10, borderRadius: '50%', background: '#ef4444', opacity: 0.85}} />
-            <div style={{width: 10, height: 10, borderRadius: '50%', background: '#f59e0b', opacity: 0.85}} />
-            <div style={{width: 10, height: 10, borderRadius: '50%', background: '#10b981', opacity: 0.85}} />
-          </div>
-
+        <div style={{display: 'flex', alignItems: 'center', gap: 10}}>
           {/* File Path */}
-          <span style={{fontFamily: mono, fontSize: 15, fontWeight: 600, color: C.white, display: 'flex', alignItems: 'center', gap: 6}}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748b" strokeWidth="2">
+          <span style={{fontFamily: mono, fontSize: 15, fontWeight: 600, color: C.white, display: 'flex', alignItems: 'center', gap: 8}}>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#64748b" strokeWidth="2">
               <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" />
               <polyline points="13 2 13 9 20 9" />
             </svg>
@@ -101,10 +94,10 @@ export const RTLCodeViewer: React.FC<RTLCodeViewerProps> = ({
             fontSize: 12,
             padding: '3px 10px',
             borderRadius: 5,
-            background: C.cyanLight,
-            color: C.cyan,
-            fontWeight: 700,
-            border: '1px solid #bae6fd',
+            background: '#ffffff',
+            color: C.muted,
+            fontWeight: 600,
+            border: `1px solid ${C.line}`,
           }}
         >
           {badge}
