@@ -7,9 +7,7 @@ import {Header, Footnote, ease, progress} from '../components/Motion';
 export const Intro: React.FC<{duration: number; short?: boolean}> = ({duration, short}) => {
   const frame = useCurrentFrame();
   const t = frame * (short ? 2 : 1);
-  const introScale = 0.9 + 0.08 * ease(progress(frame, 0, duration));
-  const rotY = -15 + Math.sin(t / 110) * 1.8;
-  const rotX = 9 + Math.cos(t / 120) * 1.2;
+  const introScale = 0.88 + 0.08 * ease(progress(frame, 0, duration));
 
   return (
     <>
@@ -17,10 +15,9 @@ export const Intro: React.FC<{duration: number; short?: boolean}> = ({duration, 
       <div
         style={{
           position: 'absolute',
-          left: 1030,
-          top: 130,
-          transformStyle: 'preserve-3d',
-          transform: `perspective(1500px) rotateY(${rotY}deg) rotateX(${rotX}deg) scale(${introScale})`,
+          left: 1080,
+          top: 135,
+          transform: `perspective(1600px) rotateY(-15deg) rotateX(8deg) scale(${introScale})`,
         }}
       >
         <ProcessorHero frame={t} size={760} />

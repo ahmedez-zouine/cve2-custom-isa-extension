@@ -112,18 +112,18 @@ export const CinematicTitle: React.FC<{frame: number; final?: boolean}> = ({
             <div
               key={spec.label}
               style={{
-                background: spec.highlight ? '#ecfdf5' : '#ffffff',
-                border: `1.5px solid ${spec.highlight ? '#a7f3d0' : C.line}`,
+                background: '#ffffff',
+                border: spec.highlight ? `2px solid ${C.green}` : `1.5px solid ${C.line}`,
                 borderRadius: 12,
                 padding: '18px 20px',
                 boxShadow: '0 4px 16px rgba(15, 23, 42, 0.05)',
-                ...reveal(frame, 62 + idx * 10, 26),
+                ...reveal(frame, 34 + idx * 6, 20),
               }}
             >
               <div
                 style={{
                   fontSize: 13,
-                  fontWeight: 600,
+                  fontWeight: 700,
                   textTransform: 'uppercase',
                   letterSpacing: 0.6,
                   color: spec.highlight ? C.green : C.muted,
@@ -147,6 +147,7 @@ export const CinematicTitle: React.FC<{frame: number; final?: boolean}> = ({
                 style={{
                   fontFamily: mono,
                   fontSize: 13.5,
+                  fontWeight: spec.highlight ? 600 : 400,
                   color: spec.highlight ? '#047857' : C.muted,
                   marginTop: 6,
                 }}

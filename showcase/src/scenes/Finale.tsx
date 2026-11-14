@@ -37,7 +37,6 @@ export const Finale: React.FC<{duration: number; short?: boolean; stillFrame?: n
           position: 'absolute',
           left: 1140,
           top: 255,
-          transformStyle: 'preserve-3d',
           transform: `perspective(1400px) rotateY(-10deg) rotateX(6deg) scale(${0.94 - 0.08 * p})`,
         }}
       >
