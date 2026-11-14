@@ -161,7 +161,7 @@ export const ISQRTVisualization: React.FC<{frame: number; duration: number}> = (
       {/* 2. Four Clean Hardware Stage Cards */}
       <div style={{display: 'flex', gap: 24, marginBottom: 24, ...reveal(frame, 14)}}>
         {/* Stage 1: Candidate */}
-        <Panel style={{flex: 1, padding: '20px 24px'}}>
+        <Panel style={{flex: 1, minWidth: 0, padding: '20px 22px'}}>
           <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14}}>
             <span style={{fontSize: 16, fontWeight: 600, color: C.white}}>Stage 1 : Candidate</span>
             <span style={{fontFamily: mono, fontSize: 13, color: C.muted}}>T = 4R + b</span>
@@ -169,13 +169,14 @@ export const ISQRTVisualization: React.FC<{frame: number; duration: number}> = (
           <div
             style={{
               fontFamily: mono,
-              fontSize: 15,
+              fontSize: 14.5,
               color: C.textSecondary,
               marginBottom: 16,
               background: '#f8fafc',
               padding: '10px 12px',
               borderRadius: 6,
               border: `1px solid ${C.borderSubtle}`,
+              whiteSpace: 'nowrap',
             }}
           >
             T = ({fmt.format(row.prevRemainder)} &lt;&lt; 2) | {row.pair}
@@ -189,7 +190,7 @@ export const ISQRTVisualization: React.FC<{frame: number; duration: number}> = (
         </Panel>
 
         {/* Stage 2: Trial Divisor */}
-        <Panel style={{flex: 1, padding: '20px 24px'}}>
+        <Panel style={{flex: 1, minWidth: 0, padding: '20px 22px'}}>
           <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14}}>
             <span style={{fontSize: 16, fontWeight: 600, color: C.white}}>Stage 2 : Trial Value</span>
             <span style={{fontFamily: mono, fontSize: 13, color: C.muted}}>D = 4Q + 1</span>
@@ -197,13 +198,14 @@ export const ISQRTVisualization: React.FC<{frame: number; duration: number}> = (
           <div
             style={{
               fontFamily: mono,
-              fontSize: 15,
+              fontSize: 14.5,
               color: C.textSecondary,
               marginBottom: 16,
               background: '#f8fafc',
               padding: '10px 12px',
               borderRadius: 6,
               border: `1px solid ${C.borderSubtle}`,
+              whiteSpace: 'nowrap',
             }}
           >
             D = ({fmt.format(row.prevRoot)} &lt;&lt; 2) | 1
@@ -217,19 +219,20 @@ export const ISQRTVisualization: React.FC<{frame: number; duration: number}> = (
         </Panel>
 
         {/* Stage 3: Subtractor & Compare */}
-        <Panel style={{flex: 1.18, padding: '20px 24px'}}>
+        <Panel style={{flex: 1.15, minWidth: 0, padding: '20px 22px'}}>
           <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14}}>
             <span style={{fontSize: 16, fontWeight: 600, color: C.white}}>Stage 3 : Compare</span>
             <span
               style={{
                 fontFamily: mono,
-                fontSize: 13,
+                fontSize: 12.5,
                 fontWeight: 600,
                 color: conditionMet ? C.green : C.muted,
                 background: conditionMet ? '#ecfdf5' : '#f8fafc',
                 border: `1px solid ${conditionMet ? '#a7f3d0' : C.borderSubtle}`,
                 padding: '2px 8px',
                 borderRadius: 4,
+                whiteSpace: 'nowrap',
               }}
             >
               {conditionMet ? 'T ≥ D (Subtract)' : 'T < D (Keep T)'}
@@ -238,13 +241,14 @@ export const ISQRTVisualization: React.FC<{frame: number; duration: number}> = (
           <div
             style={{
               fontFamily: mono,
-              fontSize: 15,
+              fontSize: 14.5,
               color: C.textSecondary,
               marginBottom: 16,
               background: '#f8fafc',
               padding: '10px 12px',
               borderRadius: 6,
               border: `1px solid ${C.borderSubtle}`,
+              whiteSpace: 'nowrap',
             }}
           >
             {fmt.format(row.candidate)} {conditionMet ? '≥' : '<'} {fmt.format(row.trial)} → R = {fmt.format(row.remainder)}
@@ -255,49 +259,64 @@ export const ISQRTVisualization: React.FC<{frame: number; duration: number}> = (
               <span style={{fontFamily: mono, fontSize: 28, fontWeight: 700, color: conditionMet ? C.green : C.white, lineHeight: 1}}>
                 q = {row.qBit}
               </span>
-              <span style={{fontFamily: mono, fontSize: 15, color: C.muted}}>
+              <span style={{fontFamily: mono, fontSize: 14.5, color: C.muted}}>
                 R = {fmt.format(row.remainder)}
               </span>
             </div>
           </div>
         </Panel>
 
-        {/* Stage 4: Accumulated Root */}
+        {/* Stage 4: Accumulated Root (unified 3-row structure with Stage 1-3) */}
         <Panel
           style={{
-            width: 360,
-            padding: '20px 24px',
+            flex: 1,
+            minWidth: 0,
+            padding: '20px 22px',
             background: isDone ? '#f0fdf4' : '#ffffff',
             border: `1px solid ${isDone ? '#86efac' : C.line}`,
           }}
         >
-          <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12}}>
+          <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14}}>
             <span style={{fontSize: 16, fontWeight: 600, color: isDone ? C.green : C.white}}>
               {isDone ? 'Final Result (rd)' : 'Partial Root Q'}
             </span>
-            <span style={{fontFamily: mono, fontSize: 13, color: isDone ? C.green : C.muted}}>
+            <span
+              style={{
+                fontFamily: mono,
+                fontSize: 12.5,
+                fontWeight: 600,
+                color: isDone ? C.green : C.muted,
+                background: isDone ? '#ecfdf5' : '#f8fafc',
+                border: `1px solid ${isDone ? '#a7f3d0' : C.borderSubtle}`,
+                padding: '2px 8px',
+                borderRadius: 4,
+                whiteSpace: 'nowrap',
+              }}
+            >
               0x{row.root.toString(16).toUpperCase().padStart(4, '0')}
-            </span>
-          </div>
-          <div style={{display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 14}}>
-            <span style={{fontSize: 44, fontWeight: 700, color: isDone ? C.green : C.white, lineHeight: 1}}>
-              {fmt.format(row.root)}
-            </span>
-            <span style={{fontFamily: mono, fontSize: 13, color: isDone ? C.green : C.muted}}>
-              {row.step}-bit root
             </span>
           </div>
           <div
             style={{
               fontFamily: mono,
-              fontSize: 13,
-              color: isDone ? C.green : C.muted,
+              fontSize: 14.5,
+              color: isDone ? C.green : C.textSecondary,
               fontWeight: isDone ? 600 : 400,
-              borderTop: `1px solid ${isDone ? '#a7f3d0' : C.borderSubtle}`,
-              paddingTop: 10,
+              marginBottom: 16,
+              background: isDone ? '#ecfdf5' : '#f8fafc',
+              padding: '10px 12px',
+              borderRadius: 6,
+              border: `1px solid ${isDone ? '#a7f3d0' : C.borderSubtle}`,
+              whiteSpace: 'nowrap',
             }}
           >
-            {isDone ? 'Verified: 45,678² = 2,086,479,684' : `Q = (${fmt.format(row.prevRoot)} << 1) | ${row.qBit}`}
+            {isDone ? '45,678² = 2,086,479,684' : `Q = (${fmt.format(row.prevRoot)} << 1) | ${row.qBit}`}
+          </div>
+          <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'baseline'}}>
+            <span style={{fontSize: 14, color: isDone ? '#047857' : C.muted}}>Accumulated Q</span>
+            <span style={{fontFamily: mono, fontSize: 28, fontWeight: 700, color: isDone ? C.green : C.white, lineHeight: 1}}>
+              {fmt.format(row.root)}
+            </span>
           </div>
         </Panel>
       </div>

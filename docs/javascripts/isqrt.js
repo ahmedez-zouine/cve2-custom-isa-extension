@@ -108,7 +108,7 @@ if (form) {
             <strong>${format.format(s.trial)}</strong>
           </div>
         </div>
-        <div class="isqrt-stage-card">
+        <div class="isqrt-stage-card ${taken ? "is-taken" : ""}">
           <div class="isqrt-card-head">
             <span>Stage 3 : Compare</span>
             <code class="${taken ? "code-taken" : ""}">${taken ? "T ≥ D (Subtract)" : "T < D (Keep T)"}</code>
@@ -119,7 +119,7 @@ if (form) {
             <strong>q = ${s.bit}</strong>
           </div>
         </div>
-        <div class="isqrt-stage-card">
+        <div class="isqrt-stage-card ${selectedIdx === 15 ? "is-final" : ""}">
           <div class="isqrt-card-head">
             <span>${selectedIdx === 15 ? "Final Result (rd)" : "Partial Root Q"}</span>
             <code>0x${s.root.toString(16).toUpperCase().padStart(4, "0")}</code>
