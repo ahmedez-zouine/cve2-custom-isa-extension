@@ -3,6 +3,9 @@
 Comprehensive functional verification of the CVE2 `isqrt` instruction using Verilator simulation, RVFI instruction tracing, 200,705 automated boundary checks, and exception recovery validation.
 { .project-lead }
 
+[![RTL Verification](https://github.com/ahmedez-zouine/cve2-custom-isa-extension/actions/workflows/verify.yml/badge.svg)](https://github.com/ahmedez-zouine/cve2-custom-isa-extension/actions/workflows/verify.yml)
+[![Verification Suite](https://img.shields.io/badge/Verification-200%2C705%20Passing-brightgreen.svg?logo=checkmarx&logoColor=white)](https://github.com/ahmedez-zouine/cve2-custom-isa-extension/blob/Master/sw/isqrt_integration.c)
+
 ## Test sequence
 
 | Program | Passing checks | What it verifies |

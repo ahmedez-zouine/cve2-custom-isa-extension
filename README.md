@@ -3,6 +3,8 @@
 An unsigned 32-bit integer square-root hardware instruction added to **CVE2**, an open-source 2-stage RV32IMC processor core.
 
 [![Report DOI](https://img.shields.io/badge/DOI-10.13140%2FRG.2.2.30489.79204-blue.svg)](https://doi.org/10.13140/RG.2.2.30489.79204)
+[![RTL Verification](https://github.com/ahmedez-zouine/cve2-custom-isa-extension/actions/workflows/verify.yml/badge.svg)](https://github.com/ahmedez-zouine/cve2-custom-isa-extension/actions/workflows/verify.yml)
+[![Verification Suite](https://img.shields.io/badge/Verification-200%2C705%20Passing-brightgreen.svg?logo=checkmarx&logoColor=white)](sw/isqrt_integration.c)
 [![Online Documentation](https://img.shields.io/badge/Docs-Interactive%20Website-teal.svg)](https://ahmedez-zouine.github.io/cve2-custom-isa-extension/)
 [![Watch Video](https://img.shields.io/badge/Video-1080p%20MP4%20(83s)-red.svg)](https://ahmedez-zouine.github.io/cve2-custom-isa-extension/video/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-lightgrey.svg)](LICENSE)

@@ -1,0 +1,57 @@
+name: RTL Verification
+
+on:
+  push:
+    branches: [Master, main]
+  pull_request:
+    branches: [Master, main]
+  workflow_dispatch:
+
+concurrency:
+  group: rtl-verify-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verilator-verification:
+    name: Verilator RTL Verification (200,705 Checks)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Verilator and RISC-V GCC toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y verilator gcc-riscv64-unknown-elf make libelf-dev
+
+      - name: Check tool versions
+        run: |
+          verilator --version
+          riscv64-unknown-elf-gcc --version
+
+      - name: Compile Verilator testbench (Vtb_top)
+        run: |
+          make build/sim/Vtb_top
+
+      - name: Run supplied benchmarks (sw_isqrt and hw_isqrt)
+        run: |
+          make test RISCV=riscv64-unknown-elf-
+
+      - name: Run boundary, trap and corner checks (isqrt_corners)
+        run: |
+          make run TEST=isqrt_corners RISCV=riscv64-unknown-elf-
+
+      - name: Run full-width integration suite (isqrt_integration - 200,705 checks)
+        run: |
+          make run TEST=isqrt_integration RISCV=riscv64-unknown-elf-
+
+      - name: Upload simulation artifacts on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: verilator-failure-logs
+          path: |
+            build/*.log
+            build/sim.log
