@@ -2,7 +2,7 @@
 
 An unsigned 32-bit integer square-root hardware instruction added to **CVE2**, an open-source 2-stage RV32IMC processor core.
 
-[![Report DOI](https://img.shields.io/badge/DOI-10.13140%2FRG.2.2.30489.79204-blue.svg)](https://doi.org/10.13140/RG.2.2.30489.79204)
+[![Report DOI](https://img.shields.io/badge/DOI-10.13140%2FRG.2.2.30837.13281-blue.svg)](https://doi.org/10.13140/RG.2.2.30837.13281)
 [![RTL Verification](https://github.com/ahmedez-zouine/cve2-custom-isa-extension/actions/workflows/verify.yml/badge.svg?branch=Master)](https://github.com/ahmedez-zouine/cve2-custom-isa-extension/actions/workflows/verify.yml)
 [![Verification Suite](https://img.shields.io/badge/Verification-200%2C705%20Passing-brightgreen.svg?logo=checkmarx&logoColor=white)](sw/isqrt_integration.c)
 [![Online Documentation](https://img.shields.io/badge/Docs-Interactive%20Website-teal.svg)](https://ahmedez-zouine.github.io/cve2-custom-isa-extension/)
@@ -30,7 +30,7 @@ Calculating integer square roots in software on an embedded microcontroller typi
 - **Correctness**: Fully verified in simulation with over **200,000 checks**, covering random inputs, boundary values, zero registers, chained dependencies, and illegal encodings.
 - **FPGA Cost**: On an AMD Xilinx Artix-7 (`xc7a35tcsg324-1`), core area increased by **+1,218 LUTs (+40.8%)**, and the long unrolled logic chain (49.4 ns data path) missed our 50 MHz timing target.
 
-> **Technical Report**: The complete derivation, microarchitectural details, and physical FPGA evaluation are published on [ResearchGate (DOI: 10.13140/RG.2.2.30489.79204)](https://doi.org/10.13140/RG.2.2.30489.79204). You can also browse the full interactive documentation on the [Project Website](https://ahmedez-zouine.github.io/cve2-custom-isa-extension/).
+> **Technical Report**: The complete derivation, microarchitectural details, and physical FPGA evaluation are published on [ResearchGate (DOI: 10.13140/RG.2.2.30837.13281)](https://doi.org/10.13140/RG.2.2.30837.13281). You can also browse the full interactive documentation on the [Project Website](https://ahmedez-zouine.github.io/cve2-custom-isa-extension/).
 
 ---
 
@@ -333,12 +333,12 @@ If you reference this work or build upon this custom extension, please cite:
   title       = {An Integer Square-Root Instruction for the CVE2 RISC-V Core: Algorithm, RTL Integration, and FPGA Evaluation},
   institution = {Mohammed V University in Rabat (UM5R)},
   year        = {2026},
-  doi         = {10.13140/RG.2.2.30489.79204},
+  doi         = {10.13140/RG.2.2.30837.13281},
   url         = {https://ahmedez-zouine.github.io/cve2-custom-isa-extension/}
 }
 ```
 
-- **Preprint DOI**: [10.13140/RG.2.2.30489.79204](https://doi.org/10.13140/RG.2.2.30489.79204)
+- **Preprint DOI**: [10.13140/RG.2.2.30837.13281](https://doi.org/10.13140/RG.2.2.30837.13281)
 - **Interactive Documentation**: [https://ahmedez-zouine.github.io/cve2-custom-isa-extension/](https://ahmedez-zouine.github.io/cve2-custom-isa-extension/)
 - **Author**: Ahmed Ez-Zouine : Mohammed V University in Rabat (UM5R) ([ahmed.ezzouine@um5r.ac.ma](mailto:ahmed.ezzouine@um5r.ac.ma))
 
