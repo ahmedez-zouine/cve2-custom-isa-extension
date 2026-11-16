@@ -344,6 +344,18 @@ If you reference this work or build upon this custom extension, please cite:
 
 ---
 
+## Global Readership
+
+<p align="center">
+  <a href="https://mapmyvisitors.com/web/country-list.html?d=Yz371bQA-EFgWP5GWUIV0IsZuxvKIg81vgZzLpf_RYQ" target="_blank" rel="noopener noreferrer">
+    <img src="https://mapmyvisitors.com/map.png?cl=080808&w=300&t=n&d=Yz371bQA-EFgWP5GWUIV0IsZuxvKIg81vgZzLpf_RYQ&co=ffffff&cmo=3acc3a&cmn=ff5353&ct=808080" alt="MapMyVisitors Live Traffic" width="300">
+  </a>
+  <br>
+  <em>Live worldwide visitor traffic across the RISC-V and computer architecture research communities.</em>
+</p>
+
+---
+
 ## License
 
 This project is licensed under the **Apache License, Version 2.0** : see the [LICENSE](LICENSE) file for the full text.
