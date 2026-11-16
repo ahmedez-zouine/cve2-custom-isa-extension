@@ -346,13 +346,12 @@ If you reference this work or build upon this custom extension, please cite:
 
 ## Global Readership
 
-<p align="center">
+<div align="center">
   <a href="https://mapmyvisitors.com/?d=Yz371bQA-EFgWP5GWUIV0IsZuxvKIg81vgZzLpf_RYQ" target="_blank" rel="noopener noreferrer">
-    <img src="https://mapmyvisitors.com/map.png?cl=45678c&w=a&t=tt&d=Yz371bQA-EFgWP5GWUIV0IsZuxvKIg81vgZzLpf_RYQ&ct=000000&co=fefefe" alt="MapMyVisitors Live Traffic" style="max-width: 100%; border-radius: 8px;">
+    <img src="https://mapmyvisitors.com/map.png?cl=45678c&w=650&t=tt&d=Yz371bQA-EFgWP5GWUIV0IsZuxvKIg81vgZzLpf_RYQ&ct=000000&co=fefefe" alt="MapMyVisitors Live Traffic" width="650" style="max-width: 100%; border-radius: 8px;">
   </a>
-  <br>
-  <em>Live worldwide visitor traffic across the RISC-V and computer architecture research communities.</em>
-</p>
+  <p><em>Live worldwide visitor traffic across the RISC-V and computer architecture research communities.</em></p>
+</div>
 
 ---
 
