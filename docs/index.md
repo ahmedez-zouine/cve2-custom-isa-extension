@@ -92,3 +92,23 @@ Cycle measurements come from Verilator simulation. FPGA measurements come from V
 </div>
 
 <p class="paper-fallback">If the embedded paper does not appear in your browser, open the <a href="assets/Ez-Zouine_CVE2_ISQRT_Technical_Report.pdf">PDF directly</a> or read the <a href="https://www.researchgate.net/publication/417821430_An_integer_square-root_instruction_for_the_CVE2_RISC-V_core" target="_blank" rel="noopener">preprint on ResearchGate</a>.</p>
+
+## Global readership { .project-section #visitor-traffic }
+
+<div class="visitor-map-card">
+  <div class="visitor-map-header">
+    <div class="visitor-map-title">
+      <span class="visitor-map-icon">🌐</span>
+      <div>
+        <strong>Global Visitor Traffic</strong>
+        <span class="visitor-map-subtitle">Live worldwide readership across academic, industry, and RISC-V research communities</span>
+      </div>
+    </div>
+    <div class="visitor-map-badge">
+      <span class="live-dot"></span> Live Traffic
+    </div>
+  </div>
+  <div class="visitor-map-body">
+    <script type="text/javascript" id="mapmyvisitors" src="https://mapmyvisitors.com/map.js?cl=080808&w=300&t=n&d=Yz371bQA-EFgWP5GWUIV0IsZuxvKIg81vgZzLpf_RYQ&co=ffffff&cmo=3acc3a&cmn=ff5353&ct=808080"></script>
+  </div>
+</div>
