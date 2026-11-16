@@ -95,8 +95,7 @@ Cycle measurements come from Verilator simulation. FPGA measurements come from V
 
 ## Global readership { .project-section #visitor-map }
 
-<p class="paper-intro">Live worldwide visitor traffic across academic, industry, and RISC-V research communities.</p>
-
-<div class="visitor-map-wrapper">
-  <script type="text/javascript" id="mapmyvisitors" src="https://mapmyvisitors.com/map.js?cl=0e1633&w=650&t=n&d=Yz371bQA-EFgWP5GWUIV0IsZuxvKIg81vgZzLpf_RYQ&co=0b4975&cmo=3acc3a&cmn=ff5353&ct=cdd4d9"></script>
-</div>
+<figure class="project-figure">
+  <script type="text/javascript" id="mapmyvisitors" src="https://mapmyvisitors.com/map.js?cl=45678c&w=a&t=tt&d=Yz371bQA-EFgWP5GWUIV0IsZuxvKIg81vgZzLpf_RYQ&ct=000000&co=fefefe"></script>
+  <figcaption>Live worldwide visitor traffic across academic, industry, and RISC-V research communities.</figcaption>
+</figure>

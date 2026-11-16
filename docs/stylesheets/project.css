@@ -726,24 +726,3 @@ figure.project-figure figcaption {
     height: clamp(14rem, 40svh, 20rem);
   }
 }
-
-/* --------------------------------------------------------------------------
- * Visitor Map Clean Wrapper
- * -------------------------------------------------------------------------- */
-.visitor-map-wrapper {
-  display: flex;
-  /* justify-content: center; */
-  /* align-items: center; */
-  margin: 1.5rem auto 2.5rem auto;
-  max-width: 100%;
-  overflow-x: auto;
-  text-align: center;
-}
-
-.visitor-map-wrapper iframe,
-.visitor-map-wrapper img,
-.visitor-map-wrapper a {
-  border-radius: 8px;
-  max-width: 100% !important;
-  height: auto;
-}
