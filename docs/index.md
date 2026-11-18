@@ -79,10 +79,10 @@ Cycle measurements come from Verilator simulation. FPGA measurements come from V
 
 ## Technical report { .project-section #technical-report }
 
-<p class="paper-intro">The technical report provides the complete derivation, verification details, and physical FPGA evaluation by <strong>Ahmed Ez-Zouine</strong> (6 pages, single column, A4). Also published as a preprint on <a href="https://doi.org/10.13140/RG.2.2.30837.13281" target="_blank" rel="noopener">ResearchGate (DOI: 10.13140/RG.2.2.30837.13281)</a>.</p>
+<p class="paper-intro">The technical report provides the complete derivation, verification details, and physical FPGA evaluation by <strong>Ahmed Ez-Zouine</strong> (8 pages, single column, A4, arXiv edition). Also published as a preprint on <a href="https://doi.org/10.13140/RG.2.2.30837.13281" target="_blank" rel="noopener">ResearchGate (DOI: 10.13140/RG.2.2.30837.13281)</a>.</p>
 
 <p class="paper-actions">
-  <a class="md-button md-button--primary" href="assets/Ez-Zouine_CVE2_ISQRT_Technical_Report.pdf" download="Ez-Zouine_CVE2_ISQRT_Technical_Report.pdf">Download PDF (505 KB)</a>
+  <a class="md-button md-button--primary" href="assets/Ez-Zouine_CVE2_ISQRT_Technical_Report.pdf" download="Ez-Zouine_CVE2_ISQRT_Technical_Report.pdf">Download PDF (432 KB)</a>
   <a class="md-button" href="assets/Ez-Zouine_CVE2_ISQRT_Technical_Report.pdf" target="_blank" rel="noopener">Open in a new tab</a>
   <a class="md-button" href="https://doi.org/10.13140/RG.2.2.30837.13281" target="_blank" rel="noopener">ResearchGate preprint ↗</a>
 </p>
