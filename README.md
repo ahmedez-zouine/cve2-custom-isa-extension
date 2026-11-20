@@ -177,12 +177,16 @@ make run TEST=isqrt_integration RISCV=riscv64-elf-
 
 ---
 
-## Global Readership
-
 <div align="center">
-  <a href="https://mapmyvisitors.com/?d=Yz371bQA-EFgWP5GWUIV0IsZuxvKIg81vgZzLpf_RYQ" target="_blank" rel="noopener noreferrer">
-    <img src="https://mapmyvisitors.com/map.png?cl=45678c&w=650&t=tt&d=Yz371bQA-EFgWP5GWUIV0IsZuxvKIg81vgZzLpf_RYQ&ct=000000&co=fefefe" alt="MapMyVisitors Live Traffic" width="650" style="max-width: 100%; border-radius: 8px;">
-  </a>
+
+## Global Visitors
+
+*Visitor activity across multi-architecture computing research hubs*
+
+<a href="https://mapmyvisitors.com/web/1c9ip" target="_blank" rel="noopener">
+  <img src="https://mapmyvisitors.com/map.png?cl=45678c&w=1200&t=tt&d=Yz371bQA-EFgWP5GWUIV0IsZuxvKIg81vgZzLpf_RYQ&co=fefefe&ct=000000" alt="Global Visitors Map" width="700" style="max-width: 100%; height: auto; margin-top: 8px;" />
+</a>
+
 </div>
 
 ---
