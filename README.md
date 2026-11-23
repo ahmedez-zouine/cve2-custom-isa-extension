@@ -166,14 +166,14 @@ make run TEST=isqrt_integration RISCV=riscv64-elf-
 @techreport{ezzouine2026isqrt,
   author      = {Ahmed Ez-Zouine},
   title       = {An Integer Square-Root Instruction for the CVE2 RISC-V Core: Algorithm, RTL Integration, and FPGA Evaluation},
-  institution = {Mohammed V University in Rabat (UM5R)},
+  institution = {Independent Research},
   year        = {2026},
   doi         = {10.13140/RG.2.2.30837.13281},
   url         = {https://ahmedez-zouine.github.io/cve2-custom-isa-extension/}
 }
 ```
 
-**Author**: Ahmed Ez-Zouine : Mohammed V University in Rabat (UM5R) ([ahmed.ezzouine@um5r.ac.ma](mailto:ahmed.ezzouine@um5r.ac.ma))
+**Author**: Ahmed Ez-Zouine : Independent Researcher ([ahmed.ezzouine@um5r.ac.ma](mailto:ahmed.ezzouine@um5r.ac.ma))
 
 ---
 
